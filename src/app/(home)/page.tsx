@@ -1,13 +1,13 @@
 // src/app/home/page.tsx
 
-import Hero from "@/app/_components/Hero";
 import QuoteBlock from "@/components/QuoteBlock";
-import FeaturedPackages from "@/app/_components/FeaturedPackages";
-import Achievements from "@/app/_components/Achievements";
 import CTASection from "@/components/CTASection";
 import ExperienceShowcase from "./_components/ExperiencesShowcase";
 import ExperienceSection from "./_components/ExperienceSection";
 import TestimonialSection from "./_components/Testimonials";
+import Hero from "./_components/Hero";
+import FeaturedPackages from "./_components/FeaturedPackages";
+import Achievements from "./_components/Achievements";
 
 export default function HomePage() {
   const quote = {
