@@ -20,7 +20,7 @@ const images = [
 
 export default function ExperienceShowcase() {
   return (
-    <section className="py-10 lg:py-20">
+    <section className="py-10 lg:py-20 w-full overflow-hidden">
       <div className="container mx-auto text-center">
         {/* Carousel */}
         <Carousel
@@ -31,34 +31,34 @@ export default function ExperienceShowcase() {
           className="w-full"
         >
           <div className="flex justify-between items-end mb-8">
-            <div className="flex flex-col items-start text-left max-w-2xl">
-              <h2 className="text-3xl lg:text-5xl font-bold text-eucalyptus-600 mb-6">
+            <div className="flex flex-col items-start text-left">
+              <h2 className="text-3xl lg:text-5xl font-bold text-primary mb-6">
                 The Experience Showcase
               </h2>
-              <p className="text-gray-600 text-lg">
+              <p className="text-body-secondary text-lg max-w-[37.5rem]">
                 Explore a visual journey through our curated experiences. Each
                 image captures the essence of the spiritual and cultural
                 adventures we offer.
               </p>
             </div>
-            <div className="flex items-end space-x-3">
+            <div className="flex items-end gap-x-2">
               {/* Adjust spacing between buttons */}
-              <CarouselPrevious className="bg-white rounded-full  p-2">
-                <ChevronLeft />
+              <CarouselPrevious className="bg-white border-body-light !rounded-full w-auto h-auto p-2">
+                <ChevronLeft className="text-body-light" />
               </CarouselPrevious>
-              <CarouselNext className="bg-white rounded-full  p-2">
-                <ChevronRight />
+              <CarouselNext className="bg-white border-body-light !rounded-full w-auto h-auto p-2">
+                <ChevronRight className="text-body-light" />
               </CarouselNext>
             </div>
           </div>
 
-          <CarouselContent className="">
+          <CarouselContent>
             {images.map((image, index) => (
               <CarouselItem
                 key={index}
-                className="md:basis-1/2 lg:basis-1/3 xl:basis-1/4"
+                className="md:basis-1/2 lg:basis-1/3 xl:basis-1/4 !h-[400px]"
               >
-                <div className="rounded-lg overflow-hidden w-full h-full">
+                <div className="rounded-lg w-full h-full rounded-xl overflow-hidden">
                   <Image
                     src={image.src}
                     alt={image.alt}

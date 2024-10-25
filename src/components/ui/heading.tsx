@@ -16,7 +16,7 @@ export const Heading: React.FC<HeadingProps> = ({
 }) => {
   const Tag = `h${level}` as keyof JSX.IntrinsicElements; // Dynamically choose the heading level (h1, h2, etc.)
 
-  const baseClasses = "font-bold text-green-800"; // Common styles for all headings
+  const baseClasses = "font-bold text-primary"; // Common styles for all headings
 
   // Styles for different variants
   const variantClasses = {

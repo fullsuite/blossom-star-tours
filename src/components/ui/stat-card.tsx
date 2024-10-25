@@ -14,18 +14,18 @@ export const StatCard: React.FC<StatCardProps> = ({
   variant = "light",
   className, // Allow passing custom className
 }) => {
-  const baseClasses = "p-6 rounded-lg h-fit flex flex-col text-left"; // Align text left and keep flexible size
+  const baseClasses = "p-5 md:p-6  rounded-lg flex flex-col text-left min-h-full"; // Align text left and keep flexible size
 
   // Define variant-specific styles for light and dark modes
   const variantClasses = {
-    light: "bg-white text-eucalyptus-600", // Light variant
-    dark: "bg-eucalyptus-600 text-white", // Dark variant
+    light: "bg-white text-primary", // Light variant
+    dark: "bg-primary text-white", // Dark variant
   };
 
   return (
     <div className={clsx(baseClasses, variantClasses[variant], className)}>
-      <p className="text-5xl font-bold mt-12">{value}</p>
-      <p className="text-base">{label}</p>
+      <p className="text-4xl sm:text-5xl lg:text-6xl font-bold mt-5 sm:mt-10 md:mt-6 lg:mt-12 mb-1">{value}</p>
+      <p className="text-xs sm:text-base sm:mb-2 w-24 sm:w-32 lg:w-36">{label}</p>
     </div>
   );
 };

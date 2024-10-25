@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { ArrowLeftIcon, ArrowRightIcon } from "@radix-ui/react-icons";
+import { ChevronLeftIcon, ChevronRightIcon } from "@radix-ui/react-icons";
 import useEmblaCarousel, {
   type UseEmblaCarouselType,
 } from "embla-carousel-react";
@@ -157,7 +157,7 @@ const CarouselContent = React.forwardRef<
   const { carouselRef, orientation } = useCarousel();
 
   return (
-    <div ref={carouselRef} className="overflow-hidden">
+    <div ref={carouselRef} className="overflow-visible">
       <div
         ref={ref}
         className={cn(
@@ -205,18 +205,18 @@ const CarouselPrevious = React.forwardRef<
       ref={ref}
       variant={variant}
       size={size}
-      // className={cn(
+      className={cn(
       //   "absolute  h-8 w-8 rounded-full",
       //   orientation === "horizontal"
       //     ? "-left-12 top-1/2 -translate-y-1/2"
       //     : "-top-12 left-1/2 -translate-x-1/2 rotate-90",
-      //   className
-      // )}
+        className
+      )}
       disabled={!canScrollPrev}
       onClick={scrollPrev}
       {...props}
     >
-      <ArrowLeftIcon className="h-4 w-4" />
+      <ChevronLeftIcon className="h-4 w-4 text-body-light" />
       <span className="sr-only">Previous slide</span>
     </Button>
   );
@@ -234,18 +234,18 @@ const CarouselNext = React.forwardRef<
       ref={ref}
       variant={variant}
       size={size}
-      // className={cn(
+      className={cn(
       //   "absolute h-8 w-8 rounded-full",
       //   orientation === "horizontal"
       //     ? "-right-12 top-1/2 -translate-y-1/2"
       //     : "-bottom-12 left-1/2 -translate-x-1/2 rotate-90",
-      //   className
-      // )}
+        className
+      )}
       disabled={!canScrollNext}
       onClick={scrollNext}
       {...props}
     >
-      <ArrowRightIcon className="h-4 w-4" />
+      <ChevronRightIcon className="h-4 w-4 text-body-light" />
       <span className="sr-only">Next slide</span>
     </Button>
   );

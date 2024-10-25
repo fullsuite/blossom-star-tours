@@ -39,7 +39,7 @@ const packages: Package[] = [
     description:
       "Embark on an adventurous journey with our Extreme Tour, featuring thrilling activities that blend excitement with cultural discovery.",
     price: "$4,999",
-    rating: 4.4,
+    rating: 4.0,
     duration: "2 days",
   },
 ];
@@ -48,11 +48,15 @@ export default function FeaturedPackages() {
   return (
     <section className="py-10 lg:py-20 bg-white">
       <div className="container mx-auto text-center">
-        {/* Section Heading */}
-        <h2 className="text-3xl lg:text-5xl font-bold text-green-800 mb-6">
-          Choose Your Unique Experience
-        </h2>
-        <p className="text-gray-600 text-lg mb-10">Our Featured Packages</p>
+        <p className="text-gray-600 text-lg mb-4">Our Featured Packages</p>
+        <div className="flex flex-col items-stretch relative mb-12">
+          <h2 className="text-3xl lg:text-5xl font-bold text-primary">
+            Choose Your Unique Experience
+          </h2>
+          <Button className="absolute right-0 top-0 bottom-0 my-auto bg-primary text-white px-6 py-2 rounded-md shadow hidden xl:block">
+            View all our Packages
+          </Button>
+        </div>
 
         {/* Package Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -70,7 +74,7 @@ export default function FeaturedPackages() {
         </div>
 
         {/* View All Packages Button */}
-        <Button className="mt-8 bg-green-700 text-white px-6 py-2 rounded-md shadow hover:bg-green-800">
+        <Button className="mt-8 bg-primary text-white px-6 py-2 rounded-md shadow xl:hidden">
           View all our Packages
         </Button>
       </div>

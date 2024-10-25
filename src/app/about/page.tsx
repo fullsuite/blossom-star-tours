@@ -7,13 +7,13 @@ import ExperiencesSection from "./_components/ExperiencesSection";
 
 export default function AboutPage() {
   return (
-    <div className="">
+    <>
       <PageHeader title="About Blossom Stars" />
       <div>
         <DiscoverMoreSection />
         <AchievementsSection />
         <ExperiencesSection />
       </div>
-    </div>
+    </>
   );
 }

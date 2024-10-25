@@ -1,22 +1,27 @@
 "use client";
 
+import Image from 'next/image'
+
+import heroBackgroundPattern from '@/assets/Home/Theme_Swirl_Top-Home.png';
+import heroIllustration from '@/assets/Home/Featured_Image.jpg';
 import SearchForm from "./SearchForm";
 
 export default function Hero() {
   return (
-    <section className="bg-gray-100 py-10 lg:py-20 overflow-hidden h-[70vh] flex items-center">
-      <div className="container relative">
+    <section className="mt-3 lg:py-20 pt-10 pb-4 sm:pb-20 overflow-hidden min-h-[880px] mb-2 xl:mb-0 flex">
+      <Image src={heroBackgroundPattern} alt="" className="absolute inset-0 -z-10 object-cover object-bottom xl:w-[100vw] w-[1440px] lg:h-[990px] h-[1100px]" />
+      <div className="container relative lg:max-h-[636px] ">
         {/* Div 1 - Text and Search Form */}
         <div className="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-4">
           {/* Column 1: Text */}
           <div className="lg:col-span-1 flex flex-col justify-center">
-            <button className="bg-white px-4 py-2 rounded-full text-sm mb-4 shadow-md text-eucalyptus-600 font-bold w-fit mb-8">
+            <button className="bg-white hover:bg-primary text-primary hover:text-white transition linear duration-200 px-4 py-2 rounded-full text-sm shadow-md font-bold w-fit mb-8">
               Book a Tour Now
             </button>
-            <h1 className="text-4xl lg:text-5xl font-bold text-eucalyptus-600 leading-tight mb-6">
+            <h1 className="text-4xl sm:text-5xl 2xl:text-6xl font-bold text-primary leading-tight mb-6">
               Embark on a Journey of Faith, Experience, and Discovery.
             </h1>
-            <p className="text-lg text-gray-600 mb-8 w-3/4 font-medium">
+            <p className="text-base sm:text-lg text-gray-600 mb-8 w-3/4 font-medium">
               Our expertly crafted tours are designed to provide meaningful
               experiences, combining spiritual reflection with rich cultural
               exploration.
@@ -24,23 +29,17 @@ export default function Hero() {
           </div>
 
           {/* Row 2 - Full width search form */}
-          <div className="lg:col-span-2 pb-20 max-w-4xl flex justify-center">
+          <div className="lg:col-span-2 max-w-5xl flex justify-center sm:justify-start  pb-10 pl-0 sm:pl-10 lg:pl-4 ">
             <SearchForm />
           </div>
         </div>
 
         {/* Div 2 - Background Image */}
-        <div className="absolute inset-0 w-full grid grid-cols-1 lg:grid-cols-2">
-          {/* Empty column for layout */}
-          <div></div>
+        <div className="absolute inset-0 w-full max-w-[1250px] hidden sm:flex justify-end px-6 3xl:px-0 mx-auto pt-[330px] md:pt-72 lg:pt-0">
 
           {/* Image in the second column */}
-          <div className="relative">
-            <img
-              src="https://picsum.photos/200/300" // Replace with the actual image path
-              alt="Tour"
-              className="h-full aspect-[3/4] absolute inset-0 object-cover rounded-xl mx-auto"
-            />
+          <div className="relative aspect-[3.5/5]">
+            <Image src={heroIllustration} alt="Tour" className="object-cover w-full h-full rounded-xl"/>
           </div>
         </div>
       </div>

@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { StatCard } from "@/components/ui/stat-card"; // Make sure to import the StatCard component
 import { Heading } from "@/components/ui/heading";
-import { Paragraph } from "@/components/ui/paragraph";
+import BanngerBgImage from "@/assets/About Us/AboutUs_Banner-BG.jpg";
 
 const stats = [
   { value: "20k", label: "Satisfied Customers" },
@@ -12,15 +12,14 @@ const stats = [
 
 export default function AchievementsSection() {
   return (
-    <section className="relative bg-eucalyptus-500 text-white py-20">
+    <section className="relative w-full overflow-hidden bg-primary text-white py-14 sm:py-20 2xl:py-24">
       {/* Background Image with Overlay */}
       <div className="absolute inset-0">
         <Image
-          src="https://picsum.photos/1920/1080" // Replace with your actual image URL
+          src={BanngerBgImage} // Replace with your actual image URL
           alt="Background"
           layout="fill"
-          objectFit="cover"
-          className="opacity-20" // To create that overlay effect
+          objectFit="cover" 
         />
       </div>
 
@@ -30,14 +29,13 @@ export default function AchievementsSection() {
         <Heading variant="section" className="text-white mb-4">
           Our Achievements
         </Heading>
-        <Paragraph className=" mb-12 text-white max-w-3xl">
+        <p className="text-sm sm:text-base mb-12 text-white max-w-3xl">
           We take pride in our commitment to delivering exceptional travel
-          experiences. Here are some of the milestones we’ve reached on our
-          journey to serving our valued customers.
-        </Paragraph>
+          experiences. Here are some of the milestones.
+        </p>
 
         {/* Grid for Stat Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-4xl">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-8 md:gap-4 lg:gap-8 max-w-4xl">
           {stats.map((stat, index) => (
             <StatCard
               key={index}

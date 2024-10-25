@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/card";
 import { ClockIcon, MoveRightIcon } from "lucide-react";
 import Image from "next/image";
+import UserStarRating from "./UserStarRating";
 
 interface PackageCardProps {
   imageUrl: string;
@@ -28,6 +29,7 @@ export default function PackageCard({
   rating,
   duration,
 }: PackageCardProps) {
+
   return (
     <Card className="w-full  shadow-lg rounded-2xl overflow-hidden relative">
       {/* Image */}
@@ -49,8 +51,8 @@ export default function PackageCard({
       <CardContent className="py-4 px-8 z-10 relative bg-white rounded-t-lg">
         {/* Rating and Price */}
         <div className="flex justify-between items-center mb-3">
-          <div className="flex items-center space-x-1">
-            <span className="text-yellow-500">⭐</span>
+          <div className="flex items-center space-x-2">
+            <UserStarRating rating={rating} size={18}/>
             <span className="text-sm font-medium">{rating}</span>
           </div>
           <span className="text-lg font-bold text-eucalyptus-600">{price}</span>
@@ -67,14 +69,14 @@ export default function PackageCard({
         </CardHeader>
 
         {/* Duration and Explore Button */}
-        <div className="flex justify-between items-center mt-4 py-2 px-4 bg-eucalyptus-50 rounded-md">
-          <div className="text-sm flex items-center space-x-1">
-            <ClockIcon className="w-4 aspect-square text-eucalyptus-600" />
+        <div className="flex justify-between items-center mt-4 py-2 px-4 bg-wild-sand-50 rounded-md">
+          <div className="text-sm flex items-center space-x-1 font">
+            <ClockIcon className="w-4 aspect-square text-accent-pink" />
             <span>{duration}</span>
           </div>
-          <Button variant="link" className="text-sm text-green-700">
-            <p>Explore</p>
-            <MoveRightIcon className="w-4 aspect-square text-eucalyptus-600 ml-2" />
+          <Button variant="link" className="text-sm text-accent-pink">
+            <p className="font-bold">Explore</p>
+            <MoveRightIcon className="w-4 aspect-square text-accent-pink ml-2" />
           </Button>
         </div>
       </CardContent>

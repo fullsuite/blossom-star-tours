@@ -17,7 +17,7 @@ export default function HomePage() {
   };
 
   return (
-    <div>
+    <>
       <Hero />
       <QuoteBlock quote={quote} />
       <FeaturedPackages />
@@ -27,6 +27,6 @@ export default function HomePage() {
       <ExperienceSection />
       <TestimonialSection />
       <QuoteBlock quote={quote} />
-    </div>
+    </>
   );
 }

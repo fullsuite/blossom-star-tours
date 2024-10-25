@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import ContentBlock from "@/components/ContentBlock";
+import { Star, Sparkles, ThumbsUp } from "lucide-react";
 
 export default function ExperienceSection() {
   return (
@@ -16,7 +17,7 @@ export default function ExperienceSection() {
               alt="Image 1"
               width={400}
               height={400}
-              className="rounded-lg object-cover"
+              className="rounded-2xl object-cover"
             />
           </div>
 
@@ -27,17 +28,17 @@ export default function ExperienceSection() {
               alt="Image 2"
               width={400}
               height={400}
-              className="rounded-lg object-cover"
+              className="rounded-2xl object-cover"
             />
           </div>
         </div>
 
         {/* Right Column - Content */}
         <div>
-          <h2 className="text-3xl lg:text-4xl font-bold text-green-800 mb-6">
+          <h2 className="text-3xl lg:text-4xl font-bold text-primary mb-6">
             Experience with Blossom Stars
           </h2>
-          <p className="text-gray-600 text-lg mb-8">
+          <p className="text-body-secondary text-lg mb-8">
             Discover the unparalleled experiences we offer at Blossom Stars. Our
             commitment to excellence and attention to detail ensures that each
             journey with us is both spiritually fulfilling and culturally
@@ -48,17 +49,17 @@ export default function ExperienceSection() {
           <ContentBlock
             title="Best Islamic Guided Tour Agency"
             description="We are offering exceptional Islamic tours that combine spiritual fulfillment with cultural insights. Our dedicated team ensures every journey is enriching and memorable."
-            icon="🌟"
+            icon={<Star className="text-white w-6 h-6" />}
           />
           <ContentBlock
             title="Trusted and Fully Committed Team"
             description="Our team is comprised of experienced professionals who are deeply committed to providing you with a seamless travel experience."
-            icon="👍"
+            icon={<ThumbsUp className="text-white w-6 h-6" />}
           />
           <ContentBlock
             title="Unique and Memorable Experience"
             description="Each of our tours is crafted to deliver a one-of-a-kind experience, ensuring that your spiritual journey is both unique and unforgettable."
-            icon="✨"
+            icon={<Sparkles className="text-white w-6 h-6" />}
           />
         </div>
       </div>
