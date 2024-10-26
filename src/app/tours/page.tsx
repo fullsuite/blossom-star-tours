@@ -1,7 +1,7 @@
 // src/app/tours/page.tsx
 
 import PageHeader from "@/components/PageHeader";
-import ImageGallery from "./_components/ImageGallery";
+import ImageGallery from "@/app/tours/_components/ImageGallery";
 import Footer from "@/components/Footer";
 import CTASection from "@/components/CTASection";
 

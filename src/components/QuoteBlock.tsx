@@ -5,15 +5,13 @@ import Image from "next/image";
 import { Quote } from "@/lib/types/common/quote"; // Import the Quote type from the types file
 
 import dividerSwirl from "@/assets/Home/Divider_Swirl.png";
-import PortableTextBlock from "./ui/portable-text-block";
+import PortableTextBlock from "@/components/ui/portable-text-block";
 
 interface QuoteProps {
   quote: Quote;
 }
 
 export default function QuoteBlock({ quote }: QuoteProps) {
-  console.log(quote);
-
   return (
     <section className="w-full pt-10">
       <div className="container mx-auto">

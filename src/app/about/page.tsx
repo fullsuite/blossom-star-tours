@@ -1,9 +1,9 @@
 // src/app/about/page.tsx
 
 import PageHeader from "@/components/PageHeader";
-import DiscoverMoreSection from "./_components/DiscoverMoreSection";
-import AchievementsSection from "./_components/AchievmentsSection";
-import ExperiencesSection from "./_components/ExperiencesSection";
+import DiscoverMoreSection from "@/app/about/_components/DiscoverMoreSection";
+import AchievementsSection from "@/app/about/_components/AchievmentsSection";
+import ExperiencesSection from "@/app/about/_components/ExperiencesSection";
 import { AboutUsPage } from "@/lib/types/page/aboutUsPage";
 import { fetchAboutUsPageData } from "@/sanity/lib/client";
 

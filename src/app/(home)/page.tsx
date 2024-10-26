@@ -2,12 +2,12 @@
 
 import QuoteBlock from "@/components/QuoteBlock";
 import CTASection from "@/components/CTASection";
-import ExperienceShowcase from "./_components/ExperiencesShowcase";
-import ExperienceSection from "./_components/ExperienceSection";
-import TestimonialSection from "./_components/Testimonials";
-import Hero from "./_components/Hero";
-import FeaturedPackages from "./_components/FeaturedPackages";
-import Achievements from "./_components/Achievements";
+import ExperienceShowcase from "@/app/(home)/_components/ExperiencesShowcase";
+import ExperienceSection from "@/app/(home)/_components/ExperienceSection";
+import TestimonialSection from "@/app/(home)/_components/Testimonials";
+import Hero from "@/app/(home)/_components/Hero";
+import FeaturedPackages from "@/app/(home)/_components/FeaturedPackages";
+import Achievements from "@/app/(home)/_components/Achievements";
 import { HomePage as HomePageData } from "@/lib/types/page/homePage";
 import { fetchHomePageData } from "@/sanity/lib/client";
 
@@ -16,8 +16,6 @@ export default async function HomePage() {
 
   if (!data) {
     return <div>Failed to load data.</div>;
-  } else {
-    console.log(data);
   }
 
   const {

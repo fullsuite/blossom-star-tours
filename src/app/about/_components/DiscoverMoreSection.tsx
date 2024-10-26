@@ -15,8 +15,6 @@ export default function DiscoverMoreSection({
 }: DiscoverMoreSectionProps) {
   const { eyebrow, heading, body, feature, image } = content;
 
-  console.log(feature);
-
   return (
     <section className="relative py-16 2xl:py-36 overflow-hidden">
       <div className="container mx-auto grid grid-cols-1 lg:grid-cols-2 gap-24 sm:gap-10">

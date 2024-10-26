@@ -11,8 +11,6 @@ interface FeaturedPackagesProps {
 export default function FeaturedPackages({ content }: FeaturedPackagesProps) {
   const { eyebrow, heading, packages } = content;
 
-  console.log(packages[0].images);
-
   return (
     <section className="py-10 lg:py-20 bg-white">
       <div className="container mx-auto text-center">
