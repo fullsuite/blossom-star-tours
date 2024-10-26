@@ -1,15 +1,25 @@
 "use client";
 
-import Image from 'next/image'
+import Image from "next/image";
 
-import heroBackgroundPattern from '@/assets/Home/Theme_Swirl_Top-Home.png';
-import heroIllustration from '@/assets/Home/Featured_Image.jpg';
+import heroBackgroundPattern from "@/assets/Home/Theme_Swirl_Top-Home.png";
 import SearchForm from "./SearchForm";
+import { HomePage } from "@/lib/types";
 
-export default function Hero() {
+interface HeroProps {
+  content: HomePage["heroSection"];
+}
+
+export default function Hero({ content }: HeroProps) {
+  const { heading, subHeading, image } = content;
+
   return (
     <section className="mt-3 lg:py-20 pt-10 pb-4 sm:pb-20 overflow-hidden min-h-[880px] mb-2 xl:mb-0 flex">
-      <Image src={heroBackgroundPattern} alt="" className="absolute inset-0 -z-10 object-cover object-bottom xl:w-[100vw] w-[1440px] lg:h-[990px] h-[1100px]" />
+      <Image
+        src={heroBackgroundPattern}
+        alt=""
+        className="absolute inset-0 -z-10 object-cover object-bottom xl:w-[100vw] w-[1440px] lg:h-[990px] h-[1100px]"
+      />
       <div className="container relative lg:max-h-[636px] ">
         {/* Div 1 - Text and Search Form */}
         <div className="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-4">
@@ -19,12 +29,10 @@ export default function Hero() {
               Book a Tour Now
             </button>
             <h1 className="text-4xl sm:text-5xl 2xl:text-6xl font-bold text-primary leading-tight mb-6">
-              Embark on a Journey of Faith, Experience, and Discovery.
+              {heading}
             </h1>
             <p className="text-base sm:text-lg text-gray-600 mb-8 w-3/4 font-medium">
-              Our expertly crafted tours are designed to provide meaningful
-              experiences, combining spiritual reflection with rich cultural
-              exploration.
+              {subHeading}
             </p>
           </div>
 
@@ -36,10 +44,14 @@ export default function Hero() {
 
         {/* Div 2 - Background Image */}
         <div className="absolute inset-0 w-full max-w-[1250px] hidden sm:flex justify-end px-6 3xl:px-0 mx-auto pt-[330px] md:pt-72 lg:pt-0">
-
           {/* Image in the second column */}
           <div className="relative aspect-[3.5/5]">
-            <Image src={heroIllustration} alt="Tour" className="object-cover w-full h-full rounded-xl"/>
+            <Image
+              src={image.url}
+              alt="Tour"
+              className="object-cover w-full h-full rounded-xl"
+              fill
+            />
           </div>
         </div>
       </div>

@@ -4,7 +4,7 @@
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    domains: ["picsum.photos"], // Add picsum.photos to the allowed domains
+    domains: ["picsum.photos", "cdn.sanity.io"], // Add picsum.photos to the allowed domains
   },
 };
 

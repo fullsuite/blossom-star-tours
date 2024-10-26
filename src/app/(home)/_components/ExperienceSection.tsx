@@ -3,32 +3,37 @@
 import Image from "next/image";
 import ContentBlock from "@/components/ContentBlock";
 import { Star, Sparkles, ThumbsUp } from "lucide-react";
+import { HomePage } from "@/lib/types";
 
-export default function ExperienceSection() {
+interface ExperienceSectionProps {
+  content: HomePage["experienceFeatures"]; // Use HomePage type for consistency
+}
+
+export default function ExperienceSection({ content }: ExperienceSectionProps) {
+  const { heading, subheading, images, features } = content;
+
   return (
     <section className="py-10 lg:py-20">
       <div className="container mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8 relative">
         {/* Left Column - Images */}
-        <div className="relative">
+        <div className="relative w-full h-full">
           {/* Top Image */}
-          <div className="relative z-10 mb-6">
+          <div className="relative z-10 mb-6  w-3/5 aspect-square">
             <Image
-              src="https://picsum.photos/400/400?random=1"
+              src={images[0].url}
               alt="Image 1"
-              width={400}
-              height={400}
               className="rounded-2xl object-cover"
+              fill
             />
           </div>
 
           {/* Bottom Image (Overlapping) */}
-          <div className="absolute right-0 bottom-6 z-0 bg-red-50">
+          <div className="absolute right-0 bottom-6 z-0 bg-red-50 w-3/5 h-3/4">
             <Image
-              src="https://picsum.photos/300/400?random=2"
+              src={images[1].url}
               alt="Image 2"
-              width={400}
-              height={400}
               className="rounded-2xl object-cover"
+              fill
             />
           </div>
         </div>
@@ -36,31 +41,29 @@ export default function ExperienceSection() {
         {/* Right Column - Content */}
         <div>
           <h2 className="text-3xl lg:text-4xl font-bold text-primary mb-6">
-            Experience with Blossom Stars
+            {heading}
           </h2>
-          <p className="text-body-secondary text-lg mb-8">
-            Discover the unparalleled experiences we offer at Blossom Stars. Our
-            commitment to excellence and attention to detail ensures that each
-            journey with us is both spiritually fulfilling and culturally
-            enriching.
-          </p>
+          <p className="text-body-secondary text-lg mb-8">{subheading}</p>
 
           {/* Content Blocks */}
-          <ContentBlock
-            title="Best Islamic Guided Tour Agency"
-            description="We are offering exceptional Islamic tours that combine spiritual fulfillment with cultural insights. Our dedicated team ensures every journey is enriching and memorable."
-            icon={<Star className="text-white w-6 h-6" />}
-          />
-          <ContentBlock
-            title="Trusted and Fully Committed Team"
-            description="Our team is comprised of experienced professionals who are deeply committed to providing you with a seamless travel experience."
-            icon={<ThumbsUp className="text-white w-6 h-6" />}
-          />
-          <ContentBlock
-            title="Unique and Memorable Experience"
-            description="Each of our tours is crafted to deliver a one-of-a-kind experience, ensuring that your spiritual journey is both unique and unforgettable."
-            icon={<Sparkles className="text-white w-6 h-6" />}
-          />
+          {features.map((feature, index) => (
+            <ContentBlock
+              className={index % 2 != 0 ? "ml-8" : "mr-8"}
+              key={index}
+              title={feature.title}
+              description={feature.body}
+              icon={
+                index === 0 ? (
+                  <Star className="text-white w-6 h-6" />
+                ) : index === 1 ? (
+                  <ThumbsUp className="text-white w-6 h-6" />
+                ) : (
+                  <Sparkles className="text-white w-6 h-6" />
+                )
+                // TODO: Handle custom component
+              }
+            />
+          ))}
         </div>
       </div>
     </section>

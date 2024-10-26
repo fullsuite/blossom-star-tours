@@ -8,25 +8,40 @@ import TestimonialSection from "./_components/Testimonials";
 import Hero from "./_components/Hero";
 import FeaturedPackages from "./_components/FeaturedPackages";
 import Achievements from "./_components/Achievements";
+import { HomePage as HomePageData } from "@/lib/types";
+import { fetchHomePageData } from "@/sanity/lib/client";
 
-export default function HomePage() {
-  const quote = {
-    content:
-      "Knowledge doesn’t come to you, but <strong>you have to go to it.</strong>",
-    author: "Imam Malik",
-  };
+export default async function HomePage() {
+  const data: HomePageData | null = await fetchHomePageData();
+
+  if (!data) {
+    return <div>Failed to load data.</div>;
+  } else {
+    console.log(data);
+  }
+
+  const {
+    heroSection,
+    topQuoteSection,
+    featuredPackages,
+    achievements,
+    experienceShowcase,
+    experienceFeatures,
+    testimonials,
+    bottomQuoteSection,
+  } = data;
 
   return (
     <>
-      <Hero />
-      <QuoteBlock quote={quote} />
-      <FeaturedPackages />
-      <Achievements />
+      <Hero content={heroSection} />
+      <QuoteBlock quote={topQuoteSection} />
+      <FeaturedPackages content={featuredPackages} />
+      <Achievements content={achievements} />
       <CTASection />
-      <ExperienceShowcase />
-      <ExperienceSection />
-      <TestimonialSection />
-      <QuoteBlock quote={quote} />
+      <ExperienceShowcase content={experienceShowcase} />
+      <ExperienceSection content={experienceFeatures} />
+      <TestimonialSection content={testimonials} />
+      <QuoteBlock quote={bottomQuoteSection} />
     </>
   );
 }

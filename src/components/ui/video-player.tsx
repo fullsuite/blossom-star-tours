@@ -1,11 +1,14 @@
-'use client';
-import Image from "next/image";
-import { useState } from 'react';
+"use client";
+import Image, { StaticImageData } from "next/image";
+import { useState } from "react";
 import { CirclePlay } from "lucide-react";
 
-import kabahPhoto from '@/assets/Home/kabah-photo.jpg';
+interface VideoPlayerProps {
+  thumbnail: string | StaticImageData; // Accepts either a URL or StaticImageData for local imports
+  videoUrl: string;
+}
 
-export default function  VideoPlayer() {
+export default function VideoPlayer({ thumbnail, videoUrl }: VideoPlayerProps) {
   const [isPlaying, setIsPlaying] = useState(false);
 
   const handlePlayClick = () => {
@@ -16,7 +19,12 @@ export default function  VideoPlayer() {
     <div className="relative w-full h-64 sm:h-[30rem] bg-black rounded-3xl overflow-hidden">
       {!isPlaying ? (
         <div className="relative w-full h-full">
-          <Image src={kabahPhoto} alt="Kabah Photo" className="absolute inset-0 w-full h-full object-cover" />
+          {/* Thumbnail Image */}
+          <Image
+            src={thumbnail}
+            alt="Video Thumbnail"
+            className="absolute inset-0 w-full h-full object-cover"
+          />
           {/* Play button */}
           <button
             onClick={handlePlayClick}
@@ -29,11 +37,10 @@ export default function  VideoPlayer() {
         // HTML5 video player
         <video
           className="absolute inset-0 w-full h-full"
-          src="/Home/Home-Video.mov"  // Accessing from the public folder
+          src={videoUrl}
           autoPlay
           controls
           onEnded={() => setIsPlaying(false)}
-          // onClick={() => setIsPlaying(false)}
         />
       )}
     </div>

@@ -6,73 +6,132 @@ export const tourPackage = defineType({
   type: 'document',
   fields: [
     defineField({
-      name: 'title',
-      title: 'Title',
+      name: 'name',
+      title: 'Package Name',
       type: 'string',
       validation: Rule => Rule.required(),
     }),
     defineField({
-        name: 'slug',
-        title: 'Slug',
-        type: 'slug',
-        options: {
-          source: 'title',
-          maxLength: 200,
-        },
-        validation: Rule => Rule.required(),
-      }),
-    defineField({
-        name: 'image',
-        title: 'Package Image',
-        type: 'image',
-        options: {
-          hotspot: true,
-        },
-        validation: Rule => Rule.required(),
-      }),
-    defineField({
-      name: 'callout',
-      title: 'Callout',
-      type: 'string',
-      description: 'A special callout text for the package (e.g., "Limited Time Offer")',
+      name: 'description',
+      title: 'Package Description',
+      type: 'text',
+      description: 'Brief description of the package.',
+      validation: Rule => Rule.required(),
     }),
-    
-    
     defineField({
-      name: 'features',
-      title: 'Features',
+      name: 'duration',
+      title: 'Duration',
+      type: 'string',
+      description: 'The total duration of the tour.',
+      validation: Rule => Rule.required(),
+    }),
+    defineField({
+      name: 'images',
+      title: 'Gallery Images',
+      type: 'array',
+      of: [
+        defineArrayMember({
+          type: 'image',
+          options: { hotspot: true },
+        })
+      ],
+      options: {
+        layout: 'grid',
+      },
+      description: 'A gallery of images for the package.',
+      validation: Rule => Rule.min(1).error('At least one image is required.')
+    }),
+    defineField({
+      name: 'groups',
+      title: 'Group Options and Pricing',
       type: 'array',
       of: [
         defineArrayMember({
           type: 'object',
           fields: [
             defineField({
-              name: 'title',
-              title: 'Feature',
+              name: 'name',
+              title: 'Package Name',
               type: 'string',
+              validation: Rule => Rule.required(),
             }),
+            defineField({
+              name: 'minGroupSize',
+              title: 'Minimum Group Size',
+              type: 'number',
+              validation: Rule => Rule.required(),
+              description: 'The minimum number of people in the group.'
+            }),
+            defineField({
+              name: 'maxGroupSize',
+              title: 'Maximum Group Size',
+              type: 'number',
+              validation: Rule => Rule.required(),
+              description: 'The maximum number of people in the group.'
+            }),
+            defineField({
+              name: 'pricingType',
+              title: 'Pricing Type',
+              type: 'string',
+              options: {
+                list: [
+                  { title: 'Per Group', value: 'perGroup' },
+                  { title: 'Per Person', value: 'perPerson' }
+                ],
+              },
+              validation: Rule => Rule.required(),
+              description: 'Specifies if the pricing is per group or per person.'
+            }),
+            defineField({
+              name: 'standardPricing',
+              title: 'Standard Pricing',
+              type: 'number',
+              validation: Rule => Rule.required(),
+              description: 'The price for the standard option.'
+            }),
+            defineField({
+              name: 'standardInclusions',
+              title: 'Standard Inclusions',
+              type: 'array',
+              of: [{ type: 'string' }],
+              description: 'List of inclusions for the standard package.',
+              validation: Rule => Rule.required(),
+            }),
+            defineField({
+              name: 'premiumPricing',
+              title: 'Premium Pricing',
+              type: 'number',
+              description: 'The price for the premium option (if available).'
+            }),
+            defineField({
+              name: 'premiumInclusions',
+              title: 'Premium Inclusions',
+              type: 'array',
+              of: [{ type: 'string' }],
+              description: 'List of inclusions for the premium package.'
+            })
           ],
           preview: {
-            select: { title: 'title' },
+            select: {
+              title: 'name',
+            },
+            prepare({ title }) {
+              return {
+                title: `${title}`,
+              };
+            },
           },
-        }),
+        })
       ],
-      description: 'A list of features included in this package.',
+      validation: Rule => Rule.required(),
+      description: 'Pricing and inclusions for different group sizes.'
     }),
-    
-    defineField({
-        name: 'stripePriceId',
-        title: 'Stripe Price ID',
-        type: 'string',
-        description: 'The Stripe Price ID associated with this package for payment.',
-        validation: Rule => Rule.required(),
-      }),
   ],
-  
+
   preview: {
     select: {
-      title: 'title',
-      media: 'image',
+      title: 'name',
+      media: 'images.0', // Display the first image in the preview
     },
   },
 });

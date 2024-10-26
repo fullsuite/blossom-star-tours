@@ -1,21 +1,16 @@
 import React from "react";
-import Image from "next/image";
 import { StatCard } from "@/components/ui/stat-card"; // Import the StatCard component
 import VideoPlayer from "@/components/ui/video-player"; // Import the VideoPlayer component
+import { HomePage } from "@/lib/types";
+import kabahPhoto from "@/assets/Home/kabah-photo.jpg";
 
-interface Stat {
-  value: string;
-  label: string;
+interface AchievementsProps {
+  content: HomePage["achievements"];
 }
 
-const stats: Stat[] = [
-  { value: "20k", label: "Satisfied Customers" },
-  { value: "15k", label: "Total Tours" },
-  { value: "10k", label: "Social Media Likes" },
-  { value: "5k", label: "Highly Rated" },
-];
+export default function Achievements({ content }: AchievementsProps) {
+  const { heading, body, video, stats } = content;
 
-export default function Achievements() {
   return (
     <section className="relative w-full py-10 lg:py-20 bg-white overflow-hidden">
       <div className="relative container mx-auto">
@@ -25,20 +20,15 @@ export default function Achievements() {
           <div className="lg:col-span-2"></div>
           <div className="lg:col-span-2 text-center lg:text-left">
             <h2 className="text-3xl lg:text-5xl font-bold text-primary mb-6">
-              Our Achievements
+              {heading}
             </h2>
-            <p className="text-body-secondary text-lg">
-              We take pride in our commitment to delivering exceptional travel
-              experiences. Here are some of the milestones we’ve reached on our
-              journey to serving our valued customers and enriching their
-              spiritual travels.
-            </p>
+            <p className="text-body-secondary text-lg">{body}</p>
           </div>
 
           {/* Row 2: Image spanning 3 columns */}
           <div></div>
           <div className="lg:col-span-3 relative ">
-            <VideoPlayer />
+            <VideoPlayer thumbnail={kabahPhoto} videoUrl={video.url} />
           </div>
         </div>
 
