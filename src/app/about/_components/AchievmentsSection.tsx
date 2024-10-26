@@ -1,25 +1,26 @@
 import Image from "next/image";
-import { StatCard } from "@/components/ui/stat-card"; // Make sure to import the StatCard component
+import { StatCard } from "@/components/ui/stat-card";
 import { Heading } from "@/components/ui/heading";
-import BanngerBgImage from "@/assets/About Us/AboutUs_Banner-BG.jpg";
+import { AboutUsPage } from "@/lib/types/page/aboutUsPage";
 
-const stats = [
-  { value: "20k", label: "Satisfied Customers" },
-  { value: "10k", label: "Social Media Likes" },
-  { value: "15k", label: "Total Tours" },
-  { value: "5k", label: "Highly Rated" },
-];
+interface AchievementsSectionProps {
+  content: AboutUsPage["achievements"];
+}
 
-export default function AchievementsSection() {
+export default function AchievementsSection({
+  content,
+}: AchievementsSectionProps) {
+  const { heading, subheading, backgroundImage, stats } = content;
+
   return (
     <section className="relative w-full overflow-hidden bg-primary text-white py-14 sm:py-20 2xl:py-24">
       {/* Background Image with Overlay */}
       <div className="absolute inset-0">
         <Image
-          src={BanngerBgImage} // Replace with your actual image URL
+          src={backgroundImage.url} // Ensure your actual image URL or import is here
           alt="Background"
           layout="fill"
-          objectFit="cover" 
+          objectFit="cover"
         />
       </div>
 
@@ -27,11 +28,10 @@ export default function AchievementsSection() {
       <div className="relative container mx-auto z-10 flex flex-col items-center text-center">
         {/* Title */}
         <Heading variant="section" className="text-white mb-4">
-          Our Achievements
+          {heading}
         </Heading>
         <p className="text-sm sm:text-base mb-12 text-white max-w-3xl">
-          We take pride in our commitment to delivering exceptional travel
-          experiences. Here are some of the milestones.
+          {subheading}
         </p>
 
         {/* Grid for Stat Cards */}

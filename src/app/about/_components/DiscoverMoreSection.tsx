@@ -1,37 +1,38 @@
+// src/app/about/_components/DiscoverMoreSection.tsx
+
 import { Heading } from "@/components/ui/heading";
 import { ShieldCheckIcon } from "lucide-react";
 import Image from "next/image";
-import AboutImage from "@/assets/About Us/About-Image.jpg"
+import { AboutUsPage } from "@/lib/types/page/aboutUsPage";
+import PortableTextBlock from "@/components/ui/portable-text-block";
 
-export default function DiscoverMoreSection() {
+interface DiscoverMoreSectionProps {
+  content: AboutUsPage["introduction"];
+}
+
+export default function DiscoverMoreSection({
+  content,
+}: DiscoverMoreSectionProps) {
+  const { eyebrow, heading, body, feature, image } = content;
+
+  console.log(feature);
+
   return (
     <section className="relative py-16 2xl:py-36 overflow-hidden">
       <div className="container mx-auto grid grid-cols-1 lg:grid-cols-2 gap-24 sm:gap-10">
         {/* Left Column (Text Section) */}
         <div className="flex flex-col">
-          <p className="text-sm text-gray-500 mb-6">
-            Welcome to Blossom Stars Ultimate Tours
-          </p>
-          <Heading variant="section">Discover More of Who We Are</Heading>
-          <p className="my-4 sm:my-6 text-sm sm:text-base text-wild-sand-600">
-            At Blossom Stars Ultimate Tours, we are dedicated to providing
-            exceptional travel experiences that blend spiritual fulfillment with
-            rich cultural insights. Our mission is to guide you through
-            meaningful journeys that resonate with your faith and curiosity.
-          </p>
-          <p className="text-sm sm:text-base text-wild-sand-600">
-            Our team of experienced professionals is committed to delivering
-            personalized services that cater to your unique needs and
-            preferences. We take pride in our attention to detail, ensuring that
-            every aspect of your journey is thoughtfully planned and executed.
-          </p>
+          <p className="text-sm text-gray-500 mb-6">{eyebrow}</p>
+          <Heading variant="section">{heading}</Heading>
+          {/* Render body text (Portable Text) */}
+          <PortableTextBlock value={body} />
         </div>
 
         {/* Right Column (Image with Overlapping Card) */}
         <div className="relative w-full">
           {/* Image */}
           <Image
-            src={AboutImage} // Replace with your image source
+            src={image.url} // Dynamic image URL from content
             alt="Tour"
             width={500}
             height={600}
@@ -48,11 +49,10 @@ export default function DiscoverMoreSection() {
               {/* Text Content */}
               <div className="w-40 md:w-56">
                 <h3 className="text-sm md:text-base font-bold text-primary mb-1">
-                  Reliable & Fully Insured
+                  {feature.title}
                 </h3>
                 <p className="text-xs md:text-sm text-gray-600">
-                  Our tours are reliable and fully insured, providing you with
-                  peace of mind and a secure travel experience.
+                  {feature.body}
                 </p>
               </div>
             </div>

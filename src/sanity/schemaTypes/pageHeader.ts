@@ -12,17 +12,5 @@ export const pageHeader = defineType({
       type: 'string',
       validation: Rule => Rule.required(),
     }),
-    defineField({
-      name: 'subtitle',
-      title: 'Subtitle',
-      type: 'string',
-    }),
-    defineField({
-      name: 'backgroundImage',
-      title: 'Background Image',
-      type: 'image',
-      options: { hotspot: true },
-      description: 'Optional background image for the page header',
-    }),
   ],
 });

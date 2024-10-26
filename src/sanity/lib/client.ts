@@ -2,7 +2,6 @@ import { createClient } from 'next-sanity'
 
 import { apiVersion, dataset, projectId } from '../env'
 import { homePageQuery } from '@/lib/queries/homePageQuery';
-import { HomePage } from '@/lib/types';
 import { HomePage } from '@/lib/types/page/homePage';
 import { AboutUsPage } from '@/lib/types/page/aboutUsPage';
 import { aboutUsPageQuery } from '@/lib/queries/aboutUsPageQuery';
@@ -20,6 +19,7 @@ export async function fetchHomePageData(): Promise<HomePage | null> {
   return data || null;
 }
 
-  if (!data) return null;
-  return data as HomePage;
+export async function fetchAboutUsPageData(): Promise<AboutUsPage | null> {
+  const data = await client.fetch(aboutUsPageQuery);
+  return data || null;
 }

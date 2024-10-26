@@ -7,6 +7,7 @@ import { testimonial } from './testimonial'
 import { pageHeader } from './pageHeader'
 import { featureItem } from './featureItem'
 import { quote } from './quote'
+import { featureWithPercentage } from './featureWithPercentage'
 
 export const schema: { types: SchemaTypeDefinition[] } = {
   types: [
@@ -17,5 +18,7 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     statistics,
     featureItem,
     testimonial,
-    pageHeader,],
+    pageHeader,
+    featureWithPercentage
+  ],
 }
