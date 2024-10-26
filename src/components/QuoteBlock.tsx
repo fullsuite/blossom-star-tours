@@ -2,10 +2,10 @@
 
 import React from "react";
 import Image from "next/image";
-import { PortableText, PortableTextComponents } from "@portabletext/react";
-import { Quote } from "@/lib/types"; // Import the Quote type from the types file
+import { Quote } from "@/lib/types/common/quote"; // Import the Quote type from the types file
 
 import dividerSwirl from "@/assets/Home/Divider_Swirl.png";
+import PortableTextBlock from "./ui/portable-text-block";
 
 interface QuoteProps {
   quote: Quote;
@@ -19,9 +19,8 @@ export default function QuoteBlock({ quote }: QuoteProps) {
       <div className="container mx-auto">
         <div className="flex flex-col max-w-2xl justify-center mx-auto text-center items-center">
           {/* Render content with PortableText */}
-          <div className="text-3xl lg:text-5xl text-primary leading-snug mb-4 lg:leading-snug">
-            <PortableText value={quote.quoteText} />
-          </div>
+          <PortableTextBlock value={quote.quoteText} className={"mb-4"} />
+
           {/* Render author */}
           <p className="text-lg text-gray-600 mt-4">{quote.author}</p>
         </div>

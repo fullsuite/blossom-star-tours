@@ -4,7 +4,7 @@ import Image from "next/image";
 
 import heroBackgroundPattern from "@/assets/Home/Theme_Swirl_Top-Home.png";
 import SearchForm from "./SearchForm";
-import { HomePage } from "@/lib/types";
+import { HomePage } from "@/lib/types/page/homePage";
 
 interface HeroProps {
   content: HomePage["heroSection"];

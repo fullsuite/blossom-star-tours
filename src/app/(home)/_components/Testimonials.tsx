@@ -8,7 +8,7 @@ import {
   CarouselItem,
 } from "@/components/ui/carousel";
 import Autoplay from "embla-carousel-autoplay";
-import { HomePage } from "@/lib/types";
+import { HomePage } from "@/lib/types/page/homePage";
 import TestimonialCard from "@/components/TestimonialCard";
 
 interface TestimonialSectionProps {

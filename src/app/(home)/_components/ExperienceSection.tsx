@@ -3,7 +3,7 @@
 import Image from "next/image";
 import ContentBlock from "@/components/ContentBlock";
 import { Star, Sparkles, ThumbsUp } from "lucide-react";
-import { HomePage } from "@/lib/types";
+import { HomePage } from "@/lib/types/page/homePage";
 
 interface ExperienceSectionProps {
   content: HomePage["experienceFeatures"]; // Use HomePage type for consistency

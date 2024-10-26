@@ -8,7 +8,7 @@ import TestimonialSection from "./_components/Testimonials";
 import Hero from "./_components/Hero";
 import FeaturedPackages from "./_components/FeaturedPackages";
 import Achievements from "./_components/Achievements";
-import { HomePage as HomePageData } from "@/lib/types";
+import { HomePage as HomePageData } from "@/lib/types/page/homePage";
 import { fetchHomePageData } from "@/sanity/lib/client";
 
 export default async function HomePage() {

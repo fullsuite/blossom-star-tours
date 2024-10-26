@@ -1,7 +1,7 @@
 import React from "react";
 import { StatCard } from "@/components/ui/stat-card"; // Import the StatCard component
 import VideoPlayer from "@/components/ui/video-player"; // Import the VideoPlayer component
-import { HomePage } from "@/lib/types";
+import { HomePage } from "@/lib/types/page/homePage";
 import kabahPhoto from "@/assets/Home/kabah-photo.jpg";
 
 interface AchievementsProps {

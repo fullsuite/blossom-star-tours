@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import PackageCard from "@/components/PackageCard";
-import { HomePage } from "@/lib/types";
+import { HomePage } from "@/lib/types/page/homePage";
 
 interface FeaturedPackagesProps {
   content: HomePage["featuredPackages"];

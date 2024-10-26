@@ -9,7 +9,7 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { HomePage } from "@/lib/types";
+import { HomePage } from "@/lib/types/page/homePage";
 
 interface ExperienceShowcaseProps {
   content: HomePage["experienceShowcase"];
