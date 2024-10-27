@@ -47,9 +47,7 @@ import { SanityImageSource } from "@sanity/image-url/lib/types/types";
     };
     bottomQuoteSection: Quote;
   }
-  
-  // Other Interfaces for Nested Schemas
-  
+    
  
   
   

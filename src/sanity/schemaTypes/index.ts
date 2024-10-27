@@ -9,6 +9,7 @@ import { featureItem } from './featureItem'
 import { quote } from './quote'
 import { featureWithPercentage } from './featureWithPercentage'
 import { tourGalleryPage } from './tourGalleryPage'
+import { contactUsPage } from './contactUsPage'
 
 export const schema: { types: SchemaTypeDefinition[] } = {
   types: [
@@ -16,6 +17,7 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     homePage,
     aboutUsPage,
     tourGalleryPage,
+    contactUsPage,
     quote,
     statistics,
     featureItem,

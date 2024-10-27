@@ -5,6 +5,10 @@ import { homePageQuery } from '@/lib/queries/homePageQuery';
 import { HomePage } from '@/lib/types/page/homePage';
 import { AboutUsPage } from '@/lib/types/page/aboutUsPage';
 import { aboutUsPageQuery } from '@/lib/queries/aboutUsPageQuery';
+import { TourGalleryPage } from '@/lib/types/page/tourGalleryPage';
+import { tourGalleryQuery } from '@/lib/queries/tourGalleryQuery';
+import { ContactUsPage } from '@/lib/types/page/contactUsPage';
+import { contactUsPageQuery } from '@/lib/queries/contactUsPageQuery';
 
 export const client = createClient({
   projectId,
@@ -43,6 +47,22 @@ export async function fetchHomePageData(): Promise<HomePage | null> {
 export async function fetchAboutUsPageData(): Promise<AboutUsPage | null> {
   const data = await sanityFetch ( {
     query : aboutUsPageQuery, 
+    // revalidate: 10 
+  });
+  return data || null;
+}
+
+export async function fetchTourGalleryPageData(): Promise<TourGalleryPage | null> {
+  const data = await sanityFetch ( {
+    query : tourGalleryQuery, 
+    // revalidate: 10 
+  });
+  return data || null;
+}
+
+export async function fetchContactPageData(): Promise<ContactUsPage | null> {
+  const data = await sanityFetch ( {
+    query : contactUsPageQuery, 
     // revalidate: 10 
   });
   return data || null;
