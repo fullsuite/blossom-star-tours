@@ -5,6 +5,7 @@ import Image from "next/image";
 import heroBackgroundPattern from "@/assets/Home/Theme_Swirl_Top-Home.png";
 import SearchForm from "./SearchForm";
 import { HomePage } from "@/lib/types/page/homePage";
+import { urlFor } from "@/sanity/lib/image";
 
 interface HeroProps {
   content: HomePage["heroSection"];
@@ -12,6 +13,8 @@ interface HeroProps {
 
 export default function Hero({ content }: HeroProps) {
   const { heading, subHeading, image } = content;
+
+  console.log(image);
 
   return (
     <section className="mt-3 lg:py-20 pt-10 pb-4 sm:pb-20 overflow-hidden min-h-[880px] mb-2 xl:mb-0 flex">
@@ -47,7 +50,7 @@ export default function Hero({ content }: HeroProps) {
           {/* Image in the second column */}
           <div className="relative aspect-[3.5/5]">
             <Image
-              src={image.url}
+              src={urlFor(image).url()}
               alt="Tour"
               className="object-cover w-full h-full rounded-xl"
               fill

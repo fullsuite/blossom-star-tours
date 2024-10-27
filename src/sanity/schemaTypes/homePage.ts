@@ -45,6 +45,13 @@ export const homePage = defineType({
           title: 'Image',
           type: 'image',
           options: { hotspot: true },
+          fields: [
+            defineField({
+              name: 'alt',
+              title: 'Alt Text',
+              type: 'string',
+            }),
+          ],
           validation: Rule => Rule.required(),
         }),
       ],
@@ -146,6 +153,13 @@ export const homePage = defineType({
             defineArrayMember({
               type: 'image',
               options: { hotspot: true },
+              fields: [
+                defineField({
+                  name: 'alt',
+                  title: 'Alt Text',
+                  type: 'string',
+                }),
+              ],
             }),
           ],
           description: 'A showcase of images representing the tour experiences.',
@@ -179,6 +193,13 @@ export const homePage = defineType({
               defineArrayMember({
                 type: 'image',
                 options: { hotspot: true },
+                fields: [
+                    defineField({
+                      name: 'alt',
+                      title: 'Alt Text',
+                      type: 'string',
+                    }),
+                  ],
               }),
             ],
             description: 'A showcase of images representing the tour experiences.',

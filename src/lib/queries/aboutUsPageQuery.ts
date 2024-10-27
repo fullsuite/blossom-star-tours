@@ -6,17 +6,13 @@ export const aboutUsPageQuery = `
     introduction {
       eyebrow,
       heading,
-      body[] {
-        ... // Fetch Portable Text content
-      },
+      body,
       feature {
         title,
         body,
         icon
       },
-      image {
-        "url": asset->url
-      }
+      image
     },
     achievements {
       heading,
@@ -25,22 +21,16 @@ export const aboutUsPageQuery = `
         label,
         value
       },
-      backgroundImage {
-        "url": asset->url
-      }
+      backgroundImage
     },
     experiences {
       heading,
-      body[] {
-        ... // Fetch Portable Text content
-      },
+      body,
       experiencesList[] {
         title,
         percentage
       },
-      images[] {
-        "url": asset->url
-      }
+      images
     }
   }
 `;

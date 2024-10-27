@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/carousel";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { HomePage } from "@/lib/types/page/homePage";
+import { urlFor } from "@/sanity/lib/image";
 
 interface ExperienceShowcaseProps {
   content: HomePage["experienceShowcase"];
@@ -59,7 +60,7 @@ export default function ExperienceShowcase({
               >
                 <div className="rounded-lg w-full h-full rounded-xl overflow-hidden">
                   <Image
-                    src={image.url}
+                    src={urlFor(image).url()}
                     alt={""}
                     width={300}
                     height={300}

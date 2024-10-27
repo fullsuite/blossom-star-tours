@@ -2,6 +2,7 @@ import { Heading } from "@/components/ui/heading";
 import Image from "next/image";
 import PortableTextBlock from "@/components/ui/portable-text-block";
 import { AboutUsPage } from "@/lib/types/page/aboutUsPage";
+import { urlFor } from "@/sanity/lib/image";
 
 interface ExperiencesSectionProps {
   content: AboutUsPage["experiences"];
@@ -47,7 +48,7 @@ export default function ExperiencesSection({
         {/* Top Image */}
         <div className="absolute right-0 sm:right-6 md:right-0 sm:-top-10 lg:top-14 xl:top-0 z-10 mb-6 aspect-[1/1] w-2/3">
           <Image
-            src={images[0].url}
+            src={urlFor(images[0]).url()}
             alt="Experience Image 1"
             layout="fill"
             objectFit="cover"
@@ -58,7 +59,7 @@ export default function ExperiencesSection({
         {/* Bottom Image (Overlapping) */}
         <div className="absolute left-0 -bottom-20 sm:-bottom-8 md:-bottom-10 xl:-bottom-16 z-0 aspect-[1/1] w-2/3">
           <Image
-            src={images[1].url}
+            src={urlFor(images[1]).url()}
             alt="Experience Image 2"
             layout="fill"
             objectFit="cover"

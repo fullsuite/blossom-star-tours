@@ -2,6 +2,7 @@ import Image from "next/image";
 import { StatCard } from "@/components/ui/stat-card";
 import { Heading } from "@/components/ui/heading";
 import { AboutUsPage } from "@/lib/types/page/aboutUsPage";
+import { urlFor } from "@/sanity/lib/image";
 
 interface AchievementsSectionProps {
   content: AboutUsPage["achievements"];
@@ -17,7 +18,7 @@ export default function AchievementsSection({
       {/* Background Image with Overlay */}
       <div className="absolute inset-0">
         <Image
-          src={backgroundImage.url} // Ensure your actual image URL or import is here
+          src={urlFor(backgroundImage).url()} // Ensure your actual image URL or import is here
           alt="Background"
           layout="fill"
           objectFit="cover"

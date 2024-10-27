@@ -4,6 +4,7 @@ import Image from "next/image";
 import ContentBlock from "@/components/ContentBlock";
 import { Star, Sparkles, ThumbsUp } from "lucide-react";
 import { HomePage } from "@/lib/types/page/homePage";
+import { urlFor } from "@/sanity/lib/image";
 
 interface ExperienceSectionProps {
   content: HomePage["experienceFeatures"]; // Use HomePage type for consistency
@@ -20,7 +21,7 @@ export default function ExperienceSection({ content }: ExperienceSectionProps) {
           {/* Top Image */}
           <div className="relative z-10 mb-6  w-3/5 aspect-square">
             <Image
-              src={images[0].url}
+              src={urlFor(images[0]).url()}
               alt="Image 1"
               className="rounded-2xl object-cover"
               fill
@@ -28,9 +29,9 @@ export default function ExperienceSection({ content }: ExperienceSectionProps) {
           </div>
 
           {/* Bottom Image (Overlapping) */}
-          <div className="absolute right-0 bottom-6 z-0 bg-red-50 w-3/5 h-3/4">
+          <div className="absolute right-0 bottom-6 z-0 w-3/5 h-3/4">
             <Image
-              src={images[1].url}
+              src={urlFor(images[1]).url()}
               alt="Image 2"
               className="rounded-2xl object-cover"
               fill

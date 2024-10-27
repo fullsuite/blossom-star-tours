@@ -5,6 +5,7 @@ import { ShieldCheckIcon } from "lucide-react";
 import Image from "next/image";
 import { AboutUsPage } from "@/lib/types/page/aboutUsPage";
 import PortableTextBlock from "@/components/ui/portable-text-block";
+import { urlFor } from "@/sanity/lib/image";
 
 interface DiscoverMoreSectionProps {
   content: AboutUsPage["introduction"];
@@ -30,7 +31,7 @@ export default function DiscoverMoreSection({
         <div className="relative w-full">
           {/* Image */}
           <Image
-            src={image.url} // Dynamic image URL from content
+            src={urlFor(image).url()} // Dynamic image URL from content
             alt="Tour"
             width={500}
             height={600}

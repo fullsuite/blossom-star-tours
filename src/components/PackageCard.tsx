@@ -12,6 +12,7 @@ import { ClockIcon, MoveRightIcon } from "lucide-react";
 import Image from "next/image";
 import UserStarRating from "@/components/UserStarRating";
 import { TourPackage } from "@/lib/types/tour/package";
+import { urlFor } from "@/sanity/lib/image";
 
 interface PackageCardProps {
   package: TourPackage;
@@ -32,7 +33,7 @@ export default function PackageCard({ package: pkg }: PackageCardProps) {
       {/* Image */}
       <div className="relative w-full aspect-[4/3] -mb-8 z-0">
         <Image
-          src={pkg.images[0].url}
+          src={urlFor(pkg.images[0]).url()}
           alt={name}
           layout="fill"
           objectFit="cover"

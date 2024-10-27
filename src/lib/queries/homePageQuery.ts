@@ -7,7 +7,7 @@ export const homePageQuery = `
       subHeading,
       ctaButton,
       ctaLink,
-      "image": { "url": image.asset->url }
+      image
     },
     topQuoteSection->{
       quoteText,
@@ -20,7 +20,7 @@ export const homePageQuery = `
         name,
         description,
         duration,
-        "images": images[]{ "url": asset->url },
+        images,
         groups[] {
           name,
           minGroupSize,
@@ -45,12 +45,12 @@ export const homePageQuery = `
     experienceShowcase {
       heading,
       subheading,
-      "gallery": gallery[]{ "url": asset->url }
+      "gallery": gallery[]
     },
     experienceFeatures {
       heading,
       subheading,
-    "images": images[]{ "url": asset->url },
+      images,
       features[] {
         icon,
         title,

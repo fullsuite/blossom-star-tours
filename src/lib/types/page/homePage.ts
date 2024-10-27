@@ -4,6 +4,7 @@ import { Quote } from "@/lib/types/common/quote";
 import { Statistics } from "@/lib/types/common/statistic";
 import { Testimonial } from "@/lib/types/common/testimonial";
 import { TourPackage } from "@/lib/types/tour/package";
+import { SanityImageSource } from "@sanity/image-url/lib/types/types";
 
   
   // Main Page Types
@@ -14,7 +15,7 @@ import { TourPackage } from "@/lib/types/tour/package";
       subHeading?: string;
       ctaButton: string;
       ctaLink: string;
-      image: ImageAsset;
+      image: SanityImageSource;
     };
     topQuoteSection: Quote;
     featuredPackages: {
@@ -31,12 +32,12 @@ import { TourPackage } from "@/lib/types/tour/package";
     experienceShowcase: {
       heading: string;
       subheading?: string;
-      gallery: ImageAsset[];
+      gallery: SanityImageSource[];
     };
     experienceFeatures: {
       heading: string;
       subheading?: string;
-      images: ImageAsset[];
+      images: SanityImageSource[];
       features: FeatureItem[];
     };
     testimonials: {

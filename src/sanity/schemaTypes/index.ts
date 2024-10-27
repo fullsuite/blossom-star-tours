@@ -8,12 +8,14 @@ import { pageHeader } from './pageHeader'
 import { featureItem } from './featureItem'
 import { quote } from './quote'
 import { featureWithPercentage } from './featureWithPercentage'
+import { tourGalleryPage } from './tourGalleryPage'
 
 export const schema: { types: SchemaTypeDefinition[] } = {
   types: [
     tourPackage,
     homePage,
     aboutUsPage,
+    tourGalleryPage,
     quote,
     statistics,
     featureItem,
