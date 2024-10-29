@@ -71,7 +71,7 @@ export default function ImageGallery() {
               if (idx % 4 === 0) {
                 // Slice 4 images at a time
                 const imagesForRow = filteredImages.slice(idx, idx + 4);
-                const reversed = idx % 8 === 4; // Reverse every other row
+                // const reversed = idx % 8 === 4; // Reverse every other row
 
                 return (
                   <GalleryRow
@@ -97,6 +97,7 @@ import React from "react";
 interface ImageItem {
   src: string;
   category: string;
+  alt?: string;
 }
 
 interface GalleryRowProps {
@@ -119,10 +120,11 @@ const GalleryRow: React.FC<GalleryRowProps> = ({ images }) => {
                   href="#"
                   className="group relative flex flex-col overflow-hidden rounded-2xl px-4 pb-4 pt-40 flex-grow"
                 >
-                  <img
+                  <Image
                     src={image.src}
-                    alt={image.alt}
+                    alt={image.alt ? image.alt : ""}
                     className="absolute inset-0 h-full w-full object-cover group-hover:scale-105 transition-transform duration-500 ease-in-out"
+                    layout="fill"
                   />
                 </a>
               </div>
@@ -137,10 +139,11 @@ const GalleryRow: React.FC<GalleryRowProps> = ({ images }) => {
                   href="#"
                   className="group relative flex flex-col overflow-hidden rounded-2xl px-4 pb-4 pt-40 mb-4"
                 >
-                  <img
+                  <Image
                     src={image.src}
-                    alt={image.alt}
+                    alt={image.alt ? image.alt : ""}
                     className="absolute inset-0 h-full w-full object-cover group-hover:scale-105 transition-transform duration-500 ease-in-out"
+                    layout="fill"
                   />
                 </a>
                 <div className="grid gap-4 grid-cols-2">
@@ -150,10 +153,11 @@ const GalleryRow: React.FC<GalleryRowProps> = ({ images }) => {
                       className="group relative flex flex-col overflow-hidden rounded-2xl px-4 pb-4 pt-40"
                       key={`small-${idx}`}
                     >
-                      <img
+                      <Image
                         src={smallImage.src}
-                        alt={smallImage.alt}
+                        alt={smallImage.alt ? smallImage.alt : ""}
                         className="absolute inset-0 h-full w-full object-cover group-hover:scale-105 transition-transform duration-500 ease-in-out"
+                        layout="fill"
                       />
                     </a>
                   ))}

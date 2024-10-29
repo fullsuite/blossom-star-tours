@@ -20,5 +20,18 @@ body {
 
 .container{
   width: 100%;
-  max-width: unset;
+  max-width: 90rem; /* 1440px = 90rem */
+  margin: 0 auto;
+}
+
+/* Hide the spinner in number inputs for WebKit browsers (Chrome, Safari, Edge) */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Hide the spinner in Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
 }

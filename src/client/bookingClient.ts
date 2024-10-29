@@ -1,5 +1,10 @@
 import { supabase } from './supabaseClient';
-import { addDays, endOfMonth, isAfter, isBefore, startOfMonth } from 'date-fns';
+import { addDays, endOfMonth, isAfter, startOfMonth } from 'date-fns';
+
+interface Booking {
+  date: string;
+  participants: number;
+}
 
 export const bookingClient = {
   // Fetch all available dates with remaining capacity (capacity is guide-based, not tour-based)
@@ -31,7 +36,7 @@ export const bookingClient = {
     }
   
     // Aggregate bookings data and calculate remaining spots per day
-    bookingsData.forEach((booking: any) => {
+    bookingsData.forEach((booking: Booking) => {
       const bookingDate = new Date(booking.date).toISOString().split('T')[0]; // Use only the date part
       const participants = booking.participants;
   
@@ -137,6 +142,7 @@ export const bookingClient = {
     }
 
     const currentParticipants = bookings.reduce(
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       (sum: number, booking: any) => sum + booking.participants,
       0
     );

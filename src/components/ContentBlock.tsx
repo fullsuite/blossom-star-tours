@@ -1,11 +1,12 @@
 "use client";
 
 import clsx from "clsx";
+import React from "react";
 
 interface ContentBlockProps {
   title: string;
   description: string;
-  icon: any;
+  icon: React.ReactNode;
   className?: string; // Optional className prop
 }
 

@@ -21,7 +21,7 @@ export default function Hero({ content }: HeroProps) {
       <Image
         src={heroBackgroundPattern}
         alt=""
-        className="absolute inset-0 -z-10 object-cover object-bottom xl:w-[100vw] w-[1440px] lg:h-[990px] h-[1100px]"
+        className="absolute mt-0 md:-mt-20 lg:mt-0 inset-0 -z-10 object-cover object-bottom xl:w-[100vw] w-[1440px] lg:h-[990px] h-[1100px]"
       />
       <div className="container relative lg:max-h-[636px] ">
         {/* Div 1 - Text and Search Form */}
@@ -40,13 +40,13 @@ export default function Hero({ content }: HeroProps) {
           </div>
 
           {/* Row 2 - Full width search form */}
-          <div className="lg:col-span-2 max-w-5xl flex justify-center sm:justify-start  pb-10 pl-0 sm:pl-10 lg:pl-4 ">
+          <div className="lg:col-span-2 w-full md:max-w-[calc(100%-330px-20px)] lg:max-w-5xl flex justify-center sm:justify-start lg:pb-10 pl-0 lg:pl-4 ">
             <SearchForm />
           </div>
         </div>
 
         {/* Div 2 - Background Image */}
-        <div className="absolute inset-0 w-full max-w-[1250px] hidden sm:flex justify-end px-6 3xl:px-0 mx-auto pt-[330px] md:pt-72 lg:pt-0">
+        <div className="absolute inset-0 w-full max-w-[1250px] hidden md:flex justify-end px-6 3xl:px-0 mx-auto pt-[330px] md:pt-72 lg:pt-0">
           {/* Image in the second column */}
           <div className="relative aspect-[3.5/5]">
             <Image

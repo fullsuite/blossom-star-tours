@@ -78,13 +78,13 @@ const config: Config = {
 		  sm: '1.5rem',
 		  md: '2rem',
 		  lg: '3rem',
-		  xl: '6.25vw',
-		  '2xl': '8.33vw',
-			'5xl': '9.72vw',
+		  xl: '5rem',
+		  '2xl': '7.5rem',
 		},
 		center: true
 	  },
   },
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
   plugins: [require("tailwindcss-animate")],
 };
 export default config;

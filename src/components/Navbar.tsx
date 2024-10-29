@@ -2,15 +2,13 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Laptop, Menu } from "lucide-react";
+import { Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   NavigationMenu,
-  NavigationMenuContent,
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,
-  NavigationMenuTrigger,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -20,8 +18,6 @@ import logoHeader from '@/assets/logo-header.png';
 
 export default function ResponsiveNavBar() {
   const [isOpen, setIsOpen] = useState(false);
-
-  const toggleMenu = () => setIsOpen(!isOpen);
 
   const MenuItems = () => (
     <>
@@ -95,7 +91,7 @@ export default function ResponsiveNavBar() {
                 <NavigationMenuList className="flex-col items-stretch space-y-4">
                   <MenuItems />
                 </NavigationMenuList>
-                <div className="flex flex-col space-x-0 space-y-4 items-stretch justify-start w-full mt-auto pt-10 justify-center items-stretch xs:space-x-4 xs:flex-row xs:space-y-0 xs:items-center xs:center">
+                <div className="flex flex-col space-x-0 space-y-4 w-full mt-auto pt-10 justify-center items-stretch xs:space-x-4 xs:flex-row xs:space-y-0 xs:items-center xs:center">
                   <Button className="rounded bg-primary text-base text-white py-2.5 px-5">Login</Button>
                   <Button className="rounded bg-primary text-base text-white py-2.5 px-5">Book your Tour</Button>
                 </div>

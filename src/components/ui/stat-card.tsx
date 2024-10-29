@@ -24,8 +24,8 @@ export const StatCard: React.FC<StatCardProps> = ({
 
   return (
     <div className={clsx(baseClasses, variantClasses[variant], className)}>
-      <p className="text-4xl sm:text-5xl lg:text-6xl font-bold mt-5 sm:mt-10 md:mt-6 lg:mt-12 mb-1">{value}</p>
-      <p className="text-xs sm:text-base sm:mb-2 w-24 sm:w-32 lg:w-36">{label}</p>
+      <p className="text-4xl sm:text-5xl lg:text-6xl font-bold mt-0 lg:mt-12 mb-1">{value}</p>
+      <p className="text-sm sm:text-base sm:mb-2 w-max lg:w-36">{label}</p>
     </div>
   );
 };

@@ -1,10 +1,11 @@
 "use client";
 
 import { notFound } from "next/navigation";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Calendar } from "@/components/ui/calendar"; // Adjust the import path for your project
-import { addDays, isBefore, isSameDay } from "date-fns";
+import { isBefore, isSameDay } from "date-fns";
 import { bookingClient } from "@/client/bookingClient"; // Assuming you have this set up
+import Image from "next/image";
 
 export interface Package {
   imageUrl: string;
@@ -17,7 +18,7 @@ export interface Package {
 }
 
 export interface Availability {
-  date: Date;
+  date: Date | string;
   spotsLeft: number;
 }
 
@@ -55,11 +56,11 @@ const packages: Package[] = [
 ];
 
 // Mock unavailable dates for testing
-const unavailableDates = [
-  addDays(new Date(), 2),
-  addDays(new Date(), 4),
-  addDays(new Date(), 6),
-];
+// const unavailableDates = [
+//   addDays(new Date(), 2),
+//   addDays(new Date(), 4),
+//   addDays(new Date(), 6),
+// ];
 
 // Package detail page component
 export default function PackageDetailPage({
@@ -75,6 +76,7 @@ export default function PackageDetailPage({
   const [availableDates, setAvailableDates] = useState<Availability[]>([]);
   const [isCalendarDisabled, setIsCalendarDisabled] = useState(false);
   const [isCheckingAvailability, setIsCheckingAvailability] = useState(false);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [bookingError, setBookingError] = useState<string | null>(null);
   const [isBooking, setIsBooking] = useState(false);
 
@@ -84,11 +86,11 @@ export default function PackageDetailPage({
   }
 
   // Function to check if a date is unavailable (based on state or unavailableDates)
-  const isDateUnavailable = (date: Date) => {
-    return unavailableDates.some((unavailableDate) =>
-      isSameDay(unavailableDate, date)
-    );
-  };
+  // const isDateUnavailable = (date: Date) => {
+  //   return unavailableDates.some((unavailableDate) =>
+  //     isSameDay(unavailableDate, date)
+  //   );
+  // };
 
   // Function to handle guest count changes
   const handleGuestsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -242,10 +244,11 @@ export default function PackageDetailPage({
       {/* Package Details (2 Columns) */}
       <div className="lg:col-span-2">
         <h1 className="text-4xl font-bold mb-4">{selectedPackage.title}</h1>
-        <img
+        <Image
           src={selectedPackage.imageUrl}
           alt={selectedPackage.title}
           className="w-full mb-6 rounded-lg"
+          layout="fill"
         />
         <p className="text-lg leading-relaxed mb-4">
           {selectedPackage.description}
@@ -287,7 +290,7 @@ export default function PackageDetailPage({
               <Calendar
                 mode="single"
                 selected={selectedDate ?? undefined}
-                onSelect={(date) => setSelectedDate(date)}
+                onSelect={(date) => setSelectedDate(date as Date)}
                 disabled={isDateDisabled} // Disable based on availability
                 className="w-full px-4 py-2 border rounded-md"
               />

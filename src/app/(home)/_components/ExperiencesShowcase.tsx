@@ -56,7 +56,7 @@ export default function ExperienceShowcase({
             {gallery.map((image, index) => (
               <CarouselItem
                 key={index}
-                className="md:basis-1/2 lg:basis-1/3 xl:basis-1/4 !h-[400px]"
+                className="sm:basis-1/2 md:basis-1/3 xl:basis-1/4 !h-[400px]"
               >
                 <div className="rounded-lg w-full h-full rounded-xl overflow-hidden">
                   <Image

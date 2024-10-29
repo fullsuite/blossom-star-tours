@@ -60,7 +60,7 @@ export default function TestimonialSection({
             {testimonialsList.map((testimonial, index) => (
               <CarouselItem
                 key={index}
-                className={`pl-12 max-w-[47rem] transition-opacity duration-500 ${
+                className={`pl-2 md:pl-4 lg:pl-8 xl:pl-12 max-w-[47rem] transition-opacity duration-500 ${
                   current === index ? "opacity-100" : "opacity-50"
                 }`}
               >
@@ -77,7 +77,7 @@ export default function TestimonialSection({
               onClick={() => api?.scrollTo(index)}
               className={`rounded-full ${
                 current === index ? "bg-gray-400" : "bg-white"
-              } ${current === index ? "h-5 w-5" : "h-4 w-4"}`}
+              } ${current === index ? "h-3 w-3 lg:h-5 lg:w-5" : "h-2 w-2 lg:h-4 lg:w-4"}`}
             />
           ))}
         </div>

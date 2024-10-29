@@ -17,7 +17,7 @@ export default function ExperienceSection({ content }: ExperienceSectionProps) {
     <section className="py-10 lg:py-20">
       <div className="container mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8 relative">
         {/* Left Column - Images */}
-        <div className="relative w-full h-full">
+        <div className="relative w-full h-full hidden lg:block">
           {/* Top Image */}
           <div className="relative z-10 mb-6  w-3/5 aspect-square">
             <Image
@@ -49,7 +49,7 @@ export default function ExperienceSection({ content }: ExperienceSectionProps) {
           {/* Content Blocks */}
           {features.map((feature, index) => (
             <ContentBlock
-              className={index % 2 != 0 ? "ml-8" : "mr-8"}
+              className={index % 2 != 0 ? "lg:ml-8" : "lg:mr-8"}
               key={index}
               title={feature.title}
               description={feature.body}
@@ -65,6 +65,26 @@ export default function ExperienceSection({ content }: ExperienceSectionProps) {
               }
             />
           ))}
+        </div>
+
+        {/* Mobile - Images */}
+        <div className="relative w-full h-full pb-48 sm:56 md:64 block lg:hidden">
+          <div className="relative z-10 w-3/5 aspect-square">
+            <Image
+              src={urlFor(images[0]).url()}
+              alt="Image 1"
+              className="rounded-2xl object-cover"
+              fill
+            />
+          </div>
+          <div className="absolute right-0 bottom-6 z-0 w-3/5 h-3/4">
+            <Image
+              src={urlFor(images[1]).url()}
+              alt="Image 2"
+              className="rounded-2xl object-cover"
+              fill
+            />
+          </div>
         </div>
       </div>
     </section>

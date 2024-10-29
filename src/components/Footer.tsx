@@ -2,7 +2,7 @@ import { MailIcon, PhoneIcon, FacebookIcon, InstagramIcon } from "lucide-react";
 import React from "react";
 import Image from 'next/image'
 
-import logoFooter from '@/assets/Logo-Footer.png';
+// import logoFooter from '@/assets/Logo-Footer.png';
 import footerPayments from '@/assets/Footer_Payments.jpg';
 
 // Reusable footer section component
@@ -120,7 +120,7 @@ export default function Footer() {
         </div>
         <div className="w-full py-6 flex flex-col sm:flex-row space-y-4 sm:space-y-0 justify-between items-center">
           <p className="text-sm text-body-light">© All Rights Reserved.</p>
-          <Image src={footerPayments} alt="payment method icons" width={376} height={55} className="aspect-[376/55] object-contain w-auto h-10 xl:h-11 2xl:h-[3.4375rem]" />
+          <Image src={footerPayments} alt="payment method icons" width={376} height={55} className="aspect-[376/55] object-contain w-auto h-10 xl:h-11 2xl:h-[3.4375rem] pointer-events-none" />
         </div>
       </div>
     </footer>
