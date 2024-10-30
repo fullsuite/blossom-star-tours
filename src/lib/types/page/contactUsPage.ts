@@ -7,9 +7,11 @@ export interface ContactUsPage {
     contactSection: {
       heading: string;
       subheading: string;
+      location: string;
+      email: string;
       contacts: {
-        icon: string;
-        label: string;
+        icon?: string;
+        label?: string;
         value: string;
       }[];
       whatsapp: {

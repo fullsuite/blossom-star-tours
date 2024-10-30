@@ -93,6 +93,8 @@ export default function SearchForm() {
         <input
             id="guests"
             type="number"
+            min={1}
+            max={100}
             placeholder="2 Persons"
             className="block w-full p-0 py-2 !border-none text-body text-sm placeholder:text-body-light rounded-md focus:outline-none"
           />
