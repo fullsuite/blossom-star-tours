@@ -12,16 +12,19 @@ interface ContactSectionProps {
   form: ContactUsPage["contactForm"];
 }
 
-export default function ContactSection( props: ContactSectionProps ) {
+export default function ContactSection(props: ContactSectionProps) {
   const { content, form } = props;
   return (
     <section className="relative py-10 lg:py-20">
       <div className="container mx-auto relative flex flex-col items-stretch gap-10 md:gap-14 lg:gap-16 xl:gap-20">
-
         {/* Contact - Header */}
         <div className="flex flex-col items-center justify-center text-center gap-8">
-          <h2 className="text-3xl lg:text-5xl font-bold text-primary z-10 w-auto lg:w-max mx-auto">{content.heading}</h2>
-          <p className="text-sm md:text-base text-body-secondary max-w-lg">{content.subheading}</p>
+          <h2 className="text-3xl lg:text-5xl font-bold text-primary z-10 w-auto lg:w-max mx-auto">
+            {content.heading}
+          </h2>
+          <p className="text-sm md:text-base text-body-secondary max-w-lg">
+            {content.subheading}
+          </p>
         </div>
 
         {/* Contact - Content Wrapper */}
@@ -32,33 +35,52 @@ export default function ContactSection( props: ContactSectionProps ) {
               {/* Contact - Content - Location */}
               <div className="flex flex-row items-center gap-4 xl:gap-6 flex-1">
                 <div className="flex items-center justify-center p-3 xl:p-4 bg-primary rounded-xl">
-                  <MapPin strokeWidth={1.5} className="w-8 h-8 xl:w-10 xl:h-10 text-white"  />
+                  <MapPin
+                    strokeWidth={1.5}
+                    className="w-8 h-8 xl:w-10 xl:h-10 text-white"
+                  />
                 </div>
                 <div className="flex flex-col">
-                  <p className="text-lg font-bold text-body-secondary">Location:</p>
+                  <p className="text-lg font-bold text-body-secondary">
+                    Location:
+                  </p>
                   <p className="text-body-secondary">{content.location}</p>
                 </div>
               </div>
               {/* Contact - Content - Phone */}
               <div className="flex flex-row items-center gap-4 xl:gap-6 flex-1">
                 <div className="flex items-center justify-center p-3 xl:p-4 bg-primary rounded-xl">
-                  <PhoneCall strokeWidth={1.5} className="w-8 h-8 xl:w-10 xl:h-10 text-white"  />
+                  <PhoneCall
+                    strokeWidth={1.5}
+                    className="w-8 h-8 xl:w-10 xl:h-10 text-white"
+                  />
                 </div>
                 <div className="flex flex-col">
-                  <p className="text-lg font-bold text-body-secondary">Phone:</p>
-                  {content.contacts.map( ( contact, index ) => (
-                  <p className="text-body-secondary" key={index}>{contact.value}</p>                  
+                  <p className="text-lg font-bold text-body-secondary">
+                    Phone:
+                  </p>
+                  {content.contacts.map((contact, index) => (
+                    <p className="text-body-secondary" key={index}>
+                      {contact.value}
+                    </p>
                   ))}
                 </div>
               </div>
               {/* Contact - Content - Email */}
               <div className="flex flex-row items-center gap-4 xl:gap-6 flex-1">
                 <div className="flex items-center justify-center p-3 xl:p-4 bg-primary rounded-xl">
-                  <Mail strokeWidth={1.5} className="w-8 h-8 xl:w-10 xl:h-10 text-white"  />
+                  <Mail
+                    strokeWidth={1.5}
+                    className="w-8 h-8 xl:w-10 xl:h-10 text-white"
+                  />
                 </div>
                 <div className="flex flex-col">
-                  <p className="text-lg font-bold text-body-secondary">Email:</p>
-                  <p className="text-body-secondary break-all">{content.email}</p>
+                  <p className="text-lg font-bold text-body-secondary">
+                    Email:
+                  </p>
+                  <p className="text-body-secondary break-all">
+                    {content.email}
+                  </p>
                 </div>
               </div>
             </div>
@@ -76,24 +98,41 @@ export default function ContactSection( props: ContactSectionProps ) {
                   />
                 </div>
                 <div className="flex flex-col">
-                  <p className="text-xl font-bold text-body-secondary">Emergency Contact</p>
-                  <p className="text-lg text-body-secondary font-semibold">{content.whatsapp.label}</p>
-                  <p className="text-lg text-body-secondary">{content.whatsapp.number}</p>
+                  <p className="text-xl font-bold text-body-secondary">
+                    Emergency Contact
+                  </p>
+                  <p className="text-lg text-body-secondary font-semibold">
+                    {content.whatsapp.label}
+                  </p>
+                  <p className="text-lg text-body-secondary">
+                    {content.whatsapp.number}
+                  </p>
                 </div>
               </div>
               {/* Contact - Content - Whatsapp - Divider */}
               <div className="h-[1px] w-full bg-gray-300"></div>
               {/* Contact - Content - Whatsapp - Button */}
-              <Link href={`https://wa.me/${content.whatsapp.number}`} passHref target="_blank">
-                <Button variant="outline_accent" className="w-full py-3 xl:py-4 border-2 text-lg font-bold h-auto">
+              <Link
+                href={`https://wa.me/${content.whatsapp.number}`}
+                passHref
+                target="_blank"
+              >
+                <Button
+                  variant="outline_accent"
+                  className="w-full py-3 xl:py-4 border-2 text-lg font-bold h-auto"
+                >
                   <MessagesSquare className="!w-6 !h-6 text-accent-pink" />
                   {content.whatsapp.buttonText}
                 </Button>
               </Link>
               {/* Contact - Content - Whatsapp - Footer */}
               <div className="flex flex-col gap-1">
-                <p className="text-base text-body-secondary">Mondays - Sundays</p>
-                <p className="text-base text-body break-words">{content.hours}</p>
+                <p className="text-base text-body-secondary">
+                  Mondays - Sundays
+                </p>
+                <p className="text-base text-body break-words">
+                  {content.hours}
+                </p>
               </div>
             </div>
           </div>
@@ -102,18 +141,55 @@ export default function ContactSection( props: ContactSectionProps ) {
           <div className="flex flex-col gap-8">
             {/* Contact - Form - Header */}
             <div className="flex flex-col gap-4 lg:pt-10">
-              <p className="text-2xl font-bold text-body-secondary">{form.heading}</p>
-              <p className="text-sm md:text-base text-body-secondary">{form.description}</p>
+              <p className="text-2xl font-bold text-body-secondary">
+                {form.heading}
+              </p>
+              <p className="text-sm md:text-base text-body-secondary">
+                {form.description}
+              </p>
             </div>
             {/* Contact - Form - Form */}
             <form className="flex flex-col gap-6">
               <div className="flex flex-col 2xs:flex-row gap-6">
-                <input type="text" name="name" id="name" placeholder="Name *" className="p-4 flex-1 rounded-lg border border-gray-300 placeholder:text-gray-300 focus:outline-none text-body h-auto" required />
-                <input type="email" name="email" id="email" placeholder="Email *" className="p-4 flex-1 rounded-lg border border-gray-300 placeholder:text-gray-300 focus:outline-none text-body h-auto" required />
+                <input
+                  type="text"
+                  name="name"
+                  id="name"
+                  placeholder="Name *"
+                  className="p-4 flex-1 rounded-lg border border-gray-300 placeholder:text-gray-300 focus:outline-none text-body h-auto"
+                  required
+                />
+                <input
+                  type="email"
+                  name="email"
+                  id="email"
+                  placeholder="Email *"
+                  className="p-4 flex-1 rounded-lg border border-gray-300 placeholder:text-gray-300 focus:outline-none text-body h-auto"
+                  required
+                />
               </div>
-              <input type="text" name="subject" id="subject" placeholder="Subject" className="p-4 rounded-lg border border-gray-300 placeholder:text-gray-300 focus:outline-none text-body h-auto" />
-              <textarea name="comment" id="comment" placeholder="Comment" className="p-4 rounded-lg border border-gray-300 placeholder:text-gray-300 focus:outline-none text-body h-auto" rows={5}></textarea>
-              <button type="submit" name="submit" id="submit" className="bg-primary text-white shadow hover:bg-eucalyptus-700 w-full xs:w-max px-8 py-3 rounded">Submit</button>
+              <input
+                type="text"
+                name="subject"
+                id="subject"
+                placeholder="Subject"
+                className="p-4 rounded-lg border border-gray-300 placeholder:text-gray-300 focus:outline-none text-body h-auto"
+              />
+              <textarea
+                name="comment"
+                id="comment"
+                placeholder="Comment"
+                className="p-4 rounded-lg border border-gray-300 placeholder:text-gray-300 focus:outline-none text-body h-auto"
+                rows={5}
+              ></textarea>
+              <button
+                type="submit"
+                name="submit"
+                id="submit"
+                className="bg-primary text-white shadow hover:bg-eucalyptus-700 w-full xs:w-max px-8 py-3 rounded"
+              >
+                Submit
+              </button>
             </form>
           </div>
         </div>
