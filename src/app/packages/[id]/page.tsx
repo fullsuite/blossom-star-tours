@@ -1,11 +1,13 @@
-"use client";
+'use client';
 
-import { notFound } from "next/navigation";
-import { useState } from "react";
-import { Calendar } from "@/components/ui/calendar"; // Adjust the import path for your project
-import { isBefore, isSameDay } from "date-fns";
-import { bookingClient } from "@/client/bookingClient"; // Assuming you have this set up
-import Image from "next/image";
+import { notFound } from 'next/navigation';
+import { useState } from 'react';
+import { Calendar } from '@/components/ui/calendar'; // Adjust the import path for your project
+import { isBefore, isSameDay } from 'date-fns';
+import { bookingClient } from '@/client/bookingClient'; // Assuming you have this set up
+import Image from 'next/image';
+
+import PageHeader from '@/components/PageHeader';
 
 export interface Package {
   imageUrl: string;
@@ -24,34 +26,34 @@ export interface Availability {
 
 const packages: Package[] = [
   {
-    imageUrl: "https://picsum.photos/400/300",
-    title: "Umrah and Hotel Package",
+    imageUrl: 'https://picsum.photos/400/300',
+    title: 'Umrah and Hotel Package',
     description:
-      "Experience a spiritually fulfilling Umrah journey with our comprehensive package, including premium accommodations and guided tours.",
+      'Experience a spiritually fulfilling Umrah journey with our comprehensive package, including premium accommodations and guided tours.',
     price: 9999,
     rating: 4.4,
-    duration: "10 days",
-    slug: "umrah-and-hotel-package",
+    duration: '10 days',
+    slug: 'umrah-and-hotel-package',
   },
   {
-    imageUrl: "https://picsum.photos/400/300?random=1",
-    title: "Full Package",
+    imageUrl: 'https://picsum.photos/400/300?random=1',
+    title: 'Full Package',
     description:
-      "Immerse yourself in the heart of Islamic history with our full package, offering a balanced mix of spiritual and cultural experiences.",
+      'Immerse yourself in the heart of Islamic history with our full package, offering a balanced mix of spiritual and cultural experiences.',
     price: 4999,
     rating: 4.4,
-    duration: "4 days",
-    slug: "full-package",
+    duration: '4 days',
+    slug: 'full-package',
   },
   {
-    imageUrl: "https://picsum.photos/400/300?random=2",
-    title: "Extreme Tour",
+    imageUrl: 'https://picsum.photos/400/300?random=2',
+    title: 'Extreme Tour',
     description:
-      "Embark on an adventurous journey with our Extreme Tour, featuring thrilling activities that blend excitement with cultural discovery.",
+      'Embark on an adventurous journey with our Extreme Tour, featuring thrilling activities that blend excitement with cultural discovery.',
     price: 4999,
     rating: 4.4,
-    duration: "2 days",
-    slug: "extreme-tour",
+    duration: '2 days',
+    slug: 'extreme-tour',
   },
 ];
 
@@ -144,11 +146,11 @@ export default function PackageDetailPage({
         };
       });
 
-      console.log("Available returned:", available);
+      console.log('Available returned:', available);
       setAvailableDates(available); // Store available dates with spots info
       setIsCalendarDisabled(false); // Enable calendar
     } catch (error) {
-      console.error("Error fetching availability:", error);
+      console.error('Error fetching availability:', error);
     } finally {
       setIsCheckingAvailability(false);
     }
@@ -207,7 +209,7 @@ export default function PackageDetailPage({
     setBookingError(null);
 
     if (!selectedDate || guests <= 0) {
-      setBookingError("Please select a valid date and number of guests.");
+      setBookingError('Please select a valid date and number of guests.');
       setIsBooking(false);
       return;
     }
@@ -230,97 +232,122 @@ export default function PackageDetailPage({
       );
 
       // Handle success, maybe redirect or show a success message
-      alert("Booking successful!");
+      alert('Booking successful!');
     } catch (error) {
-      console.error("Error creating booking:", error);
-      setBookingError("Failed to create booking. Please try again.");
+      console.error('Error creating booking:', error);
+      setBookingError('Failed to create booking. Please try again.');
     } finally {
       setIsBooking(false);
     }
   };
 
   return (
-    <div className="container mx-auto py-10 grid grid-cols-1 lg:grid-cols-3 gap-10">
-      {/* Package Details (2 Columns) */}
-      <div className="lg:col-span-2">
-        <h1 className="text-4xl font-bold mb-4">{selectedPackage.title}</h1>
-        <Image
-          src={selectedPackage.imageUrl}
-          alt={selectedPackage.title}
-          className="w-full mb-6 rounded-lg"
-          layout="fill"
-        />
-        <p className="text-lg leading-relaxed mb-4">
-          {selectedPackage.description}
-        </p>
-        <p className="text-lg font-semibold">
-          Duration: {selectedPackage.duration}
-        </p>
-        <p className="text-lg font-semibold">Price: ${selectedPackage.price}</p>
-        <p className="text-lg font-semibold">
-          Rating: {selectedPackage.rating} ⭐
-        </p>
-      </div>
-
-      {/* Booking Form (3rd Column) */}
-      <div className="bg-white p-6 shadow-md rounded-lg">
-        <h2 className="text-2xl font-semibold mb-4">Book Your Tour</h2>
-        <form onSubmit={handleBooking}>
-          {/* Number of Guests */}
-          <div className="mb-4">
-            <label className="block text-lg font-medium mb-2">
-              Number of Guests
-            </label>
-            <input
-              type="number"
-              min="1"
-              max="100"
-              value={guests}
-              onChange={handleGuestsChange}
-              className="w-full px-4 py-2 border rounded-md"
-            />
-          </div>
-
-          {/* Calendar Date Selection */}
-          <div className="mb-4">
-            <label className="block text-lg font-medium mb-2">
-              Select Date
-            </label>
-            <div className={isCalendarDisabled ? "opacity-50" : ""}>
-              <Calendar
-                mode="single"
-                selected={selectedDate ?? undefined}
-                onSelect={(date) => setSelectedDate(date as Date)}
-                disabled={isDateDisabled} // Disable based on availability
-                className="w-full px-4 py-2 border rounded-md"
+    <>
+      <PageHeader title="Our Tour Packages" />
+      {/* Tour Packages Details */}
+      <section className="relative overflow-hidden pt-10 lg:pt-20">
+        {/* Tour Packages Details -- Header */}
+        <div className="container mx-auto relative flex flex-col gap-2">
+          <p className="text-lg text-body-secondary">Full Package</p>
+          <h1 className="text-3xl lg:text-4xl font-bold text-primary">
+            {selectedPackage.title}
+          </h1>
+          <p className="text-lg text-body-secondary max-w-xl pt-4">
+            Lorem ipsum dolor sit amet consectetur adipiscing elit. sed do
+            eiusmod tempor incididunt ut labore et dolore magna aliqua.
+          </p>
+        </div>
+        <div className="w-full max-w-[calc(100%-2rem)] h-[1px] bg-wild-sand-200 mx-auto my-8 lg:my-10 "></div>
+        <div className="container mx-auto py-10 grid grid-cols-1 lg:grid-cols-3 gap-10">
+          {/* Package Details (2 Columns) */}
+          <div className="relative lg:col-span-2">
+            <h1 className="text-4xl font-bold mb-4">{selectedPackage.title}</h1>
+            <div className="relative w-full">
+              <Image
+                src={selectedPackage.imageUrl}
+                alt={selectedPackage.title}
+                className="!relative !block w-full mb-6 rounded-lg"
+                layout="fill"
               />
             </div>
+            <p className="text-lg leading-relaxed mb-4">
+              {selectedPackage.description}
+            </p>
+            <p className="text-lg font-semibold">
+              Duration: {selectedPackage.duration}
+            </p>
+            <p className="text-lg font-semibold">
+              Price: ${selectedPackage.price}
+            </p>
+            <p className="text-lg font-semibold">
+              Rating: {selectedPackage.rating} ⭐
+            </p>
           </div>
 
-          {/* Check Availability Button */}
-          {isCalendarDisabled && (
-            <button
-              type="button"
-              onClick={checkAvailability}
-              className="w-full px-6 py-3 bg-green-700 text-white font-bold rounded-md shadow-md hover:bg-green-800"
-              disabled={isCheckingAvailability} // Disable while checking
-            >
-              {isCheckingAvailability ? "Checking..." : "Check Availability"}
-            </button>
-          )}
+          {/* Booking Form (3rd Column) */}
+          <div className="bg-white p-6 shadow-md rounded-lg">
+            <h2 className="text-2xl font-semibold mb-4">Book Your Tour</h2>
+            <form onSubmit={handleBooking}>
+              {/* Number of Guests */}
+              <div className="mb-4">
+                <label className="block text-lg font-medium mb-2">
+                  Number of Guests
+                </label>
+                <input
+                  type="number"
+                  min="1"
+                  max="100"
+                  value={guests}
+                  onChange={handleGuestsChange}
+                  className="w-full px-4 py-2 border rounded-md"
+                />
+              </div>
 
-          {/* Book Now Button */}
-          {!isCalendarDisabled && (
-            <button
-              type="submit"
-              className="w-full mt-4 px-6 py-3 bg-eucalyptus-700 text-white font-bold rounded-md shadow-md hover:bg-eucalyptus-800"
-              disabled={isBooking}
-            >
-              {isBooking ? "Booking..." : "Book Now"}
-            </button>
-          )}
-        </form>
-      </div>
-    </div>
+              {/* Calendar Date Selection */}
+              <div className="mb-4">
+                <label className="block text-lg font-medium mb-2">
+                  Select Date
+                </label>
+                <div className={isCalendarDisabled ? 'opacity-50' : ''}>
+                  <Calendar
+                    mode="single"
+                    selected={selectedDate ?? undefined}
+                    onSelect={(date) => setSelectedDate(date as Date)}
+                    disabled={isDateDisabled} // Disable based on availability
+                    className="w-full px-4 py-2 border rounded-md"
+                  />
+                </div>
+              </div>
+
+              {/* Check Availability Button */}
+              {isCalendarDisabled && (
+                <button
+                  type="button"
+                  onClick={checkAvailability}
+                  className="w-full px-6 py-3 bg-green-700 text-white font-bold rounded-md shadow-md hover:bg-green-800"
+                  disabled={isCheckingAvailability} // Disable while checking
+                >
+                  {isCheckingAvailability
+                    ? 'Checking...'
+                    : 'Check Availability'}
+                </button>
+              )}
+
+              {/* Book Now Button */}
+              {!isCalendarDisabled && (
+                <button
+                  type="submit"
+                  className="w-full mt-4 px-6 py-3 bg-eucalyptus-700 text-white font-bold rounded-md shadow-md hover:bg-eucalyptus-800"
+                  disabled={isBooking}
+                >
+                  {isBooking ? 'Booking...' : 'Book Now'}
+                </button>
+              )}
+            </form>
+          </div>
+        </div>
+        <div className="w-full max-w-[calc(100%-2rem)] h-[1px] bg-wild-sand-200 mx-auto mb-10 lg:mb-20 "></div>
+      </section>
+    </>
   );
 }
