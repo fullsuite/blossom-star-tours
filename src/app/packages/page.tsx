@@ -320,7 +320,7 @@ export default function PackagesPage() {
     return () => {
       window.removeEventListener('resize', handleResize);
     };
-  }, [packages, packageContentsOpen]);
+  }, [packageContentsOpen]);
 
   console.log('maxHeight', maxHeight);
 

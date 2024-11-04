@@ -1,18 +1,18 @@
-"use client";
+'use client';
 
-import React, { useState, useEffect } from "react";
-import { type CarouselApi } from "@/components/ui/carousel";
+import React, { useState, useEffect } from 'react';
+import { type CarouselApi } from '@/components/ui/carousel';
 import {
   Carousel,
   CarouselContent,
   CarouselItem,
-} from "@/components/ui/carousel";
-import Autoplay from "embla-carousel-autoplay";
-import { HomePage } from "@/lib/types/page/homePage";
-import TestimonialCard from "@/components/TestimonialCard";
+} from '@/components/ui/carousel';
+import Autoplay from 'embla-carousel-autoplay';
+import { HomePage } from '@/lib/types/page/homePage';
+import TestimonialCard from '@/components/TestimonialCard';
 
 interface TestimonialSectionProps {
-  content: HomePage["testimonials"];
+  content: HomePage['testimonials'];
 }
 
 export default function TestimonialSection({
@@ -30,7 +30,7 @@ export default function TestimonialSection({
     setCount(api.scrollSnapList().length);
     setCurrent(api.selectedScrollSnap());
 
-    api.on("select", () => {
+    api.on('select', () => {
       setCurrent(api.selectedScrollSnap());
     });
   }, [api]);
@@ -45,7 +45,7 @@ export default function TestimonialSection({
 
         <Carousel
           opts={{
-            align: "center",
+            align: 'center',
             loop: true,
           }}
           className="w-full"
@@ -53,20 +53,25 @@ export default function TestimonialSection({
           plugins={[
             Autoplay({
               delay: 5000,
+              stopOnInteraction: false, // Keep autoplay running for smoother transitions
             }),
           ]}
         >
           <CarouselContent>
-            {testimonialsList.map((testimonial, index) => (
-              <CarouselItem
-                key={index}
-                className={`pl-2 md:pl-4 lg:pl-8 xl:pl-12 max-w-[47rem] transition-opacity duration-500 ${
-                  current === index ? "opacity-100" : "opacity-50"
-                }`}
-              >
-                <TestimonialCard testimonial={{ ...testimonial, rating: 5 }} />
-              </CarouselItem>
-            ))}
+            {[...testimonialsList, ...testimonialsList].map(
+              (testimonial, index) => (
+                <CarouselItem
+                  key={index}
+                  className={`pl-2 md:pl-4 lg:pl-8 xl:pl-12 max-w-[47rem] transition-opacity duration-500 ${
+                    current === index ? 'opacity-100' : 'opacity-50'
+                  }`}
+                >
+                  <TestimonialCard
+                    testimonial={{ ...testimonial, rating: 5 }}
+                  />
+                </CarouselItem>
+              )
+            )}
           </CarouselContent>
         </Carousel>
 
@@ -76,8 +81,8 @@ export default function TestimonialSection({
               key={index}
               onClick={() => api?.scrollTo(index)}
               className={`rounded-full ${
-                current === index ? "bg-gray-400" : "bg-white"
-              } ${current === index ? "h-3 w-3 lg:h-5 lg:w-5" : "h-2 w-2 lg:h-4 lg:w-4"}`}
+                current === index ? 'bg-gray-400' : 'bg-white'
+              } ${current === index ? 'h-3 w-3 lg:h-5 lg:w-5' : 'h-2 w-2 lg:h-4 lg:w-4'}`}
             />
           ))}
         </div>

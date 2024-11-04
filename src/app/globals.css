@@ -39,13 +39,26 @@ body {
 }
 
 /* Hide the spinner in number inputs for WebKit browsers (Chrome, Safari, Edge) */
-input[type="number"]::-webkit-outer-spin-button,
-input[type="number"]::-webkit-inner-spin-button {
+input[type='number']::-webkit-outer-spin-button,
+input[type='number']::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
 
 /* Hide the spinner in Firefox */
-input[type="number"] {
+input[type='number'] {
   -moz-appearance: textfield;
+}
+
+@keyframes carouselSlide {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+.animate-\[carouselSlide_linear_infinite\] {
+  animation: carouselSlide linear infinite;
 }

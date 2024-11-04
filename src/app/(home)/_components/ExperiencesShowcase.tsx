@@ -1,25 +1,26 @@
-"use client";
+'use client';
 
-import Image from "next/image";
+import Image from 'next/image';
 import {
   Carousel,
   CarouselContent,
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
-} from "@/components/ui/carousel";
-import { ChevronLeft, ChevronRight } from "lucide-react";
-import { HomePage } from "@/lib/types/page/homePage";
-import { urlFor } from "@/sanity/lib/image";
+} from '@/components/ui/carousel';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { HomePage } from '@/lib/types/page/homePage';
+import { urlFor } from '@/sanity/lib/image';
 
 interface ExperienceShowcaseProps {
-  content: HomePage["experienceShowcase"];
+  content: HomePage['experienceShowcase'];
 }
 
 export default function ExperienceShowcase({
   content,
 }: ExperienceShowcaseProps) {
   const { heading, subheading, gallery } = content;
+  console.log('gallery : ', gallery);
 
   return (
     <section className="py-10 lg:py-20 w-full overflow-hidden">
@@ -27,7 +28,7 @@ export default function ExperienceShowcase({
         {/* Carousel */}
         <Carousel
           opts={{
-            align: "start",
+            align: 'start',
             loop: true,
           }}
           className="w-full"
@@ -61,7 +62,7 @@ export default function ExperienceShowcase({
                 <div className="rounded-lg w-full h-full rounded-xl overflow-hidden">
                   <Image
                     src={urlFor(image).url()}
-                    alt={""}
+                    alt={''}
                     width={300}
                     height={300}
                     className="object-cover w-full h-full"
