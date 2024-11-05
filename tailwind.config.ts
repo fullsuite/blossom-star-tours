@@ -71,10 +71,6 @@ const config: Config = {
         md: 'calc(var(--radius) - 2px)',
         sm: 'calc(var(--radius) - 4px)',
       },
-      height: {
-        'custom-225': '225px',
-        'custom-275': '275px',
-      },
     },
     container: {
       padding: {

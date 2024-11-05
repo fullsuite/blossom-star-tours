@@ -16,6 +16,16 @@ import {
 import Autoplay from 'embla-carousel-autoplay';
 // import { urlFor } from '@/sanity/lib/image';
 import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogFooter,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog';
+
+import {
   Users,
   CircleUserRound,
   MapPin,
@@ -28,6 +38,15 @@ import {
 import PageHeader from '@/components/PageHeader';
 import DayInfo from './_components/DayInfo';
 // import { set } from 'sanity';
+
+import ImageOne from '@/assets/Packages/Package 1/P1- (1).jpg';
+import ImageTwo from '@/assets/Packages/Package 1/P1- (2).jpg';
+import ImageThree from '@/assets/Packages/Package 1/P1- (3).jpg';
+import ImageFour from '@/assets/Packages/Package 1/P1- (4).jpg';
+import ImageFive from '@/assets/Packages/Package 1/P1- (5).jpg';
+import ImageSix from '@/assets/Packages/Package 1/P1- (6).jpg';
+import ImageSeven from '@/assets/Packages/Package 1/P1- (7).jpg';
+import ImageEight from '@/assets/Packages/Package 1/P1- (8).jpg';
 
 export interface Package {
   imageUrl: string;
@@ -263,12 +282,19 @@ export default function PackageDetailPage({
     }
   };
 
+  const originalPrice = (price: number): string => {
+    return Math.round(price * 3).toLocaleString(); // Format with commas
+  };
+
   const images = [
-    { src: 'https://picsum.photos/1920/1080?random=1', alt: 'Image 1' },
-    { src: 'https://picsum.photos/1920/1080?random=2', alt: 'Image 2' },
-    { src: 'https://picsum.photos/1920/1080?random=3', alt: 'Image 3' },
-    { src: 'https://picsum.photos/1920/1080?random=4', alt: 'Image 4' },
-    { src: 'https://picsum.photos/1920/1080?random=5', alt: 'Image 5' },
+    { src: ImageOne, alt: 'Image 1' },
+    { src: ImageTwo, alt: 'Image 2' },
+    { src: ImageThree, alt: 'Image 3' },
+    { src: ImageFour, alt: 'Image 4' },
+    { src: ImageFive, alt: 'Image 5' },
+    { src: ImageSix, alt: 'Image 6' },
+    { src: ImageSeven, alt: 'Image 7' },
+    { src: ImageEight, alt: 'Image 8' },
   ];
 
   return (
@@ -476,7 +502,7 @@ export default function PackageDetailPage({
               <div className="flex flex-row items-center gap-8 my-1">
                 <h3 className="text-3xl font-bold text-primary">$4,500</h3>
                 <span className="text-xl font-bold text-red-500 line-through">
-                  $13,000
+                  ${originalPrice(4333.3)}
                 </span>
               </div>
               <div className="relative flex flex-row items-center justify-between gap-2 w-full my-4">
@@ -545,14 +571,70 @@ export default function PackageDetailPage({
                         />
                       </div>
                     </div>
-                    <button
+                    {/* <button
                       type="submit"
                       className="w-full mt-4 px-6 py-3 bg-primary text-white font-bold rounded-md shadow-md hover:bg-eucalyptus-800 disabled:opacity-50 disabled:cursor-not-allowed"
                       disabled={isBooking || !selectedDate}
                       // disabled={true}
                     >
                       {isBooking ? 'Booking...' : 'Book Now'}
-                    </button>
+                    </button> */}
+                    <Dialog>
+                      <DialogTrigger className="w-full">
+                        <button
+                          type="button"
+                          className="w-full mt-4 px-6 py-3 bg-primary text-white font-bold rounded-md shadow-md hover:bg-eucalyptus-800 disabled:opacity-50 disabled:cursor-not-allowed"
+                          disabled={isBooking || !selectedDate}
+                          // disabled={true}
+                        >
+                          {isBooking ? 'Booking...' : 'Book Now'}
+                        </button>
+                      </DialogTrigger>
+                      <DialogContent className="bg-white p-6 2xs:p-8 w-full 2xs:w-max max-w-[calc(100vw-2rem)] !rounded-xl overflow-hidden">
+                        <DialogHeader>
+                          <DialogTitle>
+                            <h3 className="text-2xl sm:text-3xl font-bold text-primary">
+                              Complete Your Booking
+                            </h3>
+                          </DialogTitle>
+                          <DialogDescription>
+                            <p className="text-lg text-body-secondary my-2">
+                              Total Cost :{' '}
+                              <span className="text-primary font-bold">
+                                $4,500
+                              </span>
+                            </p>
+                          </DialogDescription>
+                        </DialogHeader>
+                        <div className="flex flex-col items-stretch gap-4">
+                          <div className="flex flex-col 2xs:flex-row items-stretch gap-4">
+                            <input
+                              type="text"
+                              placeholder="First Name"
+                              className="w-full px-4 py-2 border rounded-md flex-1"
+                            />
+                            <input
+                              type="text"
+                              placeholder="Last Name"
+                              className="w-full px-4 py-2 border rounded-md flex-1"
+                            />
+                          </div>
+                          <input
+                            type="email"
+                            placeholder="Email Address"
+                            className="w-full px-4 py-2 border rounded-md flex-1"
+                          />
+                        </div>
+                        <DialogFooter>
+                          <button
+                            type="submit"
+                            className="w-full 2xs:w-max ml-auto mt-4 px-6 py-3 bg-primary text-white font-bold rounded-md shadow-md hover:bg-eucalyptus-800 disabled:opacity-50 disabled:cursor-not-allowed"
+                          >
+                            {isBooking ? 'Checkout...' : 'Checkout Now'}
+                          </button>
+                        </DialogFooter>
+                      </DialogContent>
+                    </Dialog>
                   </>
                 )}
               </form>
