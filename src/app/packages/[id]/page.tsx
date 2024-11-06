@@ -666,7 +666,7 @@ export default function PackageDetailPage({
                   type="button"
                   onClick={checkAvailability}
                   className="w-full px-6 py-3 bg-green-700 text-white font-bold rounded-md shadow-md hover:bg-green-800 disabled:opacity-50 disabled:cursor-not-allowed"
-                  disabled={isCheckingAvailability} // Disable while checking
+                  disabled={isCheckingAvailability || guests === null} // Disable while checking
                 >
                   {isCheckingAvailability
                     ? 'Checking...'
@@ -689,7 +689,15 @@ export default function PackageDetailPage({
                         onSelect={(date) => setSelectedDate(date as Date)}
                         disabled={isDateDisabled} // Disable based on availability
                         // disabled={(date) => date < new Date()}
-                        className="w-max px-4 py-2 border rounded-md"
+                        className="h-full w-full px-4 py-2 rounded-md flex border"
+                        classNames={{
+                          months:
+                            'flex w-full flex-col sm:flex-row space-y-4 sm:space-x-4 sm:space-y-0 flex-1',
+                          month: 'space-y-4 w-full flex flex-col',
+                          table: 'w-full h-full border-collapse space-y-1',
+                          head_row: '',
+                          row: 'w-full mt-2',
+                        }}
                       />
                     </div>
                   </div>
