@@ -47,6 +47,7 @@ import ImageFive from '@/assets/Packages/Package 1/P1- (5).jpg';
 import ImageSix from '@/assets/Packages/Package 1/P1- (6).jpg';
 import ImageSeven from '@/assets/Packages/Package 1/P1- (7).jpg';
 import ImageEight from '@/assets/Packages/Package 1/P1- (8).jpg';
+import dividerSwirl from '@/assets/Home/Divider_Swirl.png';
 
 export interface Package {
   typePackage: string;
@@ -498,56 +499,6 @@ export default function PackageDetailPage({
     return Math.round(price * 3).toLocaleString(); // Format with commas
   };
 
-  // const images = [
-  //   { src: ImageOne, alt: 'Image 1' },
-  //   { src: ImageTwo, alt: 'Image 2' },
-  //   { src: ImageThree, alt: 'Image 3' },
-  //   { src: ImageFour, alt: 'Image 4' },
-  //   { src: ImageFive, alt: 'Image 5' },
-  //   { src: ImageSix, alt: 'Image 6' },
-  //   { src: ImageSeven, alt: 'Image 7' },
-  //   { src: ImageEight, alt: 'Image 8' },
-  // ];
-
-  // const itinerary = [
-  //   {
-  //     day: 'Day 01',
-  //     description: 'Pickup and Arrive at Makkah Hotel',
-  //   },
-  //   {
-  //     day: 'Day 02',
-  //     description: 'Ummrah',
-  //   },
-  //   {
-  //     day: 'Day 03',
-  //     description: 'Makkah Museum',
-  //   },
-  //   {
-  //     day: 'Day 04',
-  //     description: 'Bullet Train to Medina + Arrive at Medina Hotel',
-  //   },
-  //   {
-  //     day: 'Day 05',
-  //     description: 'Sacred Site Tours (x4)',
-  //   },
-  //   {
-  //     day: 'Day 06',
-  //     description: 'Museum Tour (x3)',
-  //   },
-  //   {
-  //     day: 'Day 07',
-  //     description: 'English Islamic Lesson',
-  //   },
-  //   {
-  //     day: 'Day 08',
-  //     description: 'Sacred Site Tours (x4)',
-  //   },
-  //   {
-  //     day: 'Day 09',
-  //     description: 'Depature',
-  //   },
-  // ];
-
   return (
     <>
       <PageHeader title="Our Tour Packages" />
@@ -870,7 +821,7 @@ export default function PackageDetailPage({
             </div>
           </div>
           {/* Tour Packages Details -- Cost & Calendar, QuoteBlock -- Dekstop */}
-          <div className="2lg:absolute 2lg:-top-40 2lg:right-8 2xl:right-10 w-max min-w-[21.125rem] hidden 2lg:flex flex-col justify-between mt-10 2lg:mt-0">
+          <div className="2lg:absolute 2lg:-top-40 2lg:right-8 2xl:right-10 w-[21.125rem] hidden 2lg:flex flex-col justify-between mt-10 2lg:mt-0">
             {/* Booking Form (3rd Column) */}
             <div className="bg-white p-10 shadow-xl rounded-2xl">
               <p className="text-xl font-bold text-body-secondary">Cost:</p>
@@ -1016,10 +967,50 @@ export default function PackageDetailPage({
                 )}
               </form>
             </div>
+            {/* Quote Block --  Dekstop */}
+            <div className="w-full max-w-[280px] mt-20 mx-auto">
+              <div className="mx-auto">
+                <div className="flex flex-col max-w-2xl justify-center mx-auto text-center items-center">
+                  <span className="text-4xl text-primary">
+                    Knowledge doesn’t come to you, but
+                    <strong> you have to go to it.</strong>
+                  </span>
+                  {/* Render author */}
+                  <p className="text-lg text-gray-600 mt-4">Imam Malik</p>
+                </div>
+                <Image
+                  src={dividerSwirl}
+                  alt="divider swirl"
+                  width={1248}
+                  height={98}
+                  className="aspect-[1248/98] object-contain w-full h-auto mt-16 lg:hidden"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        {/* Quote Block --  Dekstop */}
+        <div className="w-full lg:hidden mx-auto">
+          <div className="container mx-auto">
+            <div className="flex flex-col max-w-2xl justify-center mx-auto text-center items-center">
+              <span className="text-3xl text-primary">
+                Knowledge doesn’t come to you, but
+                <strong> you have to go to it.</strong>
+              </span>
+              {/* Render author */}
+              <p className="text-lg text-gray-600 mt-4">Imam Malik</p>
+            </div>
+            <Image
+              src={dividerSwirl}
+              alt="divider swirl"
+              width={1248}
+              height={98}
+              className="aspect-[1248/98] object-contain w-full h-auto mt-16 lg:hidden"
+            />
           </div>
         </div>
         {/* Tour Packages Details -- Divider */}
-        <div className="w-full max-w-[calc(100%-2rem)] 5xl:max-w-[calc(100%-4rem)] h-[1px] bg-wild-sand-200 mx-auto mb-10 lg:mb-20 "></div>
+        <div className="hidden lg:block w-full max-w-[calc(100%-2rem)] 5xl:max-w-[calc(100%-4rem)] h-[1px] bg-wild-sand-200 mx-auto mb-10 lg:mb-20 "></div>
       </section>
     </>
   );

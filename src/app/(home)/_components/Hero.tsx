@@ -1,14 +1,13 @@
-"use client";
+'use client';
 
-import Image from "next/image";
-
-import heroBackgroundPattern from "@/assets/Home/Theme_Swirl_Top-Home.png";
-import SearchForm from "./SearchForm";
-import { HomePage } from "@/lib/types/page/homePage";
-import { urlFor } from "@/sanity/lib/image";
+import heroBackgroundPattern from '@/assets/Home/Theme_Swirl_Top-Home.png';
+import SearchForm from './SearchForm';
+import { HomePage } from '@/lib/types/page/homePage';
+import { urlFor } from '@/sanity/lib/image';
+import Image from 'next/image';
 
 interface HeroProps {
-  content: HomePage["heroSection"];
+  content: HomePage['heroSection'];
 }
 
 export default function Hero({ content }: HeroProps) {
