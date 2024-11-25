@@ -1,9 +1,9 @@
-import Image from 'next/image';
-import Link from 'next/link';
-import thankYouIllustration from '@/assets/thank-you/undraw_Travel_booking.png';
+import Image from "next/image";
+import Link from "next/link";
+import thankYouIllustration from "@/assets/thank-you/undraw_travel_booking.png";
 
 export default async function ThankYouPage() {
-  const name = 'John Doe';
+  const name = "John Doe";
   return (
     <section className="relative w-full pt-10">
       <div className="container flex flex-col items-center mx-auto text-center pb-20">
