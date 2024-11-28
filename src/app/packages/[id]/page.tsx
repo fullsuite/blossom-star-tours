@@ -47,6 +47,11 @@ import ImageFive from '@/assets/Packages/Package 1/P1- (5).jpg';
 import ImageSix from '@/assets/Packages/Package 1/P1- (6).jpg';
 import ImageSeven from '@/assets/Packages/Package 1/P1- (7).jpg';
 import ImageEight from '@/assets/Packages/Package 1/P1- (8).jpg';
+import dividerSwirl from '@/assets/Home/Divider_Swirl.png';
+
+import Stripe from 'stripe';
+import { supabase } from '@/client/supabaseClient';
+import { useRouter } from 'next/navigation';
 
 export interface Package {
   typePackage: string;
@@ -60,6 +65,7 @@ export interface Package {
   minAge: string;
   pickup: string;
   slug: string;
+  tourId: string;
   overview: string;
   tourHighlight: string;
   images?: { src: string | StaticImageData; alt: string }[]; // Add images array
@@ -85,6 +91,7 @@ const packages: Package[] = [
     minAge: '12 +',
     pickup: 'Airport',
     slug: 'umrah-and-hotel-package',
+    tourId: 'cbb02563-78bb-4cfb-a979-de1a973c1c05',
     overview: `The Sacred Journey to Makkah is crafted for those seeking a profound and spiritual connection through the sacred rites of Umrah. This experience is designed for travelers who wish to immerse themselves in the rich Islamic heritage and spiritual significance of Makkah and Medina. More than just a pilgrimage, the Sacred Journey to Makkah combines the timeless rituals of Umrah with opportunities to explore the historical sites, hidden gems, and cultural treasures of Islam's holiest cities.<br/><br/>
 
     From the majestic Kaaba to the serene Masjid al-Nabawi, our tour offers a deep and meaningful exploration of these revered places. You will be guided through the rituals of Umrah, with opportunities to reflect, pray, and connect with the spiritual essence of Islam. This journey is not just about visiting sacred sites but about embracing the profound peace and tranquility that comes from walking in the footsteps of the Prophet Muhammad (PBUH).`,
@@ -163,6 +170,7 @@ const packages: Package[] = [
     minAge: '12 +',
     pickup: 'Airport',
     slug: 'full-package',
+    tourId: 'cbb02563-78bb-4cfb-a979-de1a973c1c06',
     overview: `The Sacred Journey to Makkah is crafted for those seeking a profound and spiritual connection through the sacred rites of Umrah. This experience is designed for travelers who wish to immerse themselves in the rich Islamic heritage and spiritual significance of Makkah and Medina. More than just a pilgrimage, the Sacred Journey to Makkah combines the timeless rituals of Umrah with opportunities to explore the historical sites, hidden gems, and cultural treasures of Islam's holiest cities.<br/><br/>
 
     From the majestic Kaaba to the serene Masjid al-Nabawi, our tour offers a deep and meaningful exploration of these revered places. You will be guided through the rituals of Umrah, with opportunities to reflect, pray, and connect with the spiritual essence of Islam. This journey is not just about visiting sacred sites but about embracing the profound peace and tranquility that comes from walking in the footsteps of the Prophet Muhammad (PBUH).`,
@@ -241,6 +249,7 @@ const packages: Package[] = [
     minAge: '12 +',
     pickup: 'Airport',
     slug: 'extreme-tour',
+    tourId: 'cbb02563-78bb-4cfb-a979-de1a973c1c07',
     overview: `The Sacred Journey to Makkah is crafted for those seeking a profound and spiritual connection through the sacred rites of Umrah. This experience is designed for travelers who wish to immerse themselves in the rich Islamic heritage and spiritual significance of Makkah and Medina. More than just a pilgrimage, the Sacred Journey to Makkah combines the timeless rituals of Umrah with opportunities to explore the historical sites, hidden gems, and cultural treasures of Islam's holiest cities.<br/><br/>
 
     From the majestic Kaaba to the serene Masjid al-Nabawi, our tour offers a deep and meaningful exploration of these revered places. You will be guided through the rituals of Umrah, with opportunities to reflect, pray, and connect with the spiritual essence of Islam. This journey is not just about visiting sacred sites but about embracing the profound peace and tranquility that comes from walking in the footsteps of the Prophet Muhammad (PBUH).`,
@@ -308,6 +317,13 @@ const packages: Package[] = [
   },
 ];
 
+export interface Bookings {
+  id: string;
+  tour_id: string;
+  participants: number;
+  date: Date;
+}
+
 // Mock unavailable dates for testing
 // const unavailableDates = [
 //   addDays(new Date(), 2),
@@ -326,12 +342,19 @@ export default function PackageDetailPage({
 
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [guests, setGuests] = useState<number | null>(null);
+  const [price, setPrice] = useState<number>(0);
   const [availableDates, setAvailableDates] = useState<Availability[]>([]);
   const [isCalendarDisabled, setIsCalendarDisabled] = useState(true);
   const [isCheckingAvailability, setIsCheckingAvailability] = useState(false);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [firstName, setFirstName] = useState<string>('');
+  const [lastName, setLastName] = useState<string>('');
+  const [email, setEmail] = useState<string>('');
+
   const [bookingError, setBookingError] = useState<string | null>(null);
   const [isBooking, setIsBooking] = useState(false);
+
+  const router = useRouter();
 
   // Handle case where the package is not found
   if (!selectedPackage) {
@@ -377,13 +400,24 @@ export default function PackageDetailPage({
   //   }
   // };
 
+  const calculateTotalPrice = async () => {
+    const totalPrice =
+      Math.ceil((guests ?? 1) / selectedPackage.maxPeople) *
+      selectedPackage.price;
+    return totalPrice;
+  };
+
   const checkAvailability = async () => {
     setIsCheckingAvailability(true);
 
     try {
       const currentDate = new Date(); // Use today's date
       const availability: Availability[] =
-        await bookingClient.getAvailableDates(currentDate);
+        await bookingClient.getAvailableDates(
+          currentDate,
+          selectedPackage.tourId,
+          selectedPackage.maxPeople
+        );
 
       // Convert available dates from UTC to local time and keep track of spots
       const available = availability.map((day) => {
@@ -400,6 +434,7 @@ export default function PackageDetailPage({
       });
 
       console.log('Available returned:', available);
+      setPrice(await calculateTotalPrice());
       setAvailableDates(available); // Store available dates with spots info
       setIsCalendarDisabled(false); // Enable calendar
     } catch (error) {
@@ -458,6 +493,8 @@ export default function PackageDetailPage({
 
   const handleBooking = async (e: React.FormEvent) => {
     e.preventDefault();
+    console.log('NAIS');
+
     setIsBooking(true);
     setBookingError(null);
 
@@ -468,6 +505,14 @@ export default function PackageDetailPage({
     }
 
     try {
+      const tour = await bookingClient.verifyTour(
+        selectedPackage.tourId,
+        selectedPackage.title,
+        selectedPackage.slug
+      );
+
+      const user = await bookingClient.verifyUser(email);
+
       // Convert the selected date to UTC before sending it to the server
       const selectedDateUTC = new Date(
         Date.UTC(
@@ -478,14 +523,22 @@ export default function PackageDetailPage({
       );
 
       // Call the bookingClient to create a new booking
-      await bookingClient.createBooking(
-        selectedPackage.slug,
+      const booking = await bookingClient.createBooking(
+        selectedPackage.tourId,
         selectedDateUTC.toISOString(), // Pass UTC date to the server
         guests
       );
 
-      // Handle success, maybe redirect or show a success message
-      alert('Booking successful!');
+      // Redirect to user portal
+      const sessionUrl = await bookingClient.generateStripePortal(
+        booking.id,
+        tour.productIdStripe,
+        user.customerIdStripe,
+        await calculateTotalPrice()
+      );
+
+      // Redirect to user portal
+      router.push(sessionUrl);
     } catch (error) {
       console.error('Error creating booking:', error);
       setBookingError('Failed to create booking. Please try again.');
@@ -495,58 +548,8 @@ export default function PackageDetailPage({
   };
 
   const originalPrice = (price: number): string => {
-    return Math.round(price * 3).toLocaleString(); // Format with commas
+    return Math.round(price).toLocaleString(); // Format with commas
   };
-
-  // const images = [
-  //   { src: ImageOne, alt: 'Image 1' },
-  //   { src: ImageTwo, alt: 'Image 2' },
-  //   { src: ImageThree, alt: 'Image 3' },
-  //   { src: ImageFour, alt: 'Image 4' },
-  //   { src: ImageFive, alt: 'Image 5' },
-  //   { src: ImageSix, alt: 'Image 6' },
-  //   { src: ImageSeven, alt: 'Image 7' },
-  //   { src: ImageEight, alt: 'Image 8' },
-  // ];
-
-  // const itinerary = [
-  //   {
-  //     day: 'Day 01',
-  //     description: 'Pickup and Arrive at Makkah Hotel',
-  //   },
-  //   {
-  //     day: 'Day 02',
-  //     description: 'Ummrah',
-  //   },
-  //   {
-  //     day: 'Day 03',
-  //     description: 'Makkah Museum',
-  //   },
-  //   {
-  //     day: 'Day 04',
-  //     description: 'Bullet Train to Medina + Arrive at Medina Hotel',
-  //   },
-  //   {
-  //     day: 'Day 05',
-  //     description: 'Sacred Site Tours (x4)',
-  //   },
-  //   {
-  //     day: 'Day 06',
-  //     description: 'Museum Tour (x3)',
-  //   },
-  //   {
-  //     day: 'Day 07',
-  //     description: 'English Islamic Lesson',
-  //   },
-  //   {
-  //     day: 'Day 08',
-  //     description: 'Sacred Site Tours (x4)',
-  //   },
-  //   {
-  //     day: 'Day 09',
-  //     description: 'Depature',
-  //   },
-  // ];
 
   return (
     <>
@@ -636,138 +639,134 @@ export default function PackageDetailPage({
               />
               <div className="h-2 w-2 block rounded-full bg-wild-sand-200"></div>
             </div>
-            <form onSubmit={handleBooking}>
-              {/* Number of Guests */}
-              <div className="mb-4">
-                <label className="block text-base font-medium mb-2">
-                  Number of Guests
-                </label>
-                <input
-                  type="number"
-                  min="1"
-                  max="100"
-                  value={guests || ''}
-                  placeholder="Enter number of guests"
-                  onChange={handleGuestsChange}
-                  className="w-full px-4 py-2 border rounded-md"
-                  // on enter
-                  onKeyPress={(e) => {
-                    if (e.key === 'Enter') {
-                      e.preventDefault();
-                      checkAvailability();
-                    }
-                  }}
-                />
-              </div>
+            {/* Number of Guests */}
+            <div className="mb-4">
+              <label className="block text-base font-medium mb-2">
+                Number of Guests
+              </label>
+              <input
+                type="number"
+                min="1"
+                max="100"
+                value={guests || ''}
+                placeholder="Enter number of guests"
+                onChange={handleGuestsChange}
+                className="w-full px-4 py-2 border rounded-md"
+                // on enter
+                onKeyPress={(e) => {
+                  if (e.key === 'Enter') {
+                    e.preventDefault();
+                    checkAvailability();
+                  }
+                }}
+              />
+            </div>
 
-              {/* Check Availability Button */}
-              {isCalendarDisabled && (
-                <button
-                  type="button"
-                  onClick={checkAvailability}
-                  className="w-full px-6 py-3 bg-green-700 text-white font-bold rounded-md shadow-md hover:bg-green-800 disabled:opacity-50 disabled:cursor-not-allowed"
-                  disabled={isCheckingAvailability || guests === null} // Disable while checking
-                >
-                  {isCheckingAvailability
-                    ? 'Checking...'
-                    : 'Check Availability'}
-                </button>
-              )}
+            {/* Check Availability Button */}
+            {isCalendarDisabled && (
+              <button
+                type="button"
+                onClick={checkAvailability}
+                className="w-full px-6 py-3 bg-green-700 text-white font-bold rounded-md shadow-md hover:bg-green-800 disabled:opacity-50 disabled:cursor-not-allowed"
+                disabled={isCheckingAvailability || guests === null} // Disable while checking
+              >
+                {isCheckingAvailability ? 'Checking...' : 'Check Availability'}
+              </button>
+            )}
 
-              {/* Book Now Button */}
-              {!isCalendarDisabled && (
-                <>
-                  {/* Calendar Date Selection */}
-                  <div className="mb-4">
-                    <label className="block text-base font-medium mb-2">
-                      Select Date
-                    </label>
-                    <div className={isCalendarDisabled ? 'opacity-50' : ''}>
-                      <Calendar
-                        mode="single"
-                        selected={selectedDate ?? undefined}
-                        onSelect={(date) => setSelectedDate(date as Date)}
-                        disabled={isDateDisabled} // Disable based on availability
-                        // disabled={(date) => date < new Date()}
-                        className="h-full w-full px-4 py-2 rounded-md flex border"
-                        classNames={{
-                          months:
-                            'flex w-full flex-col sm:flex-row space-y-4 sm:space-x-4 sm:space-y-0 flex-1',
-                          month: 'space-y-4 w-full flex flex-col',
-                          table: 'w-full h-full border-collapse space-y-1',
-                          head_row: '',
-                          row: 'w-full mt-2',
-                        }}
-                      />
-                    </div>
+            {/* Book Now Button */}
+            {!isCalendarDisabled && (
+              <>
+                {/* Calendar Date Selection */}
+                <div className="mb-4">
+                  <label className="block text-base font-medium mb-2">
+                    Select Date
+                  </label>
+                  <div className={isCalendarDisabled ? 'opacity-50' : ''}>
+                    <Calendar
+                      mode="single"
+                      selected={selectedDate ?? undefined}
+                      onSelect={(date) => setSelectedDate(date as Date)}
+                      disabled={isDateDisabled} // Disable based on availability
+                      // disabled={(date) => date < new Date()}
+                      className="h-full w-full px-4 py-2 rounded-md flex border"
+                      classNames={{
+                        months:
+                          'flex w-full flex-col sm:flex-row space-y-4 sm:space-x-4 sm:space-y-0 flex-1',
+                        month: 'space-y-4 w-full flex flex-col',
+                        table: 'w-full h-full border-collapse space-y-1',
+                        head_row: '',
+                        row: 'w-full mt-2',
+                      }}
+                    />
                   </div>
-                  {/* <button
-                      type="submit"
-                      className="w-full mt-4 px-6 py-3 bg-primary text-white font-bold rounded-md shadow-md hover:bg-eucalyptus-800 disabled:opacity-50 disabled:cursor-not-allowed"
-                      disabled={isBooking || !selectedDate}
-                      // disabled={true}
-                    >
-                      {isBooking ? 'Booking...' : 'Book Now'}
-                    </button> */}
-                  <Dialog>
-                    <DialogTrigger className="w-full">
-                      <button
-                        type="button"
-                        className="w-full mt-4 px-6 py-3 bg-primary text-white font-bold rounded-md shadow-md hover:bg-eucalyptus-800 disabled:opacity-50 disabled:cursor-not-allowed"
-                        disabled={isBooking || !selectedDate}
-                        // disabled={true}
-                      >
-                        {isBooking ? 'Booking...' : 'Book Now'}
-                      </button>
-                    </DialogTrigger>
-                    <DialogContent className="bg-white p-6 2xs:p-8 w-full 2xs:w-max max-w-[calc(100vw-2rem)] !rounded-xl overflow-hidden">
+                </div>
+                <Dialog>
+                  <DialogTrigger
+                    type="button"
+                    className="w-full mt-4 px-6 py-3 bg-primary text-white font-bold rounded-md shadow-md hover:bg-eucalyptus-800 disabled:opacity-50 disabled:cursor-not-allowed"
+                    disabled={!selectedDate}
+                  >
+                    Book Now
+                  </DialogTrigger>
+                  <DialogContent className="bg-white p-6 2xs:p-8 w-full 2xs:w-max max-w-[calc(100vw-2rem)] !rounded-xl overflow-hidden">
+                    <form onSubmit={handleBooking}>
                       <DialogHeader>
-                        <DialogTitle>
-                          <h3 className="text-2xl sm:text-3xl font-bold text-primary">
-                            Complete Your Booking
-                          </h3>
+                        <DialogTitle className="text-2xl sm:text-3xl font-bold text-primary">
+                          Complete Your Booking
                         </DialogTitle>
-                        <DialogDescription>
-                          <p className="text-lg text-body-secondary my-2">
-                            Total Cost :{' '}
-                            <span className="text-primary font-bold">
-                              $4,500
-                            </span>
-                          </p>
+                        <DialogDescription className="text-lg text-body-secondary my-2">
+                          Total Cost :{' '}
+                          <span className="text-primary font-bold">
+                            ${originalPrice(price)}
+                          </span>
                         </DialogDescription>
                       </DialogHeader>
-                      <div className="flex flex-col items-stretch gap-4">
+                      <div className="flex flex-col items-stretch gap-4 mt-4">
                         <div className="flex flex-col 2xs:flex-row items-stretch gap-4">
                           <input
                             type="text"
                             placeholder="First Name"
                             className="w-full px-4 py-2 border rounded-md flex-1"
+                            onChange={(el) => setFirstName(el.target.value)}
+                            required
                           />
                           <input
                             type="text"
                             placeholder="Last Name"
                             className="w-full px-4 py-2 border rounded-md flex-1"
+                            onChange={(el) => setLastName(el.target.value)}
+                            required
                           />
                         </div>
                         <input
                           type="email"
                           placeholder="Email Address"
                           className="w-full px-4 py-2 border rounded-md flex-1"
+                          onChange={(el) => setEmail(el.target.value)}
+                          required
                         />
                       </div>
                       <DialogFooter>
                         <button
                           type="submit"
                           className="w-full 2xs:w-max ml-auto mt-4 px-6 py-3 bg-primary text-white font-bold rounded-md shadow-md hover:bg-eucalyptus-800 disabled:opacity-50 disabled:cursor-not-allowed"
+                          disabled={
+                            isBooking ||
+                            !selectedDate ||
+                            !firstName ||
+                            !lastName ||
+                            !email
+                          }
                         >
                           {isBooking ? 'Checkout...' : 'Checkout Now'}
                         </button>
                       </DialogFooter>
-                    </DialogContent>
-                  </Dialog>
-                </>
-              )}
-            </form>
+                    </form>
+                  </DialogContent>
+                </Dialog>
+              </>
+            )}
           </div>
         </div>
         {/* Tour Packages Details -- Features */}
@@ -836,22 +835,22 @@ export default function PackageDetailPage({
               <p className="text-xl lg:text-2xl font-bold text-primary">
                 Overview
               </p>
-              <p
+              <div
                 className="text-lg text-body-secondary"
                 dangerouslySetInnerHTML={{ __html: selectedPackage.overview }}
-              ></p>
+              ></div>
             </div>
             {/* Tour Packages Details -- Tour Highlights */}
             <div className="flex flex-col gap-6 2lg:max-w-xl xl:max-w-2xl">
               <p className="text-xl lg:text-2xl font-bold text-primary">
                 Tour Highlights
               </p>
-              <p
+              <div
                 className="text-lg text-body-secondary"
                 dangerouslySetInnerHTML={{
                   __html: selectedPackage.tourHighlight,
                 }}
-              ></p>
+              ></div>
             </div>
             {/* Tour Packages Details -- Tour Plan */}
             <div className="flex flex-col gap-6 2lg:max-w-xl xl:max-w-2xl">
@@ -870,7 +869,7 @@ export default function PackageDetailPage({
             </div>
           </div>
           {/* Tour Packages Details -- Cost & Calendar, QuoteBlock -- Dekstop */}
-          <div className="2lg:absolute 2lg:-top-40 2lg:right-8 2xl:right-10 w-max min-w-[21.125rem] hidden 2lg:flex flex-col justify-between mt-10 2lg:mt-0">
+          <div className="2lg:absolute 2lg:-top-40 2lg:right-8 2xl:right-10 w-[21.125rem] hidden 2lg:flex flex-col justify-between mt-10 2lg:mt-0">
             {/* Booking Form (3rd Column) */}
             <div className="bg-white p-10 shadow-xl rounded-2xl">
               <p className="text-xl font-bold text-body-secondary">Cost:</p>
@@ -879,7 +878,7 @@ export default function PackageDetailPage({
                   ${selectedPackage.price.toLocaleString()}
                 </h3>
                 <span className="text-xl font-bold text-red-500 line-through">
-                  ${originalPrice(selectedPackage.price)}
+                  ${originalPrice(selectedPackage.price * 3)}
                 </span>
               </div>
               <div className="relative flex flex-row items-center justify-between gap-2 w-full my-4">
@@ -891,135 +890,178 @@ export default function PackageDetailPage({
                 />
                 <div className="h-2 w-2 block rounded-full bg-wild-sand-200"></div>
               </div>
-              <form onSubmit={handleBooking}>
-                {/* Number of Guests */}
-                <div className="mb-4">
-                  <label className="block text-base font-medium mb-2">
-                    Number of Guests
-                  </label>
-                  <input
-                    type="number"
-                    min="1"
-                    max="100"
-                    value={guests || ''}
-                    placeholder="Enter number of guests"
-                    onChange={handleGuestsChange}
-                    className="w-full px-4 py-2 border rounded-md"
-                    // on enter
-                    onKeyPress={(e) => {
-                      if (e.key === 'Enter') {
-                        e.preventDefault();
-                        checkAvailability();
-                      }
-                    }}
-                  />
-                </div>
+              {/* Number of Guests */}
+              <div className="mb-4">
+                <label className="block text-base font-medium mb-2">
+                  Number of Guests
+                </label>
+                <input
+                  type="number"
+                  min="1"
+                  max="100"
+                  value={guests || ''}
+                  placeholder="Enter number of guests"
+                  onChange={handleGuestsChange}
+                  className="w-full px-4 py-2 border rounded-md"
+                  // on enter
+                  onKeyPress={(e) => {
+                    if (e.key === 'Enter') {
+                      e.preventDefault();
+                      checkAvailability();
+                    }
+                  }}
+                />
+              </div>
 
-                {/* Check Availability Button */}
-                {isCalendarDisabled && (
-                  <button
-                    type="button"
-                    onClick={checkAvailability}
-                    className="w-full px-6 py-3 bg-green-700 text-white font-bold rounded-md shadow-md hover:bg-green-800 disabled:opacity-50 disabled:cursor-not-allowed"
-                    disabled={isCheckingAvailability} // Disable while checking
-                  >
-                    {isCheckingAvailability
-                      ? 'Checking...'
-                      : 'Check Availability'}
-                  </button>
-                )}
+              {/* Check Availability Button */}
+              {isCalendarDisabled && (
+                <button
+                  type="button"
+                  onClick={checkAvailability}
+                  className="w-full px-6 py-3 bg-green-700 text-white font-bold rounded-md shadow-md hover:bg-green-800 disabled:opacity-50 disabled:cursor-not-allowed"
+                  disabled={
+                    isCheckingAvailability ||
+                    guests === null ||
+                    guests <= 0 ||
+                    guests === undefined
+                  } // Disable while checking
+                >
+                  {isCheckingAvailability
+                    ? 'Checking...'
+                    : 'Check Availability'}
+                </button>
+              )}
 
-                {/* Book Now Button */}
-                {!isCalendarDisabled && (
-                  <>
-                    {/* Calendar Date Selection */}
-                    <div className="mb-4">
-                      <label className="block text-base font-medium mb-2">
-                        Select Date
-                      </label>
-                      <div className={isCalendarDisabled ? 'opacity-50' : ''}>
-                        <Calendar
-                          mode="single"
-                          selected={selectedDate ?? undefined}
-                          onSelect={(date) => setSelectedDate(date as Date)}
-                          disabled={isDateDisabled} // Disable based on availability
-                          // disabled={(date) => date < new Date()}
-                          className="w-max px-4 py-2 border rounded-md"
-                        />
-                      </div>
+              {/* Book Now Button */}
+              {!isCalendarDisabled && (
+                <>
+                  {/* Calendar Date Selection */}
+                  <div className="mb-4">
+                    <label className="block text-base font-medium mb-2">
+                      Select Date
+                    </label>
+                    <div className={isCalendarDisabled ? 'opacity-50' : ''}>
+                      <Calendar
+                        mode="single"
+                        selected={selectedDate ?? undefined}
+                        onSelect={(date) => setSelectedDate(date as Date)}
+                        disabled={isDateDisabled} // Disable based on availability
+                        // disabled={(date) => date < new Date()}
+                        className="w-max px-4 py-2 border rounded-md"
+                      />
                     </div>
-                    {/* <button
-                      type="submit"
+                  </div>
+                  <Dialog>
+                    <DialogTrigger
+                      type="button"
                       className="w-full mt-4 px-6 py-3 bg-primary text-white font-bold rounded-md shadow-md hover:bg-eucalyptus-800 disabled:opacity-50 disabled:cursor-not-allowed"
-                      disabled={isBooking || !selectedDate}
-                      // disabled={true}
+                      disabled={!selectedDate}
                     >
-                      {isBooking ? 'Booking...' : 'Book Now'}
-                    </button> */}
-                    <Dialog>
-                      <DialogTrigger className="w-full">
-                        <button
-                          type="button"
-                          className="w-full mt-4 px-6 py-3 bg-primary text-white font-bold rounded-md shadow-md hover:bg-eucalyptus-800 disabled:opacity-50 disabled:cursor-not-allowed"
-                          disabled={isBooking || !selectedDate}
-                          // disabled={true}
-                        >
-                          {isBooking ? 'Booking...' : 'Book Now'}
-                        </button>
-                      </DialogTrigger>
-                      <DialogContent className="bg-white p-6 2xs:p-8 w-full 2xs:w-max max-w-[calc(100vw-2rem)] !rounded-xl overflow-hidden">
+                      Book Now
+                    </DialogTrigger>
+                    <DialogContent className="bg-white p-6 2xs:p-8 w-full 2xs:w-max max-w-[calc(100vw-2rem)] !rounded-xl overflow-hidden">
+                      <form onSubmit={handleBooking}>
                         <DialogHeader>
-                          <DialogTitle>
-                            <h3 className="text-2xl sm:text-3xl font-bold text-primary">
-                              Complete Your Booking
-                            </h3>
+                          <DialogTitle className="text-2xl sm:text-3xl font-bold text-primary">
+                            Complete Your Booking
                           </DialogTitle>
-                          <DialogDescription>
-                            <p className="text-lg text-body-secondary my-2">
-                              Total Cost :{' '}
-                              <span className="text-primary font-bold">
-                                $4,500
-                              </span>
-                            </p>
+                          <DialogDescription className="text-lg text-body-secondary my-2">
+                            Total Cost :{' '}
+                            <span className="text-primary font-bold">
+                              ${originalPrice(price)}
+                            </span>
                           </DialogDescription>
                         </DialogHeader>
-                        <div className="flex flex-col items-stretch gap-4">
+                        <div className="flex flex-col items-stretch gap-4 mt-4">
                           <div className="flex flex-col 2xs:flex-row items-stretch gap-4">
                             <input
                               type="text"
                               placeholder="First Name"
                               className="w-full px-4 py-2 border rounded-md flex-1"
+                              onChange={(el) => setFirstName(el.target.value)}
+                              required
                             />
                             <input
                               type="text"
                               placeholder="Last Name"
                               className="w-full px-4 py-2 border rounded-md flex-1"
+                              onChange={(el) => setLastName(el.target.value)}
+                              required
                             />
                           </div>
                           <input
                             type="email"
                             placeholder="Email Address"
                             className="w-full px-4 py-2 border rounded-md flex-1"
+                            onChange={(el) => setEmail(el.target.value)}
+                            required
                           />
                         </div>
                         <DialogFooter>
                           <button
                             type="submit"
                             className="w-full 2xs:w-max ml-auto mt-4 px-6 py-3 bg-primary text-white font-bold rounded-md shadow-md hover:bg-eucalyptus-800 disabled:opacity-50 disabled:cursor-not-allowed"
+                            disabled={
+                              isBooking ||
+                              !selectedDate ||
+                              !firstName ||
+                              !lastName ||
+                              !email
+                            }
                           >
                             {isBooking ? 'Checkout...' : 'Checkout Now'}
                           </button>
                         </DialogFooter>
-                      </DialogContent>
-                    </Dialog>
-                  </>
-                )}
-              </form>
+                      </form>
+                    </DialogContent>
+                  </Dialog>
+                </>
+              )}
+            </div>
+            {/* Quote Block --  Dekstop */}
+            <div className="w-full max-w-[280px] mt-40 mx-auto">
+              <div className="mx-auto">
+                <div className="flex flex-col max-w-2xl justify-center mx-auto text-center items-center">
+                  <span className="text-4xl text-primary">
+                    Knowledge doesn’t come to you, but
+                    <strong> you have to go to it.</strong>
+                  </span>
+                  {/* Render author */}
+                  <p className="text-lg text-gray-600 mt-4">Imam Malik</p>
+                </div>
+                <Image
+                  src={dividerSwirl}
+                  alt="divider swirl"
+                  width={1248}
+                  height={98}
+                  className="aspect-[1248/98] object-contain w-full h-auto mt-16 lg:hidden"
+                />
+              </div>
             </div>
           </div>
         </div>
+        {/* Quote Block --  Dekstop */}
+        <div className="w-full lg:hidden mx-auto">
+          <div className="container mx-auto">
+            <div className="flex flex-col max-w-2xl justify-center mx-auto text-center items-center">
+              <span className="text-3xl text-primary">
+                Knowledge doesn’t come to you, but
+                <strong> you have to go to it.</strong>
+              </span>
+              {/* Render author */}
+              <p className="text-lg text-gray-600 mt-4">Imam Malik</p>
+            </div>
+            <Image
+              src={dividerSwirl}
+              alt="divider swirl"
+              width={1248}
+              height={98}
+              className="aspect-[1248/98] object-contain w-full h-auto mt-16 lg:hidden"
+            />
+          </div>
+        </div>
         {/* Tour Packages Details -- Divider */}
-        <div className="w-full max-w-[calc(100%-2rem)] 5xl:max-w-[calc(100%-4rem)] h-[1px] bg-wild-sand-200 mx-auto mb-10 lg:mb-20 "></div>
+        <div className="hidden lg:block w-full max-w-[calc(100%-2rem)] 5xl:max-w-[calc(100%-4rem)] h-[1px] bg-wild-sand-200 mx-auto mb-10 lg:mb-20 "></div>
       </section>
     </>
   );
