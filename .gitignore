@@ -37,3 +37,5 @@ next-env.d.ts
 
 # package lock json
 package-lock.json
+/src/content-studio/.sanity
+/src/content-studio/node_modules
