@@ -1,40 +1,39 @@
-'use client';
+"use client";
 
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardHeader,
   CardTitle,
   CardDescription,
-} from '@/components/ui/card';
-import { ClockIcon, MoveRightIcon } from 'lucide-react';
-import Image from 'next/image';
-import UserStarRating from '@/components/UserStarRating';
-import { TourPackage } from '@/lib/types/tour/package';
-import { urlFor } from '@/sanity/lib/image';
-import { cn } from '@/lib/utils';
-import { useRouter } from 'next/navigation';
-import React from 'react';
+} from "@/components/ui/card";
+import { ClockIcon, MoveRightIcon } from "lucide-react";
+import Image from "next/image";
+import UserStarRating from "@/components/UserStarRating";
+import { MinimalTourPackage, TourPackage } from "@/lib/types/tour/package";
+import { urlFor } from "@/sanity/lib/image";
+import { cn } from "@/lib/utils";
+import { useRouter } from "next/navigation";
+import React from "react";
 
 interface PackageCardProps {
-  package: TourPackage;
+  package: MinimalTourPackage;
   classNames?: string;
-  slug?: string;
   style?: React.CSSProperties;
 }
 
 const PackageCard = React.forwardRef<HTMLDivElement, PackageCardProps>(
-  ({ package: pkg, slug, classNames, style }, ref) => {
-    const { name, description, duration, groups } = pkg;
+  ({ package: pkg, classNames, style }, ref) => {
+    const { name, description, duration, firstGroup, firstImage, slug } = pkg;
 
     // Extract pricing details from the first group
-    const { standardPricing, pricingType } = groups[0] || {};
+    const { standardPricing, pricingType } = firstGroup;
     const formattedPrice = standardPricing
       ? `$${standardPricing.toFixed(2)}`
-      : 'N/A';
+      : "N/A";
     const pricingLabel =
-      pricingType === 'perPerson' ? 'per person' : 'per group';
+      pricingType === "perPerson" ? "per person" : "per group";
 
     const router = useRouter();
 
@@ -42,7 +41,7 @@ const PackageCard = React.forwardRef<HTMLDivElement, PackageCardProps>(
       <Card
         ref={ref}
         className={cn(
-          'w-full shadow-lg rounded-2xl overflow-hidden relative flex flex-col',
+          "w-full shadow-lg rounded-2xl overflow-hidden relative flex flex-col",
           classNames
         )}
         style={style}
@@ -50,7 +49,7 @@ const PackageCard = React.forwardRef<HTMLDivElement, PackageCardProps>(
         {/* Image */}
         <div className="relative w-full aspect-[4/3] -mb-8 z-0">
           <Image
-            src={urlFor(pkg.images[0]).url()}
+            src={urlFor(firstImage).url()}
             alt={name}
             layout="fill"
             objectFit="cover"
@@ -58,7 +57,7 @@ const PackageCard = React.forwardRef<HTMLDivElement, PackageCardProps>(
           />
           {/* Badge */}
           <div className="absolute top-4 left-4 bg-white px-3 py-1 rounded-full text-xs font-semibold">
-            {'Full Package'}
+            {"Full Package"}
           </div>
         </div>
 
@@ -88,7 +87,7 @@ const PackageCard = React.forwardRef<HTMLDivElement, PackageCardProps>(
             <CardTitle className="text-xl font-bold text-eucalyptus-600">
               {name}
             </CardTitle>
-            <CardDescription className="text-gray-600 text-sm">
+            <CardDescription className="text-gray-600 text-sm line-clamp-3">
               {description}
             </CardDescription>
           </CardHeader>
@@ -102,7 +101,7 @@ const PackageCard = React.forwardRef<HTMLDivElement, PackageCardProps>(
             <Button
               variant="link"
               className="text-sm text-accent-pink"
-              onClick={() => router.push(`/packages/${slug}`)}
+              onClick={() => router.push(`/packages/${slug.current}`)}
             >
               <p className="font-bold">Explore</p>
               <MoveRightIcon className="w-4 aspect-square text-accent-pink ml-2" />
@@ -114,6 +113,6 @@ const PackageCard = React.forwardRef<HTMLDivElement, PackageCardProps>(
   }
 );
 
-PackageCard.displayName = 'PackageCard';
+PackageCard.displayName = "PackageCard";
 
 export default PackageCard;

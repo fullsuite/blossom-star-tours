@@ -12,6 +12,21 @@ export const tourPackage = defineType({
       validation: Rule => Rule.required(),
     }),
     defineField({
+      name: 'slug',
+      title: 'Slug',
+      type: 'slug',
+      options: {
+        source: 'name', // Generate slug from the 'name' field
+        maxLength: 96, // Optional: Limit the length of the slug
+        slugify: input => input
+          .toLowerCase()
+          .replace(/\s+/g, '-') // Replace spaces with dashes
+          .replace(/[^\w\-]+/g, '') // Remove invalid characters
+          .slice(0, 96), // Enforce maxLength
+      },
+      validation: Rule => Rule.required(),
+    }),
+    defineField({
       name: 'description',
       title: 'Package Description',
       type: 'text',
@@ -40,6 +55,32 @@ export const tourPackage = defineType({
       },
       description: 'A gallery of images for the package.',
       validation: Rule => Rule.min(1).error('At least one image is required.')
+    }),
+    defineField({
+      name: 'itinerary',
+      title: 'Itinerary',
+      type: 'array',
+      of: [
+        defineArrayMember({
+          type: 'object',
+          fields: [
+            defineField({
+              name: 'time',
+              title: 'Time',
+              type: 'string',
+              validation: Rule => Rule.required(),
+            }),
+            defineField({
+              name: 'description',
+              title: 'Description',
+              type: 'string',
+              validation: Rule => Rule.required(),
+            }),
+          ],
+        }),
+      ],
+      description: 'The day-by-day itinerary for the package.',
+      validation: Rule => Rule.min(1).error('At least one itinerary item is required.'),
     }),
     defineField({
       name: 'groups',

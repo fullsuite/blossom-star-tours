@@ -1,19 +1,19 @@
-'use client';
+"use client";
 
-import { notFound } from 'next/navigation';
-import { useState } from 'react';
-import { Calendar } from '@/components/ui/calendar'; // Adjust the import path for your project
-import { isBefore, isSameDay } from 'date-fns';
-import { bookingClient } from '@/client/bookingClient'; // Assuming you have this set up
-import Image, { StaticImageData } from 'next/image';
+import { notFound } from "next/navigation";
+import { useState } from "react";
+import { Calendar } from "@/components/ui/calendar"; // Adjust the import path for your project
+import { isBefore, isSameDay } from "date-fns";
+import { bookingClient } from "@/client/bookingClient"; // Assuming you have this set up
+import Image, { StaticImageData } from "next/image";
 import {
   Carousel,
   CarouselContent,
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
-} from '@/components/ui/carousel';
-import Autoplay from 'embla-carousel-autoplay';
+} from "@/components/ui/carousel";
+import Autoplay from "embla-carousel-autoplay";
 // import { urlFor } from '@/sanity/lib/image';
 import {
   Dialog,
@@ -23,7 +23,7 @@ import {
   DialogFooter,
   DialogTitle,
   DialogTrigger,
-} from '@/components/ui/dialog';
+} from "@/components/ui/dialog";
 
 import {
   Users,
@@ -33,25 +33,23 @@ import {
   Plane,
   ChevronLeft,
   ChevronRight,
-} from 'lucide-react';
+} from "lucide-react";
 
-import PageHeader from '@/components/PageHeader';
-import DayInfo from './_components/DayInfo';
+import PageHeader from "@/components/PageHeader";
+import DayInfo from "./DayInfo";
 // import { set } from 'sanity';
 
-import ImageOne from '@/assets/Packages/Package 1/P1- (1).jpg';
-import ImageTwo from '@/assets/Packages/Package 1/P1- (2).jpg';
-import ImageThree from '@/assets/Packages/Package 1/P1- (3).jpg';
-import ImageFour from '@/assets/Packages/Package 1/P1- (4).jpg';
-import ImageFive from '@/assets/Packages/Package 1/P1- (5).jpg';
-import ImageSix from '@/assets/Packages/Package 1/P1- (6).jpg';
-import ImageSeven from '@/assets/Packages/Package 1/P1- (7).jpg';
-import ImageEight from '@/assets/Packages/Package 1/P1- (8).jpg';
-import dividerSwirl from '@/assets/Home/Divider_Swirl.png';
-
-import Stripe from 'stripe';
-import { supabase } from '@/client/supabaseClient';
-import { useRouter } from 'next/navigation';
+import ImageOne from "@/assets/Packages/Package 1/P1- (1).jpg";
+import ImageTwo from "@/assets/Packages/Package 1/P1- (2).jpg";
+import ImageThree from "@/assets/Packages/Package 1/P1- (3).jpg";
+import ImageFour from "@/assets/Packages/Package 1/P1- (4).jpg";
+import ImageFive from "@/assets/Packages/Package 1/P1- (5).jpg";
+import ImageSix from "@/assets/Packages/Package 1/P1- (6).jpg";
+import ImageSeven from "@/assets/Packages/Package 1/P1- (7).jpg";
+import ImageEight from "@/assets/Packages/Package 1/P1- (8).jpg";
+import dividerSwirl from "@/assets/Home/Divider_Swirl.png";
+import { DetailedTourPackage } from "@/lib/types/tour/package";
+import { urlFor } from "@/sanity/lib/image";
 
 export interface Package {
   typePackage: string;
@@ -65,7 +63,6 @@ export interface Package {
   minAge: string;
   pickup: string;
   slug: string;
-  tourId: string;
   overview: string;
   tourHighlight: string;
   images?: { src: string | StaticImageData; alt: string }[]; // Add images array
@@ -79,19 +76,18 @@ export interface Availability {
 
 const packages: Package[] = [
   {
-    typePackage: 'Full Package',
-    imageUrl: 'https://picsum.photos/400/300',
-    title: 'Umrah and Hotel Package',
+    typePackage: "Full Package",
+    imageUrl: "https://picsum.photos/400/300",
+    title: "Umrah and Hotel Package",
     description:
-      'Experience a spiritually fulfilling Umrah journey with our comprehensive package, including premium accommodations and guided tours.',
+      "Experience a spiritually fulfilling Umrah journey with our comprehensive package, including premium accommodations and guided tours.",
     price: 4500,
     rating: 4.4,
-    duration: '10 days',
+    duration: "10 days",
     maxPeople: 20,
-    minAge: '12 +',
-    pickup: 'Airport',
-    slug: 'umrah-and-hotel-package',
-    tourId: 'cbb02563-78bb-4cfb-a979-de1a973c1c05',
+    minAge: "12 +",
+    pickup: "Airport",
+    slug: "umrah-and-hotel-package",
     overview: `The Sacred Journey to Makkah is crafted for those seeking a profound and spiritual connection through the sacred rites of Umrah. This experience is designed for travelers who wish to immerse themselves in the rich Islamic heritage and spiritual significance of Makkah and Medina. More than just a pilgrimage, the Sacred Journey to Makkah combines the timeless rituals of Umrah with opportunities to explore the historical sites, hidden gems, and cultural treasures of Islam's holiest cities.<br/><br/>
 
     From the majestic Kaaba to the serene Masjid al-Nabawi, our tour offers a deep and meaningful exploration of these revered places. You will be guided through the rituals of Umrah, with opportunities to reflect, pray, and connect with the spiritual essence of Islam. This journey is not just about visiting sacred sites but about embracing the profound peace and tranquility that comes from walking in the footsteps of the Prophet Muhammad (PBUH).`,
@@ -109,68 +105,67 @@ const packages: Package[] = [
     ensuring that your journey is as peaceful and enriching as
     possible.`,
     images: [
-      { src: ImageOne, alt: 'Image 1' },
-      { src: ImageTwo, alt: 'Image 2' },
-      { src: ImageThree, alt: 'Image 3' },
-      { src: ImageFour, alt: 'Image 4' },
-      { src: ImageFive, alt: 'Image 5' },
-      { src: ImageSix, alt: 'Image 6' },
-      { src: ImageSeven, alt: 'Image 7' },
-      { src: ImageEight, alt: 'Image 8' },
+      { src: ImageOne, alt: "Image 1" },
+      { src: ImageTwo, alt: "Image 2" },
+      { src: ImageThree, alt: "Image 3" },
+      { src: ImageFour, alt: "Image 4" },
+      { src: ImageFive, alt: "Image 5" },
+      { src: ImageSix, alt: "Image 6" },
+      { src: ImageSeven, alt: "Image 7" },
+      { src: ImageEight, alt: "Image 8" },
     ],
     itinerary: [
       {
-        day: 'Day 01',
-        description: 'Pickup and Arrive at Makkah Hotel',
+        day: "Day 01",
+        description: "Pickup and Arrive at Makkah Hotel",
       },
       {
-        day: 'Day 02',
-        description: 'Ummrah',
+        day: "Day 02",
+        description: "Ummrah",
       },
       {
-        day: 'Day 03',
-        description: 'Makkah Museum',
+        day: "Day 03",
+        description: "Makkah Museum",
       },
       {
-        day: 'Day 04',
-        description: 'Bullet Train to Medina + Arrive at Medina Hotel',
+        day: "Day 04",
+        description: "Bullet Train to Medina + Arrive at Medina Hotel",
       },
       {
-        day: 'Day 05',
-        description: 'Sacred Site Tours (x4)',
+        day: "Day 05",
+        description: "Sacred Site Tours (x4)",
       },
       {
-        day: 'Day 06',
-        description: 'Museum Tour (x3)',
+        day: "Day 06",
+        description: "Museum Tour (x3)",
       },
       {
-        day: 'Day 07',
-        description: 'English Islamic Lesson',
+        day: "Day 07",
+        description: "English Islamic Lesson",
       },
       {
-        day: 'Day 08',
-        description: 'Sacred Site Tours (x4)',
+        day: "Day 08",
+        description: "Sacred Site Tours (x4)",
       },
       {
-        day: 'Day 09',
-        description: 'Depature',
+        day: "Day 09",
+        description: "Depature",
       },
     ],
   },
   {
-    typePackage: 'Full Package',
-    imageUrl: 'https://picsum.photos/400/300?random=1',
-    title: 'Full Package',
+    typePackage: "Full Package",
+    imageUrl: "https://picsum.photos/400/300?random=1",
+    title: "Full Package",
     description:
-      'Immerse yourself in the heart of Islamic history with our full package, offering a balanced mix of spiritual and cultural experiences.',
+      "Immerse yourself in the heart of Islamic history with our full package, offering a balanced mix of spiritual and cultural experiences.",
     price: 3000,
     rating: 4.4,
-    duration: '4 days',
+    duration: "4 days",
     maxPeople: 20,
-    minAge: '12 +',
-    pickup: 'Airport',
-    slug: 'full-package',
-    tourId: 'cbb02563-78bb-4cfb-a979-de1a973c1c06',
+    minAge: "12 +",
+    pickup: "Airport",
+    slug: "full-package",
     overview: `The Sacred Journey to Makkah is crafted for those seeking a profound and spiritual connection through the sacred rites of Umrah. This experience is designed for travelers who wish to immerse themselves in the rich Islamic heritage and spiritual significance of Makkah and Medina. More than just a pilgrimage, the Sacred Journey to Makkah combines the timeless rituals of Umrah with opportunities to explore the historical sites, hidden gems, and cultural treasures of Islam's holiest cities.<br/><br/>
 
     From the majestic Kaaba to the serene Masjid al-Nabawi, our tour offers a deep and meaningful exploration of these revered places. You will be guided through the rituals of Umrah, with opportunities to reflect, pray, and connect with the spiritual essence of Islam. This journey is not just about visiting sacred sites but about embracing the profound peace and tranquility that comes from walking in the footsteps of the Prophet Muhammad (PBUH).`,
@@ -188,68 +183,67 @@ const packages: Package[] = [
     ensuring that your journey is as peaceful and enriching as
     possible.`,
     images: [
-      { src: ImageOne, alt: 'Image 1' },
-      { src: ImageTwo, alt: 'Image 2' },
-      { src: ImageThree, alt: 'Image 3' },
-      { src: ImageFour, alt: 'Image 4' },
-      { src: ImageFive, alt: 'Image 5' },
-      { src: ImageSix, alt: 'Image 6' },
-      { src: ImageSeven, alt: 'Image 7' },
-      { src: ImageEight, alt: 'Image 8' },
+      { src: ImageOne, alt: "Image 1" },
+      { src: ImageTwo, alt: "Image 2" },
+      { src: ImageThree, alt: "Image 3" },
+      { src: ImageFour, alt: "Image 4" },
+      { src: ImageFive, alt: "Image 5" },
+      { src: ImageSix, alt: "Image 6" },
+      { src: ImageSeven, alt: "Image 7" },
+      { src: ImageEight, alt: "Image 8" },
     ],
     itinerary: [
       {
-        day: 'Day 01',
-        description: 'Pickup and Arrive at Makkah Hotel',
+        day: "Day 01",
+        description: "Pickup and Arrive at Makkah Hotel",
       },
       {
-        day: 'Day 02',
-        description: 'Ummrah',
+        day: "Day 02",
+        description: "Ummrah",
       },
       {
-        day: 'Day 03',
-        description: 'Makkah Museum',
+        day: "Day 03",
+        description: "Makkah Museum",
       },
       {
-        day: 'Day 04',
-        description: 'Bullet Train to Medina + Arrive at Medina Hotel',
+        day: "Day 04",
+        description: "Bullet Train to Medina + Arrive at Medina Hotel",
       },
       {
-        day: 'Day 05',
-        description: 'Sacred Site Tours (x4)',
+        day: "Day 05",
+        description: "Sacred Site Tours (x4)",
       },
       {
-        day: 'Day 06',
-        description: 'Museum Tour (x3)',
+        day: "Day 06",
+        description: "Museum Tour (x3)",
       },
       {
-        day: 'Day 07',
-        description: 'English Islamic Lesson',
+        day: "Day 07",
+        description: "English Islamic Lesson",
       },
       {
-        day: 'Day 08',
-        description: 'Sacred Site Tours (x4)',
+        day: "Day 08",
+        description: "Sacred Site Tours (x4)",
       },
       {
-        day: 'Day 09',
-        description: 'Depature',
+        day: "Day 09",
+        description: "Depature",
       },
     ],
   },
   {
-    typePackage: 'Full Package',
-    imageUrl: 'https://picsum.photos/400/300?random=2',
-    title: 'Extreme Tour',
+    typePackage: "Full Package",
+    imageUrl: "https://picsum.photos/400/300?random=2",
+    title: "Extreme Tour",
     description:
-      'Embark on an adventurous journey with our Extreme Tour, featuring thrilling activities that blend excitement with cultural discovery.',
+      "Embark on an adventurous journey with our Extreme Tour, featuring thrilling activities that blend excitement with cultural discovery.",
     price: 4000,
     rating: 4.4,
-    duration: '2 days',
+    duration: "2 days",
     maxPeople: 20,
-    minAge: '12 +',
-    pickup: 'Airport',
-    slug: 'extreme-tour',
-    tourId: 'cbb02563-78bb-4cfb-a979-de1a973c1c07',
+    minAge: "12 +",
+    pickup: "Airport",
+    slug: "extreme-tour",
     overview: `The Sacred Journey to Makkah is crafted for those seeking a profound and spiritual connection through the sacred rites of Umrah. This experience is designed for travelers who wish to immerse themselves in the rich Islamic heritage and spiritual significance of Makkah and Medina. More than just a pilgrimage, the Sacred Journey to Makkah combines the timeless rituals of Umrah with opportunities to explore the historical sites, hidden gems, and cultural treasures of Islam's holiest cities.<br/><br/>
 
     From the majestic Kaaba to the serene Masjid al-Nabawi, our tour offers a deep and meaningful exploration of these revered places. You will be guided through the rituals of Umrah, with opportunities to reflect, pray, and connect with the spiritual essence of Islam. This journey is not just about visiting sacred sites but about embracing the profound peace and tranquility that comes from walking in the footsteps of the Prophet Muhammad (PBUH).`,
@@ -267,62 +261,55 @@ const packages: Package[] = [
     ensuring that your journey is as peaceful and enriching as
     possible.`,
     images: [
-      { src: ImageOne, alt: 'Image 1' },
-      { src: ImageTwo, alt: 'Image 2' },
-      { src: ImageThree, alt: 'Image 3' },
-      { src: ImageFour, alt: 'Image 4' },
-      { src: ImageFive, alt: 'Image 5' },
-      { src: ImageSix, alt: 'Image 6' },
-      { src: ImageSeven, alt: 'Image 7' },
-      { src: ImageEight, alt: 'Image 8' },
+      { src: ImageOne, alt: "Image 1" },
+      { src: ImageTwo, alt: "Image 2" },
+      { src: ImageThree, alt: "Image 3" },
+      { src: ImageFour, alt: "Image 4" },
+      { src: ImageFive, alt: "Image 5" },
+      { src: ImageSix, alt: "Image 6" },
+      { src: ImageSeven, alt: "Image 7" },
+      { src: ImageEight, alt: "Image 8" },
     ],
     itinerary: [
       {
-        day: 'Day 01',
-        description: 'Pickup and Arrive at Makkah Hotel',
+        day: "Day 01",
+        description: "Pickup and Arrive at Makkah Hotel",
       },
       {
-        day: 'Day 02',
-        description: 'Ummrah',
+        day: "Day 02",
+        description: "Ummrah",
       },
       {
-        day: 'Day 03',
-        description: 'Makkah Museum',
+        day: "Day 03",
+        description: "Makkah Museum",
       },
       {
-        day: 'Day 04',
-        description: 'Bullet Train to Medina + Arrive at Medina Hotel',
+        day: "Day 04",
+        description: "Bullet Train to Medina + Arrive at Medina Hotel",
       },
       {
-        day: 'Day 05',
-        description: 'Sacred Site Tours (x4)',
+        day: "Day 05",
+        description: "Sacred Site Tours (x4)",
       },
       {
-        day: 'Day 06',
-        description: 'Museum Tour (x3)',
+        day: "Day 06",
+        description: "Museum Tour (x3)",
       },
       {
-        day: 'Day 07',
-        description: 'English Islamic Lesson',
+        day: "Day 07",
+        description: "English Islamic Lesson",
       },
       {
-        day: 'Day 08',
-        description: 'Sacred Site Tours (x4)',
+        day: "Day 08",
+        description: "Sacred Site Tours (x4)",
       },
       {
-        day: 'Day 09',
-        description: 'Depature',
+        day: "Day 09",
+        description: "Depature",
       },
     ],
   },
 ];
-
-export interface Bookings {
-  id: string;
-  tour_id: string;
-  participants: number;
-  date: Date;
-}
 
 // Mock unavailable dates for testing
 // const unavailableDates = [
@@ -331,30 +318,25 @@ export interface Bookings {
 //   addDays(new Date(), 6),
 // ];
 
+interface PackageDetailPageClientProps {
+  packageDetails: DetailedTourPackage;
+}
+
 // Package detail page component
 export default function PackageDetailPage({
-  params,
-}: {
-  params: { id: string };
-}) {
+  packageDetails,
+}: PackageDetailPageClientProps) {
   // Find the selected package based on the slug
-  const selectedPackage = packages.find((pkg) => pkg.slug === params.id);
+  const selectedPackage = packageDetails; //packages.find((pkg) => pkg.slug === params.id);
 
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [guests, setGuests] = useState<number | null>(null);
-  const [price, setPrice] = useState<number>(0);
   const [availableDates, setAvailableDates] = useState<Availability[]>([]);
   const [isCalendarDisabled, setIsCalendarDisabled] = useState(true);
   const [isCheckingAvailability, setIsCheckingAvailability] = useState(false);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [firstName, setFirstName] = useState<string>('');
-  const [lastName, setLastName] = useState<string>('');
-  const [email, setEmail] = useState<string>('');
-
   const [bookingError, setBookingError] = useState<string | null>(null);
   const [isBooking, setIsBooking] = useState(false);
-
-  const router = useRouter();
 
   // Handle case where the package is not found
   if (!selectedPackage) {
@@ -400,24 +382,13 @@ export default function PackageDetailPage({
   //   }
   // };
 
-  const calculateTotalPrice = async () => {
-    const totalPrice =
-      Math.ceil((guests ?? 1) / selectedPackage.maxPeople) *
-      selectedPackage.price;
-    return totalPrice;
-  };
-
   const checkAvailability = async () => {
     setIsCheckingAvailability(true);
 
     try {
       const currentDate = new Date(); // Use today's date
       const availability: Availability[] =
-        await bookingClient.getAvailableDates(
-          currentDate,
-          selectedPackage.tourId,
-          selectedPackage.maxPeople
-        );
+        await bookingClient.getAvailableDates(currentDate);
 
       // Convert available dates from UTC to local time and keep track of spots
       const available = availability.map((day) => {
@@ -433,12 +404,11 @@ export default function PackageDetailPage({
         };
       });
 
-      console.log('Available returned:', available);
-      setPrice(await calculateTotalPrice());
+      console.log("Available returned:", available);
       setAvailableDates(available); // Store available dates with spots info
       setIsCalendarDisabled(false); // Enable calendar
     } catch (error) {
-      console.error('Error fetching availability:', error);
+      console.error("Error fetching availability:", error);
     } finally {
       setIsCheckingAvailability(false);
     }
@@ -493,26 +463,16 @@ export default function PackageDetailPage({
 
   const handleBooking = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('NAIS');
-
     setIsBooking(true);
     setBookingError(null);
 
     if (!selectedDate || !guests || guests <= 0) {
-      setBookingError('Please select a valid date and number of guests.');
+      setBookingError("Please select a valid date and number of guests.");
       setIsBooking(false);
       return;
     }
 
     try {
-      const tour = await bookingClient.verifyTour(
-        selectedPackage.tourId,
-        selectedPackage.title,
-        selectedPackage.slug
-      );
-
-      const user = await bookingClient.verifyUser(email);
-
       // Convert the selected date to UTC before sending it to the server
       const selectedDateUTC = new Date(
         Date.UTC(
@@ -523,32 +483,24 @@ export default function PackageDetailPage({
       );
 
       // Call the bookingClient to create a new booking
-      const booking = await bookingClient.createBooking(
-        selectedPackage.tourId,
+      await bookingClient.createBooking(
+        selectedPackage.slug.current,
         selectedDateUTC.toISOString(), // Pass UTC date to the server
         guests
       );
 
-      // Redirect to user portal
-      const sessionUrl = await bookingClient.generateStripePortal(
-        booking.id,
-        tour.productIdStripe,
-        user.customerIdStripe,
-        await calculateTotalPrice()
-      );
-
-      // Redirect to user portal
-      router.push(sessionUrl);
+      // Handle success, maybe redirect or show a success message
+      alert("Booking successful!");
     } catch (error) {
-      console.error('Error creating booking:', error);
-      setBookingError('Failed to create booking. Please try again.');
+      console.error("Error creating booking:", error);
+      setBookingError("Failed to create booking. Please try again.");
     } finally {
       setIsBooking(false);
     }
   };
 
   const originalPrice = (price: number): string => {
-    return Math.round(price).toLocaleString(); // Format with commas
+    return Math.round(price * 3).toLocaleString(); // Format with commas
   };
 
   return (
@@ -560,7 +512,7 @@ export default function PackageDetailPage({
           {/* Carousel */}
           <Carousel
             opts={{
-              align: 'center',
+              align: "center",
               loop: true,
               skipSnaps: true, // Smoothens the transition
             }}
@@ -575,10 +527,10 @@ export default function PackageDetailPage({
             <div className="flex flex-col sm:flex-row justify-between items-end mb-8 gap-8 sm:gap-0">
               <div className="flex flex-col items-start text-left max-w-2xl">
                 <p className="text-lg text-body-secondary mb-2">
-                  {selectedPackage.typePackage}
+                  {/* {selectedPackage.typePackage} */}
                 </p>
                 <h1 className="text-3xl lg:text-4xl font-bold text-primary mb-2">
-                  {selectedPackage.title}
+                  {selectedPackage.name}
                 </h1>
                 <p className="text-lg text-body-secondary max-w-xl pt-4">
                   {selectedPackage.description}
@@ -603,7 +555,7 @@ export default function PackageDetailPage({
                 <CarouselItem key={index}>
                   <div className="rounded-lg overflow-hidden w-full h-full">
                     <Image
-                      src={image.src}
+                      src={urlFor(image).url()}
                       alt={image.alt}
                       width={1920}
                       height={1080}
@@ -622,14 +574,14 @@ export default function PackageDetailPage({
           {/* Booking Form (3rd Column) */}
           <div className="bg-white p-6 md:p-10 shadow-xl rounded-2xl">
             <p className="text-xl font-bold text-body-secondary">Cost:</p>
-            <div className="flex flex-row items-center gap-8 my-1">
+            {/* <div className="flex flex-row items-center gap-8 my-1">
               <h3 className="text-3xl font-bold text-primary">
                 ${selectedPackage.price.toLocaleString()}
               </h3>
               <span className="text-xl font-bold text-red-500 line-through">
                 ${originalPrice(selectedPackage.price)}
               </span>
-            </div>
+            </div> */}
             <div className="relative flex flex-row items-center justify-between gap-2 w-full my-4">
               <div className="absolute m-auto w-full h-[1px] border-b border-dashed border-wild-sand-200 z-0"></div>
               <div className="h-2 w-2 block rounded-full bg-wild-sand-200"></div>
@@ -639,134 +591,138 @@ export default function PackageDetailPage({
               />
               <div className="h-2 w-2 block rounded-full bg-wild-sand-200"></div>
             </div>
-            {/* Number of Guests */}
-            <div className="mb-4">
-              <label className="block text-base font-medium mb-2">
-                Number of Guests
-              </label>
-              <input
-                type="number"
-                min="1"
-                max="100"
-                value={guests || ''}
-                placeholder="Enter number of guests"
-                onChange={handleGuestsChange}
-                className="w-full px-4 py-2 border rounded-md"
-                // on enter
-                onKeyPress={(e) => {
-                  if (e.key === 'Enter') {
-                    e.preventDefault();
-                    checkAvailability();
-                  }
-                }}
-              />
-            </div>
+            <form onSubmit={handleBooking}>
+              {/* Number of Guests */}
+              <div className="mb-4">
+                <label className="block text-base font-medium mb-2">
+                  Number of Guests
+                </label>
+                <input
+                  type="number"
+                  min="1"
+                  max="100"
+                  value={guests || ""}
+                  placeholder="Enter number of guests"
+                  onChange={handleGuestsChange}
+                  className="w-full px-4 py-2 border rounded-md"
+                  // on enter
+                  onKeyPress={(e) => {
+                    if (e.key === "Enter") {
+                      e.preventDefault();
+                      checkAvailability();
+                    }
+                  }}
+                />
+              </div>
 
-            {/* Check Availability Button */}
-            {isCalendarDisabled && (
-              <button
-                type="button"
-                onClick={checkAvailability}
-                className="w-full px-6 py-3 bg-green-700 text-white font-bold rounded-md shadow-md hover:bg-green-800 disabled:opacity-50 disabled:cursor-not-allowed"
-                disabled={isCheckingAvailability || guests === null} // Disable while checking
-              >
-                {isCheckingAvailability ? 'Checking...' : 'Check Availability'}
-              </button>
-            )}
+              {/* Check Availability Button */}
+              {isCalendarDisabled && (
+                <button
+                  type="button"
+                  onClick={checkAvailability}
+                  className="w-full px-6 py-3 bg-green-700 text-white font-bold rounded-md shadow-md hover:bg-green-800 disabled:opacity-50 disabled:cursor-not-allowed"
+                  disabled={isCheckingAvailability || guests === null} // Disable while checking
+                >
+                  {isCheckingAvailability
+                    ? "Checking..."
+                    : "Check Availability"}
+                </button>
+              )}
 
-            {/* Book Now Button */}
-            {!isCalendarDisabled && (
-              <>
-                {/* Calendar Date Selection */}
-                <div className="mb-4">
-                  <label className="block text-base font-medium mb-2">
-                    Select Date
-                  </label>
-                  <div className={isCalendarDisabled ? 'opacity-50' : ''}>
-                    <Calendar
-                      mode="single"
-                      selected={selectedDate ?? undefined}
-                      onSelect={(date) => setSelectedDate(date as Date)}
-                      disabled={isDateDisabled} // Disable based on availability
-                      // disabled={(date) => date < new Date()}
-                      className="h-full w-full px-4 py-2 rounded-md flex border"
-                      classNames={{
-                        months:
-                          'flex w-full flex-col sm:flex-row space-y-4 sm:space-x-4 sm:space-y-0 flex-1',
-                        month: 'space-y-4 w-full flex flex-col',
-                        table: 'w-full h-full border-collapse space-y-1',
-                        head_row: '',
-                        row: 'w-full mt-2',
-                      }}
-                    />
+              {/* Book Now Button */}
+              {!isCalendarDisabled && (
+                <>
+                  {/* Calendar Date Selection */}
+                  <div className="mb-4">
+                    <label className="block text-base font-medium mb-2">
+                      Select Date
+                    </label>
+                    <div className={isCalendarDisabled ? "opacity-50" : ""}>
+                      <Calendar
+                        mode="single"
+                        selected={selectedDate ?? undefined}
+                        onSelect={(date) => setSelectedDate(date as Date)}
+                        disabled={isDateDisabled} // Disable based on availability
+                        // disabled={(date) => date < new Date()}
+                        className="h-full w-full px-4 py-2 rounded-md flex border"
+                        classNames={{
+                          months:
+                            "flex w-full flex-col sm:flex-row space-y-4 sm:space-x-4 sm:space-y-0 flex-1",
+                          month: "space-y-4 w-full flex flex-col",
+                          table: "w-full h-full border-collapse space-y-1",
+                          head_row: "",
+                          row: "w-full mt-2",
+                        }}
+                      />
+                    </div>
                   </div>
-                </div>
-                <Dialog>
-                  <DialogTrigger
-                    type="button"
-                    className="w-full mt-4 px-6 py-3 bg-primary text-white font-bold rounded-md shadow-md hover:bg-eucalyptus-800 disabled:opacity-50 disabled:cursor-not-allowed"
-                    disabled={!selectedDate}
-                  >
-                    Book Now
-                  </DialogTrigger>
-                  <DialogContent className="bg-white p-6 2xs:p-8 w-full 2xs:w-max max-w-[calc(100vw-2rem)] !rounded-xl overflow-hidden">
-                    <form onSubmit={handleBooking}>
+                  {/* <button
+                      type="submit"
+                      className="w-full mt-4 px-6 py-3 bg-primary text-white font-bold rounded-md shadow-md hover:bg-eucalyptus-800 disabled:opacity-50 disabled:cursor-not-allowed"
+                      disabled={isBooking || !selectedDate}
+                      // disabled={true}
+                    >
+                      {isBooking ? 'Booking...' : 'Book Now'}
+                    </button> */}
+                  <Dialog>
+                    <DialogTrigger className="w-full">
+                      <button
+                        type="button"
+                        className="w-full mt-4 px-6 py-3 bg-primary text-white font-bold rounded-md shadow-md hover:bg-eucalyptus-800 disabled:opacity-50 disabled:cursor-not-allowed"
+                        disabled={isBooking || !selectedDate}
+                        // disabled={true}
+                      >
+                        {isBooking ? "Booking..." : "Book Now"}
+                      </button>
+                    </DialogTrigger>
+                    <DialogContent className="bg-white p-6 2xs:p-8 w-full 2xs:w-max max-w-[calc(100vw-2rem)] !rounded-xl overflow-hidden">
                       <DialogHeader>
-                        <DialogTitle className="text-2xl sm:text-3xl font-bold text-primary">
-                          Complete Your Booking
+                        <DialogTitle>
+                          <h3 className="text-2xl sm:text-3xl font-bold text-primary">
+                            Complete Your Booking
+                          </h3>
                         </DialogTitle>
-                        <DialogDescription className="text-lg text-body-secondary my-2">
-                          Total Cost :{' '}
-                          <span className="text-primary font-bold">
-                            ${originalPrice(price)}
-                          </span>
+                        <DialogDescription>
+                          <p className="text-lg text-body-secondary my-2">
+                            Total Cost :{" "}
+                            <span className="text-primary font-bold">
+                              $4,500
+                            </span>
+                          </p>
                         </DialogDescription>
                       </DialogHeader>
-                      <div className="flex flex-col items-stretch gap-4 mt-4">
+                      <div className="flex flex-col items-stretch gap-4">
                         <div className="flex flex-col 2xs:flex-row items-stretch gap-4">
                           <input
                             type="text"
                             placeholder="First Name"
                             className="w-full px-4 py-2 border rounded-md flex-1"
-                            onChange={(el) => setFirstName(el.target.value)}
-                            required
                           />
                           <input
                             type="text"
                             placeholder="Last Name"
                             className="w-full px-4 py-2 border rounded-md flex-1"
-                            onChange={(el) => setLastName(el.target.value)}
-                            required
                           />
                         </div>
                         <input
                           type="email"
                           placeholder="Email Address"
                           className="w-full px-4 py-2 border rounded-md flex-1"
-                          onChange={(el) => setEmail(el.target.value)}
-                          required
                         />
                       </div>
                       <DialogFooter>
                         <button
                           type="submit"
                           className="w-full 2xs:w-max ml-auto mt-4 px-6 py-3 bg-primary text-white font-bold rounded-md shadow-md hover:bg-eucalyptus-800 disabled:opacity-50 disabled:cursor-not-allowed"
-                          disabled={
-                            isBooking ||
-                            !selectedDate ||
-                            !firstName ||
-                            !lastName ||
-                            !email
-                          }
                         >
-                          {isBooking ? 'Checkout...' : 'Checkout Now'}
+                          {isBooking ? "Checkout..." : "Checkout Now"}
                         </button>
                       </DialogFooter>
-                    </form>
-                  </DialogContent>
-                </Dialog>
-              </>
-            )}
+                    </DialogContent>
+                  </Dialog>
+                </>
+              )}
+            </form>
           </div>
         </div>
         {/* Tour Packages Details -- Features */}
@@ -795,7 +751,7 @@ export default function PackageDetailPage({
                   Max People
                 </p>
                 <p className="text-lg text-body-secondary">
-                  {selectedPackage.maxPeople}
+                  {/* {selectedPackage.maxPeople} */}
                 </p>
               </div>
             </div>
@@ -808,7 +764,7 @@ export default function PackageDetailPage({
               <div className="flex flex-col">
                 <p className="text-lg font-bold text-body-secondary">Min Age</p>
                 <p className="text-lg text-body-secondary">
-                  {selectedPackage.minAge}
+                  {/* {selectedPackage.minAge} */}
                 </p>
               </div>
             </div>
@@ -818,7 +774,7 @@ export default function PackageDetailPage({
               <div className="flex flex-col">
                 <p className="text-lg font-bold text-body-secondary">Pickup</p>
                 <p className="text-lg text-body-secondary">
-                  {selectedPackage.pickup}
+                  {/* {selectedPackage.pickup} */}
                 </p>
               </div>
             </div>
@@ -835,23 +791,25 @@ export default function PackageDetailPage({
               <p className="text-xl lg:text-2xl font-bold text-primary">
                 Overview
               </p>
-              <div
+              <p
                 className="text-lg text-body-secondary"
-                dangerouslySetInnerHTML={{ __html: selectedPackage.overview }}
-              ></div>
+                dangerouslySetInnerHTML={{
+                  __html: selectedPackage.description,
+                }}
+              ></p>
             </div>
             {/* Tour Packages Details -- Tour Highlights */}
-            <div className="flex flex-col gap-6 2lg:max-w-xl xl:max-w-2xl">
+            {/* <div className="flex flex-col gap-6 2lg:max-w-xl xl:max-w-2xl">
               <p className="text-xl lg:text-2xl font-bold text-primary">
                 Tour Highlights
               </p>
-              <div
+              <p
                 className="text-lg text-body-secondary"
-                dangerouslySetInnerHTML={{
-                  __html: selectedPackage.tourHighlight,
-                }}
-              ></div>
-            </div>
+                // dangerouslySetInnerHTML={{
+                //   __html: selectedPackage.tourHighlight,
+                // }}
+              ></p>
+            </div> */}
             {/* Tour Packages Details -- Tour Plan */}
             <div className="flex flex-col gap-6 2lg:max-w-xl xl:max-w-2xl">
               <p className="text-xl lg:text-2xl font-bold text-primary">
@@ -861,7 +819,7 @@ export default function PackageDetailPage({
                 {(selectedPackage.itinerary || [])?.map((item, index) => (
                   <DayInfo
                     key={index}
-                    day={item.day}
+                    day={item.time}
                     description={item.description}
                   />
                 ))}
@@ -874,12 +832,12 @@ export default function PackageDetailPage({
             <div className="bg-white p-10 shadow-xl rounded-2xl">
               <p className="text-xl font-bold text-body-secondary">Cost:</p>
               <div className="flex flex-row items-center gap-8 my-1">
-                <h3 className="text-3xl font-bold text-primary">
+                {/* <h3 className="text-3xl font-bold text-primary">
                   ${selectedPackage.price.toLocaleString()}
-                </h3>
-                <span className="text-xl font-bold text-red-500 line-through">
-                  ${originalPrice(selectedPackage.price * 3)}
-                </span>
+                </h3> */}
+                {/* <span className="text-xl font-bold text-red-500 line-through">
+                  ${originalPrice(selectedPackage.price)}
+                </span> */}
               </div>
               <div className="relative flex flex-row items-center justify-between gap-2 w-full my-4">
                 <div className="absolute m-auto w-full h-[1px] border-b border-dashed border-wild-sand-200 z-0"></div>
@@ -890,136 +848,133 @@ export default function PackageDetailPage({
                 />
                 <div className="h-2 w-2 block rounded-full bg-wild-sand-200"></div>
               </div>
-              {/* Number of Guests */}
-              <div className="mb-4">
-                <label className="block text-base font-medium mb-2">
-                  Number of Guests
-                </label>
-                <input
-                  type="number"
-                  min="1"
-                  max="100"
-                  value={guests || ''}
-                  placeholder="Enter number of guests"
-                  onChange={handleGuestsChange}
-                  className="w-full px-4 py-2 border rounded-md"
-                  // on enter
-                  onKeyPress={(e) => {
-                    if (e.key === 'Enter') {
-                      e.preventDefault();
-                      checkAvailability();
-                    }
-                  }}
-                />
-              </div>
+              <form onSubmit={handleBooking}>
+                {/* Number of Guests */}
+                <div className="mb-4">
+                  <label className="block text-base font-medium mb-2">
+                    Number of Guests
+                  </label>
+                  <input
+                    type="number"
+                    min="1"
+                    max="100"
+                    value={guests || ""}
+                    placeholder="Enter number of guests"
+                    onChange={handleGuestsChange}
+                    className="w-full px-4 py-2 border rounded-md"
+                    // on enter
+                    onKeyPress={(e) => {
+                      if (e.key === "Enter") {
+                        e.preventDefault();
+                        checkAvailability();
+                      }
+                    }}
+                  />
+                </div>
 
-              {/* Check Availability Button */}
-              {isCalendarDisabled && (
-                <button
-                  type="button"
-                  onClick={checkAvailability}
-                  className="w-full px-6 py-3 bg-green-700 text-white font-bold rounded-md shadow-md hover:bg-green-800 disabled:opacity-50 disabled:cursor-not-allowed"
-                  disabled={
-                    isCheckingAvailability ||
-                    guests === null ||
-                    guests <= 0 ||
-                    guests === undefined
-                  } // Disable while checking
-                >
-                  {isCheckingAvailability
-                    ? 'Checking...'
-                    : 'Check Availability'}
-                </button>
-              )}
+                {/* Check Availability Button */}
+                {isCalendarDisabled && (
+                  <button
+                    type="button"
+                    onClick={checkAvailability}
+                    className="w-full px-6 py-3 bg-green-700 text-white font-bold rounded-md shadow-md hover:bg-green-800 disabled:opacity-50 disabled:cursor-not-allowed"
+                    disabled={isCheckingAvailability} // Disable while checking
+                  >
+                    {isCheckingAvailability
+                      ? "Checking..."
+                      : "Check Availability"}
+                  </button>
+                )}
 
-              {/* Book Now Button */}
-              {!isCalendarDisabled && (
-                <>
-                  {/* Calendar Date Selection */}
-                  <div className="mb-4">
-                    <label className="block text-base font-medium mb-2">
-                      Select Date
-                    </label>
-                    <div className={isCalendarDisabled ? 'opacity-50' : ''}>
-                      <Calendar
-                        mode="single"
-                        selected={selectedDate ?? undefined}
-                        onSelect={(date) => setSelectedDate(date as Date)}
-                        disabled={isDateDisabled} // Disable based on availability
-                        // disabled={(date) => date < new Date()}
-                        className="w-max px-4 py-2 border rounded-md"
-                      />
+                {/* Book Now Button */}
+                {!isCalendarDisabled && (
+                  <>
+                    {/* Calendar Date Selection */}
+                    <div className="mb-4">
+                      <label className="block text-base font-medium mb-2">
+                        Select Date
+                      </label>
+                      <div className={isCalendarDisabled ? "opacity-50" : ""}>
+                        <Calendar
+                          mode="single"
+                          selected={selectedDate ?? undefined}
+                          onSelect={(date) => setSelectedDate(date as Date)}
+                          disabled={isDateDisabled} // Disable based on availability
+                          // disabled={(date) => date < new Date()}
+                          className="w-max px-4 py-2 border rounded-md"
+                        />
+                      </div>
                     </div>
-                  </div>
-                  <Dialog>
-                    <DialogTrigger
-                      type="button"
+                    {/* <button
+                      type="submit"
                       className="w-full mt-4 px-6 py-3 bg-primary text-white font-bold rounded-md shadow-md hover:bg-eucalyptus-800 disabled:opacity-50 disabled:cursor-not-allowed"
-                      disabled={!selectedDate}
+                      disabled={isBooking || !selectedDate}
+                      // disabled={true}
                     >
-                      Book Now
-                    </DialogTrigger>
-                    <DialogContent className="bg-white p-6 2xs:p-8 w-full 2xs:w-max max-w-[calc(100vw-2rem)] !rounded-xl overflow-hidden">
-                      <form onSubmit={handleBooking}>
+                      {isBooking ? 'Booking...' : 'Book Now'}
+                    </button> */}
+                    <Dialog>
+                      <DialogTrigger className="w-full">
+                        <button
+                          type="button"
+                          className="w-full mt-4 px-6 py-3 bg-primary text-white font-bold rounded-md shadow-md hover:bg-eucalyptus-800 disabled:opacity-50 disabled:cursor-not-allowed"
+                          disabled={isBooking || !selectedDate}
+                          // disabled={true}
+                        >
+                          {isBooking ? "Booking..." : "Book Now"}
+                        </button>
+                      </DialogTrigger>
+                      <DialogContent className="bg-white p-6 2xs:p-8 w-full 2xs:w-max max-w-[calc(100vw-2rem)] !rounded-xl overflow-hidden">
                         <DialogHeader>
-                          <DialogTitle className="text-2xl sm:text-3xl font-bold text-primary">
-                            Complete Your Booking
+                          <DialogTitle>
+                            <h3 className="text-2xl sm:text-3xl font-bold text-primary">
+                              Complete Your Booking
+                            </h3>
                           </DialogTitle>
-                          <DialogDescription className="text-lg text-body-secondary my-2">
-                            Total Cost :{' '}
-                            <span className="text-primary font-bold">
-                              ${originalPrice(price)}
-                            </span>
+                          <DialogDescription>
+                            <p className="text-lg text-body-secondary my-2">
+                              Total Cost :{" "}
+                              <span className="text-primary font-bold">
+                                $4,500
+                              </span>
+                            </p>
                           </DialogDescription>
                         </DialogHeader>
-                        <div className="flex flex-col items-stretch gap-4 mt-4">
+                        <div className="flex flex-col items-stretch gap-4">
                           <div className="flex flex-col 2xs:flex-row items-stretch gap-4">
                             <input
                               type="text"
                               placeholder="First Name"
                               className="w-full px-4 py-2 border rounded-md flex-1"
-                              onChange={(el) => setFirstName(el.target.value)}
-                              required
                             />
                             <input
                               type="text"
                               placeholder="Last Name"
                               className="w-full px-4 py-2 border rounded-md flex-1"
-                              onChange={(el) => setLastName(el.target.value)}
-                              required
                             />
                           </div>
                           <input
                             type="email"
                             placeholder="Email Address"
                             className="w-full px-4 py-2 border rounded-md flex-1"
-                            onChange={(el) => setEmail(el.target.value)}
-                            required
                           />
                         </div>
                         <DialogFooter>
                           <button
                             type="submit"
                             className="w-full 2xs:w-max ml-auto mt-4 px-6 py-3 bg-primary text-white font-bold rounded-md shadow-md hover:bg-eucalyptus-800 disabled:opacity-50 disabled:cursor-not-allowed"
-                            disabled={
-                              isBooking ||
-                              !selectedDate ||
-                              !firstName ||
-                              !lastName ||
-                              !email
-                            }
                           >
-                            {isBooking ? 'Checkout...' : 'Checkout Now'}
+                            {isBooking ? "Checkout..." : "Checkout Now"}
                           </button>
                         </DialogFooter>
-                      </form>
-                    </DialogContent>
-                  </Dialog>
-                </>
-              )}
+                      </DialogContent>
+                    </Dialog>
+                  </>
+                )}
+              </form>
             </div>
             {/* Quote Block --  Dekstop */}
-            <div className="w-full max-w-[280px] mt-40 mx-auto">
+            <div className="w-full max-w-[280px] mt-20 mx-auto">
               <div className="mx-auto">
                 <div className="flex flex-col max-w-2xl justify-center mx-auto text-center items-center">
                   <span className="text-4xl text-primary">

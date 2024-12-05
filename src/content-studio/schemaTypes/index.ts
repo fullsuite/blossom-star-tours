@@ -11,8 +11,7 @@ import { featureWithPercentage } from './featureWithPercentage'
 import { tourGalleryPage } from './tourGalleryPage'
 import { contactUsPage } from './contactUsPage'
 
-export const schema: { types: SchemaTypeDefinition[] } = {
-  types: [
+export const schemaTypes =  [
     tourPackage,
     homePage,
     aboutUsPage,
@@ -24,5 +23,4 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     testimonial,
     pageHeader,
     featureWithPercentage
-  ],
-}
+  ]

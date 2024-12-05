@@ -9,6 +9,9 @@ import { TourGalleryPage } from '@/lib/types/page/tourGalleryPage';
 import { tourGalleryQuery } from '@/lib/queries/tourGalleryQuery';
 import { ContactUsPage } from '@/lib/types/page/contactUsPage';
 import { contactUsPageQuery } from '@/lib/queries/contactUsPageQuery';
+import { DetailedTourPackage, MinimalTourPackage } from '@/lib/types/tour/package';
+import { tourPackageDetailQuery } from '@/lib/queries/tourPackageDetailQuery';
+import { tourPackageQuery } from '@/lib/queries/tourPackageQuery';
 
 export const client = createClient({
   projectId,
@@ -66,4 +69,19 @@ export async function fetchContactPageData(): Promise<ContactUsPage | null> {
     // revalidate: 10 
   });
   return data || null;
+}
+
+
+
+export async function fetchTourPackages(): Promise<MinimalTourPackage[]> {
+  const data = await sanityFetch ( {
+    query : tourPackageQuery, 
+    // revalidate: 10 
+  });
+  return data || null;
+}
+
+export async function fetchPackageDetails(slug: string): Promise<DetailedTourPackage | null> {
+  const result = await client.fetch(tourPackageDetailQuery, { slug });
+  return result as DetailedTourPackage | null;
 }
