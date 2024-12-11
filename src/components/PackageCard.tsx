@@ -15,10 +15,10 @@ import { MinimalTourPackage, TourPackage } from "@/lib/types/tour/package";
 import { urlFor } from "@/sanity/lib/image";
 import { cn } from "@/lib/utils";
 import { useRouter } from "next/navigation";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 interface PackageCardProps {
-  package: MinimalTourPackage;
+  package: any;
   classNames?: string;
   style?: React.CSSProperties;
 }
@@ -26,14 +26,22 @@ interface PackageCardProps {
 const PackageCard = React.forwardRef<HTMLDivElement, PackageCardProps>(
   ({ package: pkg, classNames, style }, ref) => {
     const { name, description, duration, firstGroup, firstImage, slug } = pkg;
+    const [formattedPrice, setFormattedPrice] = useState<string>("");
+    const [pricingLabel, setPricingLabel] = useState<string>("");
 
     // Extract pricing details from the first group
-    const { standardPricing, pricingType } = firstGroup;
-    const formattedPrice = standardPricing
-      ? `$${standardPricing.toFixed(2)}`
-      : "N/A";
-    const pricingLabel =
-      pricingType === "perPerson" ? "per person" : "per group";
+
+    useEffect(() => {
+      if (firstGroup != null) {
+        const { standardPricing, pricingType } = firstGroup;
+        setFormattedPrice(
+          standardPricing ? `$${standardPricing.toFixed(2)}` : "N/A"
+        );
+        setPricingLabel(
+          pricingType === "perPerson" ? "per person" : "per group"
+        );
+      }
+    });
 
     const router = useRouter();
 
@@ -49,7 +57,7 @@ const PackageCard = React.forwardRef<HTMLDivElement, PackageCardProps>(
         {/* Image */}
         <div className="relative w-full aspect-[4/3] -mb-8 z-0">
           <Image
-            src={urlFor(firstImage).url()}
+            src={urlFor(firstImage ? firstImage : pkg.images[0].asset).url()}
             alt={name}
             layout="fill"
             objectFit="cover"
@@ -73,12 +81,25 @@ const PackageCard = React.forwardRef<HTMLDivElement, PackageCardProps>(
               <span className="block text-xs font-medium text-gray-500">
                 From
               </span>
-              <span className="text-lg font-bold text-eucalyptus-600">
-                {formattedPrice}
-              </span>
-              <span className="block text-xs font-medium text-gray-500">
-                {pricingLabel}
-              </span>
+              {firstGroup != null ? (
+                <>
+                  <span className="text-lg font-bold text-eucalyptus-600">
+                    {formattedPrice}
+                  </span>
+                  <span className="block text-xs font-medium text-gray-500">
+                    {pricingLabel}
+                  </span>
+                </>
+              ) : (
+                <>
+                  <span className="text-lg font-bold text-eucalyptus-600">
+                    $250.00
+                  </span>
+                  <span className="block text-xs font-medium text-gray-500">
+                    per group
+                  </span>
+                </>
+              )}
             </div>
           </div>
 
