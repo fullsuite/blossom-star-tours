@@ -1,19 +1,19 @@
-"use client";
+'use client';
 
-import { notFound } from "next/navigation";
-import { useEffect, useState } from "react";
-import { Calendar } from "@/components/ui/calendar"; // Adjust the import path for your project
-import { isBefore, isSameDay } from "date-fns";
-import { bookingClient } from "@/client/bookingClient"; // Assuming you have this set up
-import Image, { StaticImageData } from "next/image";
+import { notFound } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import { Calendar } from '@/components/ui/calendar'; // Adjust the import path for your project
+import { isBefore, isSameDay } from 'date-fns';
+import { bookingClient } from '@/client/bookingClient'; // Assuming you have this set up
+import Image, { StaticImageData } from 'next/image';
 import {
   Carousel,
   CarouselContent,
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
-} from "@/components/ui/carousel";
-import Autoplay from "embla-carousel-autoplay";
+} from '@/components/ui/carousel';
+import Autoplay from 'embla-carousel-autoplay';
 // import { urlFor } from '@/sanity/lib/image';
 import {
   Dialog,
@@ -23,7 +23,7 @@ import {
   DialogFooter,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog";
+} from '@/components/ui/dialog';
 
 import {
   Users,
@@ -33,26 +33,26 @@ import {
   Plane,
   ChevronLeft,
   ChevronRight,
-} from "lucide-react";
+} from 'lucide-react';
 
-import PageHeader from "@/components/PageHeader";
-import DayInfo from "./DayInfo";
+import PageHeader from '@/components/PageHeader';
+import DayInfo from './DayInfo';
 // import { set } from 'sanity';
 
-import ImageOne from "@/assets/Packages/Package 1/P1- (1).jpg";
-import ImageTwo from "@/assets/Packages/Package 1/P1- (2).jpg";
-import ImageThree from "@/assets/Packages/Package 1/P1- (3).jpg";
-import ImageFour from "@/assets/Packages/Package 1/P1- (4).jpg";
-import ImageFive from "@/assets/Packages/Package 1/P1- (5).jpg";
-import ImageSix from "@/assets/Packages/Package 1/P1- (6).jpg";
-import ImageSeven from "@/assets/Packages/Package 1/P1- (7).jpg";
-import ImageEight from "@/assets/Packages/Package 1/P1- (8).jpg";
-import dividerSwirl from "@/assets/Home/Divider_Swirl.png";
+import ImageOne from '@/assets/Packages/Package 1/P1- (1).jpg';
+import ImageTwo from '@/assets/Packages/Package 1/P1- (2).jpg';
+import ImageThree from '@/assets/Packages/Package 1/P1- (3).jpg';
+import ImageFour from '@/assets/Packages/Package 1/P1- (4).jpg';
+import ImageFive from '@/assets/Packages/Package 1/P1- (5).jpg';
+import ImageSix from '@/assets/Packages/Package 1/P1- (6).jpg';
+import ImageSeven from '@/assets/Packages/Package 1/P1- (7).jpg';
+import ImageEight from '@/assets/Packages/Package 1/P1- (8).jpg';
+import dividerSwirl from '@/assets/Home/Divider_Swirl.png';
 
-import Stripe from "stripe";
-import { supabase } from "@/client/supabaseClient";
-import { useRouter } from "next/navigation";
-import Pricing from "./Pricing";
+import Stripe from 'stripe';
+import { supabase } from '@/client/supabaseClient';
+import { useRouter } from 'next/navigation';
+import Pricing from './Pricing';
 
 import {
   Select,
@@ -60,12 +60,14 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { urlFor } from "@/sanity/lib/image";
-import { DetailedTourPackage } from "@/lib/types/tour/package";
+} from '@/components/ui/select';
+import { urlFor } from '@/sanity/lib/image';
+import { DetailedTourPackage } from '@/lib/types/tour/package';
+import { fetchPackageDetails } from '@/sanity/lib/client';
 
 export interface Package {
   typePackage: string;
+  tourId: string;
   imageUrl: string;
   title: string;
   description: string;
@@ -91,19 +93,19 @@ export interface Availability {
 
 const packages: Package[] = [
   {
-    typePackage: "Full Package",
-    imageUrl: "https://picsum.photos/400/300",
-    title: "Umrah and Hotel Package",
+    typePackage: 'Full Package',
+    imageUrl: 'https://picsum.photos/400/300',
+    title: 'Umrah and Hotel Package',
     description:
-      "Experience a spiritually fulfilling Umrah journey with our comprehensive package, including premium accommodations and guided tours.",
+      'Experience a spiritually fulfilling Umrah journey with our comprehensive package, including premium accommodations and guided tours.',
     price: 4500,
     rating: 4.4,
-    duration: "10 days",
+    duration: '10 days',
     maxPeople: 20,
-    minAge: "12 +",
-    pickup: "Airport",
-    slug: "umrah-and-hotel-package",
-    tourId: "cbb02563-78bb-4cfb-a979-de1a973c1c05",
+    minAge: '12 +',
+    pickup: 'Airport',
+    slug: 'umrah-and-hotel-package',
+    tourId: 'cbb02563-78bb-4cfb-a979-de1a973c1c05',
     overview: `The Sacred Journey to Makkah is crafted for those seeking a profound and spiritual connection through the sacred rites of Umrah. This experience is designed for travelers who wish to immerse themselves in the rich Islamic heritage and spiritual significance of Makkah and Medina. More than just a pilgrimage, the Sacred Journey to Makkah combines the timeless rituals of Umrah with opportunities to explore the historical sites, hidden gems, and cultural treasures of Islam's holiest cities.<br/><br/>
 
     From the majestic Kaaba to the serene Masjid al-Nabawi, our tour offers a deep and meaningful exploration of these revered places. You will be guided through the rituals of Umrah, with opportunities to reflect, pray, and connect with the spiritual essence of Islam. This journey is not just about visiting sacred sites but about embracing the profound peace and tranquility that comes from walking in the footsteps of the Prophet Muhammad (PBUH).`,
@@ -123,102 +125,102 @@ const packages: Package[] = [
     hasPremium: true,
     pricingList: [
       {
-        people: "2-4 People",
-        standartPackagePrice: "$400",
-        standartPackageList: ["Refreshment"],
-        premiumPackagePrice: "$500",
-        premiumPackageList: ["Spiritual reminder", "Extra historical stop"],
+        people: '2-4 People',
+        standartPackagePrice: '$400',
+        standartPackageList: ['Refreshment'],
+        premiumPackagePrice: '$500',
+        premiumPackageList: ['Spiritual reminder', 'Extra historical stop'],
         addon: null,
       },
       {
-        people: "6-10 People",
-        standartPackagePrice: "$500",
-        standartPackageList: ["Refreshment"],
-        premiumPackagePrice: "$600",
-        premiumPackageList: ["Spiritual reminder", "Extra historical stop"],
+        people: '6-10 People',
+        standartPackagePrice: '$500',
+        standartPackageList: ['Refreshment'],
+        premiumPackagePrice: '$600',
+        premiumPackageList: ['Spiritual reminder', 'Extra historical stop'],
         addon: `(Salman Al-Faarisi garden) and Saudi cultural refreshments:
         Dates, Mamoul, tea or coffe`,
       },
       {
-        people: "10-22 People",
-        standartPackagePrice: "$600",
-        standartPackageList: ["Refreshment"],
-        premiumPackagePrice: "$700",
-        premiumPackageList: ["Spiritual reminder", "Extra historical stop"],
+        people: '10-22 People',
+        standartPackagePrice: '$600',
+        standartPackageList: ['Refreshment'],
+        premiumPackagePrice: '$700',
+        premiumPackageList: ['Spiritual reminder', 'Extra historical stop'],
         addon: null,
       },
       {
-        people: "50 People",
-        standartPackagePrice: "$800",
-        standartPackageList: ["Refreshment"],
-        premiumPackagePrice: "$1000",
-        premiumPackageList: ["Spiritual reminder", "Extra historical stop"],
+        people: '50 People',
+        standartPackagePrice: '$800',
+        standartPackageList: ['Refreshment'],
+        premiumPackagePrice: '$1000',
+        premiumPackageList: ['Spiritual reminder', 'Extra historical stop'],
         addon: null,
       },
     ],
     images: [
-      { src: ImageOne, alt: "Image 1" },
-      { src: ImageTwo, alt: "Image 2" },
-      { src: ImageThree, alt: "Image 3" },
-      { src: ImageFour, alt: "Image 4" },
-      { src: ImageFive, alt: "Image 5" },
-      { src: ImageSix, alt: "Image 6" },
-      { src: ImageSeven, alt: "Image 7" },
-      { src: ImageEight, alt: "Image 8" },
+      { src: ImageOne, alt: 'Image 1' },
+      { src: ImageTwo, alt: 'Image 2' },
+      { src: ImageThree, alt: 'Image 3' },
+      { src: ImageFour, alt: 'Image 4' },
+      { src: ImageFive, alt: 'Image 5' },
+      { src: ImageSix, alt: 'Image 6' },
+      { src: ImageSeven, alt: 'Image 7' },
+      { src: ImageEight, alt: 'Image 8' },
     ],
     itinerary: [
       {
-        day: "Day 01",
-        description: "Pickup and Arrive at Makkah Hotel",
+        day: 'Day 01',
+        description: 'Pickup and Arrive at Makkah Hotel',
       },
       {
-        day: "Day 02",
-        description: "Ummrah",
+        day: 'Day 02',
+        description: 'Ummrah',
       },
       {
-        day: "Day 03",
-        description: "Makkah Museum",
+        day: 'Day 03',
+        description: 'Makkah Museum',
       },
       {
-        day: "Day 04",
-        description: "Bullet Train to Medina + Arrive at Medina Hotel",
+        day: 'Day 04',
+        description: 'Bullet Train to Medina + Arrive at Medina Hotel',
       },
       {
-        day: "Day 05",
-        description: "Sacred Site Tours (x4)",
+        day: 'Day 05',
+        description: 'Sacred Site Tours (x4)',
       },
       {
-        day: "Day 06",
-        description: "Museum Tour (x3)",
+        day: 'Day 06',
+        description: 'Museum Tour (x3)',
       },
       {
-        day: "Day 07",
-        description: "English Islamic Lesson",
+        day: 'Day 07',
+        description: 'English Islamic Lesson',
       },
       {
-        day: "Day 08",
-        description: "Sacred Site Tours (x4)",
+        day: 'Day 08',
+        description: 'Sacred Site Tours (x4)',
       },
       {
-        day: "Day 09",
-        description: "Depature",
+        day: 'Day 09',
+        description: 'Depature',
       },
     ],
   },
   {
-    typePackage: "Full Package",
-    imageUrl: "https://picsum.photos/400/300?random=1",
-    title: "Full Package",
+    typePackage: 'Full Package',
+    imageUrl: 'https://picsum.photos/400/300?random=1',
+    title: 'Full Package',
     description:
-      "Immerse yourself in the heart of Islamic history with our full package, offering a balanced mix of spiritual and cultural experiences.",
+      'Immerse yourself in the heart of Islamic history with our full package, offering a balanced mix of spiritual and cultural experiences.',
     price: 3000,
     rating: 4.4,
-    duration: "4 days",
+    duration: '4 days',
     maxPeople: 20,
-    minAge: "12 +",
-    pickup: "Airport",
-    slug: "full-package",
-    tourId: "cbb02563-78bb-4cfb-a979-de1a973c1c06",
+    minAge: '12 +',
+    pickup: 'Airport',
+    slug: 'full-package',
+    tourId: 'cbb02563-78bb-4cfb-a979-de1a973c1c06',
     overview: `The Sacred Journey to Makkah is crafted for those seeking a profound and spiritual connection through the sacred rites of Umrah. This experience is designed for travelers who wish to immerse themselves in the rich Islamic heritage and spiritual significance of Makkah and Medina. More than just a pilgrimage, the Sacred Journey to Makkah combines the timeless rituals of Umrah with opportunities to explore the historical sites, hidden gems, and cultural treasures of Islam's holiest cities.<br/><br/>
 
     From the majestic Kaaba to the serene Masjid al-Nabawi, our tour offers a deep and meaningful exploration of these revered places. You will be guided through the rituals of Umrah, with opportunities to reflect, pray, and connect with the spiritual essence of Islam. This journey is not just about visiting sacred sites but about embracing the profound peace and tranquility that comes from walking in the footsteps of the Prophet Muhammad (PBUH).`,
@@ -238,97 +240,97 @@ const packages: Package[] = [
     hasPremium: true,
     pricingList: [
       {
-        people: "2-4 People",
-        standartPackagePrice: "$400",
-        standartPackageList: ["Refreshment"],
+        people: '2-4 People',
+        standartPackagePrice: '$400',
+        standartPackageList: ['Refreshment'],
         premiumPackagePrice: null,
         premiumPackageList: null,
       },
       {
-        people: "6-10 People",
-        standartPackagePrice: "$500",
-        standartPackageList: ["Refreshment"],
-        premiumPackagePrice: "$600",
-        premiumPackageList: ["Spiritual reminder", "Extra historical stop"],
+        people: '6-10 People',
+        standartPackagePrice: '$500',
+        standartPackageList: ['Refreshment'],
+        premiumPackagePrice: '$600',
+        premiumPackageList: ['Spiritual reminder', 'Extra historical stop'],
       },
       {
-        people: "10-22 People",
-        standartPackagePrice: "$600",
-        standartPackageList: ["Refreshment"],
-        premiumPackagePrice: "$700",
-        premiumPackageList: ["Spiritual reminder", "Extra historical stop"],
+        people: '10-22 People',
+        standartPackagePrice: '$600',
+        standartPackageList: ['Refreshment'],
+        premiumPackagePrice: '$700',
+        premiumPackageList: ['Spiritual reminder', 'Extra historical stop'],
       },
       {
-        people: "50 People",
-        standartPackagePrice: "$800",
-        standartPackageList: ["Refreshment"],
-        premiumPackagePrice: "$1000",
-        premiumPackageList: ["Spiritual reminder", "Extra historical stop"],
+        people: '50 People',
+        standartPackagePrice: '$800',
+        standartPackageList: ['Refreshment'],
+        premiumPackagePrice: '$1000',
+        premiumPackageList: ['Spiritual reminder', 'Extra historical stop'],
       },
     ],
     images: [
-      { src: ImageOne, alt: "Image 1" },
-      { src: ImageTwo, alt: "Image 2" },
-      { src: ImageThree, alt: "Image 3" },
-      { src: ImageFour, alt: "Image 4" },
-      { src: ImageFive, alt: "Image 5" },
-      { src: ImageSix, alt: "Image 6" },
-      { src: ImageSeven, alt: "Image 7" },
-      { src: ImageEight, alt: "Image 8" },
+      { src: ImageOne, alt: 'Image 1' },
+      { src: ImageTwo, alt: 'Image 2' },
+      { src: ImageThree, alt: 'Image 3' },
+      { src: ImageFour, alt: 'Image 4' },
+      { src: ImageFive, alt: 'Image 5' },
+      { src: ImageSix, alt: 'Image 6' },
+      { src: ImageSeven, alt: 'Image 7' },
+      { src: ImageEight, alt: 'Image 8' },
     ],
     itinerary: [
       {
-        day: "Day 01",
-        description: "Pickup and Arrive at Makkah Hotel",
+        day: 'Day 01',
+        description: 'Pickup and Arrive at Makkah Hotel',
       },
       {
-        day: "Day 02",
-        description: "Ummrah",
+        day: 'Day 02',
+        description: 'Ummrah',
       },
       {
-        day: "Day 03",
-        description: "Makkah Museum",
+        day: 'Day 03',
+        description: 'Makkah Museum',
       },
       {
-        day: "Day 04",
-        description: "Bullet Train to Medina + Arrive at Medina Hotel",
+        day: 'Day 04',
+        description: 'Bullet Train to Medina + Arrive at Medina Hotel',
       },
       {
-        day: "Day 05",
-        description: "Sacred Site Tours (x4)",
+        day: 'Day 05',
+        description: 'Sacred Site Tours (x4)',
       },
       {
-        day: "Day 06",
-        description: "Museum Tour (x3)",
+        day: 'Day 06',
+        description: 'Museum Tour (x3)',
       },
       {
-        day: "Day 07",
-        description: "English Islamic Lesson",
+        day: 'Day 07',
+        description: 'English Islamic Lesson',
       },
       {
-        day: "Day 08",
-        description: "Sacred Site Tours (x4)",
+        day: 'Day 08',
+        description: 'Sacred Site Tours (x4)',
       },
       {
-        day: "Day 09",
-        description: "Depature",
+        day: 'Day 09',
+        description: 'Depature',
       },
     ],
   },
   {
-    typePackage: "Full Package",
-    imageUrl: "https://picsum.photos/400/300?random=2",
-    title: "Extreme Tour",
+    typePackage: 'Full Package',
+    imageUrl: 'https://picsum.photos/400/300?random=2',
+    title: 'Extreme Tour',
     description:
-      "Embark on an adventurous journey with our Extreme Tour, featuring thrilling activities that blend excitement with cultural discovery.",
+      'Embark on an adventurous journey with our Extreme Tour, featuring thrilling activities that blend excitement with cultural discovery.',
     price: 4000,
     rating: 4.4,
-    duration: "2 days",
+    duration: '2 days',
     maxPeople: 20,
-    minAge: "12 +",
-    pickup: "Airport",
-    slug: "extreme-tour",
-    tourId: "cbb02563-78bb-4cfb-a979-de1a973c1c07",
+    minAge: '12 +',
+    pickup: 'Airport',
+    slug: 'extreme-tour',
+    tourId: 'cbb02563-78bb-4cfb-a979-de1a973c1c07',
     overview: `The Sacred Journey to Makkah is crafted for those seeking a profound and spiritual connection through the sacred rites of Umrah. This experience is designed for travelers who wish to immerse themselves in the rich Islamic heritage and spiritual significance of Makkah and Medina. More than just a pilgrimage, the Sacred Journey to Makkah combines the timeless rituals of Umrah with opportunities to explore the historical sites, hidden gems, and cultural treasures of Islam's holiest cities.<br/><br/>
 
     From the majestic Kaaba to the serene Masjid al-Nabawi, our tour offers a deep and meaningful exploration of these revered places. You will be guided through the rituals of Umrah, with opportunities to reflect, pray, and connect with the spiritual essence of Islam. This journey is not just about visiting sacred sites but about embracing the profound peace and tranquility that comes from walking in the footsteps of the Prophet Muhammad (PBUH).`,
@@ -348,80 +350,80 @@ const packages: Package[] = [
     hasPremium: false,
     pricingList: [
       {
-        people: "2-4 People",
-        standartPackagePrice: "$400",
-        standartPackageList: ["Refreshment"],
+        people: '2-4 People',
+        standartPackagePrice: '$400',
+        standartPackageList: ['Refreshment'],
         premiumPackagePrice: null,
         premiumPackageList: null,
       },
       {
-        people: "6-10 People",
-        standartPackagePrice: "$500",
-        standartPackageList: ["Refreshment"],
+        people: '6-10 People',
+        standartPackagePrice: '$500',
+        standartPackageList: ['Refreshment'],
         premiumPackagePrice: null,
         premiumPackageList: null,
       },
       {
-        people: "10-22 People",
-        standartPackagePrice: "$600",
-        standartPackageList: ["Refreshment"],
+        people: '10-22 People',
+        standartPackagePrice: '$600',
+        standartPackageList: ['Refreshment'],
         premiumPackagePrice: null,
         premiumPackageList: null,
       },
       {
-        people: "50 People",
-        standartPackagePrice: "$800",
-        standartPackageList: ["Refreshment"],
+        people: '50 People',
+        standartPackagePrice: '$800',
+        standartPackageList: ['Refreshment'],
         premiumPackagePrice: null,
         premiumPackageList: null,
       },
     ],
     images: [
-      { src: ImageOne, alt: "Image 1" },
-      { src: ImageTwo, alt: "Image 2" },
-      { src: ImageThree, alt: "Image 3" },
-      { src: ImageFour, alt: "Image 4" },
-      { src: ImageFive, alt: "Image 5" },
-      { src: ImageSix, alt: "Image 6" },
-      { src: ImageSeven, alt: "Image 7" },
-      { src: ImageEight, alt: "Image 8" },
+      { src: ImageOne, alt: 'Image 1' },
+      { src: ImageTwo, alt: 'Image 2' },
+      { src: ImageThree, alt: 'Image 3' },
+      { src: ImageFour, alt: 'Image 4' },
+      { src: ImageFive, alt: 'Image 5' },
+      { src: ImageSix, alt: 'Image 6' },
+      { src: ImageSeven, alt: 'Image 7' },
+      { src: ImageEight, alt: 'Image 8' },
     ],
     itinerary: [
       {
-        day: "Day 01",
-        description: "Pickup and Arrive at Makkah Hotel",
+        day: 'Day 01',
+        description: 'Pickup and Arrive at Makkah Hotel',
       },
       {
-        day: "Day 02",
-        description: "Ummrah",
+        day: 'Day 02',
+        description: 'Ummrah',
       },
       {
-        day: "Day 03",
-        description: "Makkah Museum",
+        day: 'Day 03',
+        description: 'Makkah Museum',
       },
       {
-        day: "Day 04",
-        description: "Bullet Train to Medina + Arrive at Medina Hotel",
+        day: 'Day 04',
+        description: 'Bullet Train to Medina + Arrive at Medina Hotel',
       },
       {
-        day: "Day 05",
-        description: "Sacred Site Tours (x4)",
+        day: 'Day 05',
+        description: 'Sacred Site Tours (x4)',
       },
       {
-        day: "Day 06",
-        description: "Museum Tour (x3)",
+        day: 'Day 06',
+        description: 'Museum Tour (x3)',
       },
       {
-        day: "Day 07",
-        description: "English Islamic Lesson",
+        day: 'Day 07',
+        description: 'English Islamic Lesson',
       },
       {
-        day: "Day 08",
-        description: "Sacred Site Tours (x4)",
+        day: 'Day 08',
+        description: 'Sacred Site Tours (x4)',
       },
       {
-        day: "Day 09",
-        description: "Depature",
+        day: 'Day 09',
+        description: 'Depature',
       },
     ],
   },
@@ -444,23 +446,24 @@ export default function PackageDetailPage({
 }: PackageDetailPageClientProps) {
   // Find the selected package based on the slug
   const selectedPackage = packageDetails; //packages.find((pkg) => pkg.slug === params.id);
-
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
-  const [guests, setGuests] = useState<number | null>(null);
+  const [guests, setGuests] = useState<number | 0>(0);
   const [availableDates, setAvailableDates] = useState<Availability[]>([]);
   const [isCalendarDisabled, setIsCalendarDisabled] = useState(true);
   const [isCheckingAvailability, setIsCheckingAvailability] = useState(false);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
 
-  const [price, setPrice] = useState<number>(selectedPackage.groups[0].standardPricing);
-  const [firstName, setFirstName] = useState<string>("");
-  const [lastName, setLastName] = useState<string>("");
-  const [email, setEmail] = useState<string>("");
+  const [price, setPrice] = useState<number>(
+    selectedPackage.groups[0].standardPricing
+  );
+  const [firstName, setFirstName] = useState<string>('');
+  const [lastName, setLastName] = useState<string>('');
+  const [email, setEmail] = useState<string>('');
 
   const [bookingError, setBookingError] = useState<string | null>(null);
   const [isBooking, setIsBooking] = useState(false);
 
-  const [selectedPlan, setSelectedPlan] = useState("standart");
+  const [selectedPlan, setSelectedPlan] = useState('standart');
   const [displaySelect, setDisplaySelect] = useState(false);
 
   const router = useRouter();
@@ -510,57 +513,123 @@ export default function PackageDetailPage({
   // };
 
   const getPriceBasedOnGroups = () => {
-    const selectedGroup = selectedPackage.groups.find(group => guests >= group.minGroupSize && guests <= group.maxGroupSize);
+    const selectedGroup = selectedPackage.groups.find(
+      (group) => guests >= group.minGroupSize && guests <= group.maxGroupSize
+    );
 
     if (!selectedGroup) {
-      const selectedGroup = selectedPackage.groups.find(group => guests <= group.maxGroupSize) || selectedPackage.groups[selectedPackage.groups.length - 1];
-      
-      return selectedGroup ? (selectedPlan == 'standart' ? selectedGroup.standardPricing : selectedGroup.premiumPricing) : 250
+      const selectedGroup =
+        selectedPackage.groups.find((group) => guests <= group.maxGroupSize) ||
+        selectedPackage.groups[selectedPackage.groups.length - 1];
+
+      if (selectedGroup.pricingType === 'perGroup') {
+        return selectedGroup
+          ? selectedPlan == 'standart'
+            ? selectedGroup.standardPricing
+            : selectedGroup.premiumPricing
+          : 250;
+      } else if (selectedGroup.pricingType === 'perPerson') {
+        if (guests > 0) {
+          return selectedGroup
+            ? selectedPlan == 'standart'
+              ? selectedGroup.standardPricing * guests
+              : (selectedGroup.premiumPricing || 0) * guests
+            : 0;
+        } else {
+          return selectedGroup
+            ? selectedPlan == 'standart'
+              ? selectedGroup.standardPricing * 1
+              : (selectedGroup.premiumPricing || 0) * 1
+            : 0;
+        }
+      }
     }
-    return selectedGroup ? (selectedPlan == 'standart' ? selectedGroup.standardPricing : selectedGroup.premiumPricing) : 250
-  }
+    if (selectedGroup?.pricingType === 'perGroup') {
+      return selectedGroup
+        ? selectedPlan == 'standart'
+          ? selectedGroup.standardPricing
+          : selectedGroup.premiumPricing
+        : 250;
+    } else if (selectedGroup?.pricingType === 'perPerson') {
+      if (guests > 0) {
+        return selectedGroup
+          ? selectedPlan == 'standart'
+            ? selectedGroup.standardPricing * guests
+            : (selectedGroup.premiumPricing || 0) * guests
+          : 0;
+      } else {
+        return selectedGroup
+          ? selectedPlan == 'standart'
+            ? selectedGroup.standardPricing * 1
+            : (selectedGroup.premiumPricing || 0) * 1
+          : 0;
+      }
+    }
+  };
+
+  const getMaxGroupBasedOnGuests = () => {
+    const selectedGroup = selectedPackage.groups.find(
+      (group) => guests >= group.minGroupSize && guests <= group.maxGroupSize
+    );
+
+    if (!selectedGroup) {
+      const selectedGroup =
+        selectedPackage.groups.find((group) => guests <= group.maxGroupSize) ||
+        selectedPackage.groups[selectedPackage.groups.length - 1];
+
+      return selectedGroup
+        ? selectedGroup.maxGroupSize
+        : selectedPackage.groups[selectedPackage.groups.length - 1]
+            .maxGroupSize;
+    }
+    return selectedGroup
+      ? selectedGroup.maxGroupSize
+      : selectedPackage.groups[selectedPackage.groups.length - 1].maxGroupSize;
+  };
 
   const checkAvailability = async () => {
     setIsCheckingAvailability(true);
 
     try {
-      // const currentDate = new Date(); // Use today's date
-      // const availability: Availability[] =
-      //   await bookingClient.getAvailableDates(
-      //     currentDate,
-      //     selectedPackage.tourId,
-      //     selectedPackage.maxPeople
-      //   );
+      const currentDate = new Date(); // Use today's date
+      const availability: Availability[] =
+        await bookingClient.getAvailableDates(
+          currentDate,
+          selectedPackage._id,
+          getMaxGroupBasedOnGuests()
+        );
 
-      // // Convert available dates from UTC to local time and keep track of spots
-      // const available = availability.map((day) => {
-      //   const utcDate = new Date(day.date);
-      //   const localDate = new Date(
-      //     utcDate.getUTCFullYear(),
-      //     utcDate.getUTCMonth(),
-      //     utcDate.getUTCDate()
-      //   );
-      //   return {
-      //     date: localDate,
-      //     spotsLeft: day.spotsLeft,
-      //   };
-      // });
+      console.log(getMaxGroupBasedOnGuests(), 'palspdlasdasd');
+      // Convert available dates from UTC to local time and keep track of spots
+      const available = availability.map((day) => {
+        const utcDate = new Date(day.date);
+        const localDate = new Date(
+          utcDate.getUTCFullYear(),
+          utcDate.getUTCMonth(),
+          utcDate.getUTCDate()
+        );
+        return {
+          date: localDate,
+          spotsLeft: day.spotsLeft,
+        };
+      });
 
-      setPrice(getPriceBasedOnGroups());
+      setPrice(getPriceBasedOnGroups() as number);
       // console.log("Available returned:", available);
-      // setAvailableDates(available); // Store available dates with spots info
+      setAvailableDates(available); // Store available dates with spots info
       setDisplaySelect(true);
       setIsCalendarDisabled(false); // Enable calendar
     } catch (error) {
-      console.error("Error fetching availability:", error);
+      console.error('Error fetching availability:', error);
     } finally {
       setIsCheckingAvailability(false);
     }
   };
 
   useEffect(() => {
-    setPrice(getPriceBasedOnGroups());
-  }, [selectedPlan])
+    console.log(selectedPackage, 'asds');
+    setPrice(getPriceBasedOnGroups() as number);
+  }, [selectedPlan]);
 
   // Function to check if the date is disabled based on availability
   // const isDateDisabled = (date: Date) => {
@@ -615,7 +684,7 @@ export default function PackageDetailPage({
     setBookingError(null);
 
     if (!selectedDate || !guests || guests <= 0) {
-      setBookingError("Please select a valid date and number of guests.");
+      setBookingError('Please select a valid date and number of guests.');
       setIsBooking(false);
       return;
     }
@@ -638,10 +707,10 @@ export default function PackageDetailPage({
       );
 
       // Handle success, maybe redirect or show a success message
-      alert("Booking successful!");
+      alert('Booking successful!');
     } catch (error) {
-      console.error("Error creating booking:", error);
-      setBookingError("Failed to create booking. Please try again.");
+      console.error('Error creating booking:', error);
+      setBookingError('Failed to create booking. Please try again.');
     } finally {
       setIsBooking(false);
     }
@@ -650,6 +719,10 @@ export default function PackageDetailPage({
   const originalPrice = (price: number): string => {
     return Math.round(price * 3).toLocaleString(); // Format with commas
   };
+
+  const images = Array.isArray(selectedPackage.images)
+    ? selectedPackage.images
+    : [];
 
   return (
     <>
@@ -660,7 +733,7 @@ export default function PackageDetailPage({
           {/* Carousel */}
           <Carousel
             opts={{
-              align: "center",
+              align: 'center',
               loop: true,
               skipSnaps: true, // Smoothens the transition
             }}
@@ -697,8 +770,8 @@ export default function PackageDetailPage({
 
             <CarouselContent>
               {[
-                ...(selectedPackage.images || []),
-                ...(selectedPackage.images || []),
+                ...images,
+                ...images,
               ]?.map((image, index) => (
                 <CarouselItem key={index}>
                   <div className="rounded-lg overflow-hidden w-full h-full">
@@ -748,13 +821,13 @@ export default function PackageDetailPage({
                 type="number"
                 min="1"
                 max="100"
-                value={guests || ""}
+                value={guests || ''}
                 placeholder="Enter number of guests"
                 onChange={handleGuestsChange}
                 className="w-full px-4 py-2 border rounded-md"
                 // on enter
                 onKeyPress={(e) => {
-                  if (e.key === "Enter") {
+                  if (e.key === 'Enter') {
                     e.preventDefault();
                     checkAvailability();
                   }
@@ -770,7 +843,7 @@ export default function PackageDetailPage({
                 className="w-full px-6 py-3 bg-green-700 text-white font-bold rounded-md shadow-md hover:bg-green-800 disabled:opacity-50 disabled:cursor-not-allowed"
                 disabled={isCheckingAvailability || guests === null} // Disable while checking
               >
-                {isCheckingAvailability ? "Checking..." : "Check Availability"}
+                {isCheckingAvailability ? 'Checking...' : 'Check Availability'}
               </button>
             )}
 
@@ -782,7 +855,7 @@ export default function PackageDetailPage({
                   <label className="block text-base font-medium mb-2">
                     Select Date
                   </label>
-                  <div className={isCalendarDisabled ? "opacity-50" : ""}>
+                  <div className={isCalendarDisabled ? 'opacity-50' : ''}>
                     <Calendar
                       mode="single"
                       selected={selectedDate ?? undefined}
@@ -792,11 +865,11 @@ export default function PackageDetailPage({
                       className="h-full w-full px-4 py-2 rounded-md flex border"
                       classNames={{
                         months:
-                          "flex w-full flex-col sm:flex-row space-y-4 sm:space-x-4 sm:space-y-0 flex-1",
-                        month: "space-y-4 w-full flex flex-col",
-                        table: "w-full h-full border-collapse space-y-1",
-                        head_row: "",
-                        row: "w-full mt-2",
+                          'flex w-full flex-col sm:flex-row space-y-4 sm:space-x-4 sm:space-y-0 flex-1',
+                        month: 'space-y-4 w-full flex flex-col',
+                        table: 'w-full h-full border-collapse space-y-1',
+                        head_row: '',
+                        row: 'w-full mt-2',
                       }}
                     />
                   </div>
@@ -818,13 +891,13 @@ export default function PackageDetailPage({
                           </h3>
                         </DialogTitle>
                         <DialogDescription className="text-lg text-body-secondary my-2">
-                          Total Cost :{" "}
+                          Total Cost :{' '}
                           <span className="text-primary font-bold">
-                            ${originalPrice(selectedPackage.price)}
+                            ${price}
                           </span>
                         </DialogDescription>
                       </DialogHeader>
-                      <div className="flex flex-col items-stretch gap-4">
+                      <div className="flex flex-col items-stretch gap-4 mt-4">
                         <div className="flex flex-col 2xs:flex-row items-stretch gap-4">
                           <input
                             type="text"
@@ -848,14 +921,14 @@ export default function PackageDetailPage({
                           type="submit"
                           className="w-full 2xs:w-max ml-auto mt-4 px-6 py-3 bg-primary text-white font-bold rounded-md shadow-md hover:bg-eucalyptus-800 disabled:opacity-50 disabled:cursor-not-allowed"
                         >
-                          {isBooking ? "Checkout..." : "Checkout Now"}
+                          {isBooking ? 'Checkout...' : 'Checkout Now'}
                         </button>
                       </DialogFooter>
-            </form>
-                    </DialogContent>
-                  </Dialog>
-                </>
-              )}
+                    </form>
+                  </DialogContent>
+                </Dialog>
+              </>
+            )}
           </div>
         </div>
         {/* Tour Packages Details -- Features */}
@@ -884,7 +957,7 @@ export default function PackageDetailPage({
                   Max People
                 </p>
                 <p className="text-lg text-body-secondary">
-                  {selectedPackage.maxPeople}
+                  {selectedPackage.maxPeople ? selectedPackage.maxPeople : '-'}
                 </p>
               </div>
             </div>
@@ -897,7 +970,7 @@ export default function PackageDetailPage({
               <div className="flex flex-col">
                 <p className="text-lg font-bold text-body-secondary">Min Age</p>
                 <p className="text-lg text-body-secondary">
-                  {/* {selectedPackage.minAge} */}
+                  {selectedPackage.minAge ? selectedPackage.minAge : '-'}
                 </p>
               </div>
             </div>
@@ -907,7 +980,7 @@ export default function PackageDetailPage({
               <div className="flex flex-col">
                 <p className="text-lg font-bold text-body-secondary">Pickup</p>
                 <p className="text-lg text-body-secondary">
-                  {/* {selectedPackage.pickup} */}
+                  {selectedPackage.pickup ? selectedPackage.pickup : '-'}
                 </p>
               </div>
             </div>
@@ -945,9 +1018,21 @@ export default function PackageDetailPage({
             </div> */}
             {/* Tour Packages Details -- Group Pricing Breakdown */}
             <div className="flex flex-col gap-6 2lg:max-w-xl xl:max-w-2xl">
-              <p className="text-xl lg:text-2xl font-bold text-primary">
-                Group Pricing Breakdown (Information)
-              </p>
+              <>
+                {selectedPackage.groups.find(
+                  (group) =>
+                    group.premiumInclusions != null &&
+                    group.premiumPricing != null
+                ) ? (
+                  <p className="text-xl lg:text-2xl font-bold text-primary">
+                    Group Pricing Breakdown (Information)
+                  </p>
+                ) : (
+                  <p className="text-xl lg:text-2xl font-bold text-primary">
+                    Pricing Breakdown (Information)
+                  </p>
+                )}
+              </>
               <p className="text-lg text-body-secondary">
                 Based on the number of guests you will book for, our automatic
                 process will place you in the correct group. Please click on the
@@ -977,9 +1062,7 @@ export default function PackageDetailPage({
             <div className="bg-white p-10 shadow-xl rounded-2xl">
               <p className="text-xl font-bold text-body-secondary">Cost:</p>
               <div className="flex flex-row items-center gap-8 my-1">
-                <h3 className="text-3xl font-bold text-primary">
-                  ${price}
-                </h3>
+                <h3 className="text-3xl font-bold text-primary">${price}</h3>
                 <span className="text-xl font-bold text-red-500 line-through">
                   ${originalPrice(price)}
                 </span>
@@ -1002,13 +1085,13 @@ export default function PackageDetailPage({
                   type="number"
                   min="1"
                   max="100"
-                  value={guests || ""}
+                  value={guests || ''}
                   placeholder="Enter number of guests"
                   onChange={handleGuestsChange}
                   className="w-full px-4 py-2 border rounded-md"
                   // on enter
                   onKeyPress={(e) => {
-                    if (e.key === "Enter") {
+                    if (e.key === 'Enter') {
                       e.preventDefault();
                       checkAvailability();
                     }
@@ -1016,23 +1099,32 @@ export default function PackageDetailPage({
                 />
               </div>
               {/* Select Package */}
-              {displaySelect ? (
-
+              {displaySelect &&
+              selectedPackage.groups.find(
+                (group) =>
+                  group.premiumInclusions != null &&
+                  group.premiumPricing != null
+              ) ? (
                 <div className="mb-4">
-                <label className="block text-base font-medium mb-2">
-                  Choose a plan
-                </label>
-                <Select value={selectedPlan} onValueChange={(value) => setSelectedPlan(value)}>
-                  <SelectTrigger className="w-full px-4 py-2 h-auto text-base border rounded-md">
-                    <SelectValue placeholder="Standart Package"/>
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="standart">Standart Package</SelectItem>
-                    <SelectItem value="premium">Premium Package</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-                ) : ''}
+                  <label className="block text-base font-medium mb-2">
+                    Choose a plan
+                  </label>
+                  <Select
+                    value={selectedPlan}
+                    onValueChange={(value) => setSelectedPlan(value)}
+                  >
+                    <SelectTrigger className="w-full px-4 py-2 h-auto text-base border rounded-md">
+                      <SelectValue placeholder="Standart Package" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="standart">Standart Package</SelectItem>
+                      <SelectItem value="premium">Premium Package</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+              ) : (
+                ''
+              )}
 
               {/* Check Availability Button */}
               {isCalendarDisabled && (
@@ -1048,8 +1140,8 @@ export default function PackageDetailPage({
                   } // Disable while checking
                 >
                   {isCheckingAvailability
-                    ? "Checking..."
-                    : "Check Availability"}
+                    ? 'Checking...'
+                    : 'Check Availability'}
                 </button>
               )}
 
@@ -1061,7 +1153,7 @@ export default function PackageDetailPage({
                     <label className="block text-base font-medium mb-2">
                       Select Date
                     </label>
-                    <div className={isCalendarDisabled ? "opacity-50" : ""}>
+                    <div className={isCalendarDisabled ? 'opacity-50' : ''}>
                       <Calendar
                         mode="single"
                         selected={selectedDate ?? undefined}
@@ -1089,13 +1181,13 @@ export default function PackageDetailPage({
                             </h3>
                           </DialogTitle>
                           <DialogDescription className="text-lg text-body-secondary my-2">
-                            Total Cost :{" "}
+                            Total Cost :{' '}
                             <span className="text-primary font-bold">
-                              ${originalPrice(price)}
+                              ${price}
                             </span>
                           </DialogDescription>
                         </DialogHeader>
-                        <div className="flex flex-col items-stretch gap-4">
+                        <div className="flex flex-col items-stretch gap-4 mt-4">
                           <div className="flex flex-col 2xs:flex-row items-stretch gap-4">
                             <input
                               type="text"
@@ -1119,14 +1211,14 @@ export default function PackageDetailPage({
                             type="submit"
                             className="w-full 2xs:w-max ml-auto mt-4 px-6 py-3 bg-primary text-white font-bold rounded-md shadow-md hover:bg-eucalyptus-800 disabled:opacity-50 disabled:cursor-not-allowed"
                           >
-                            {isBooking ? "Checkout..." : "Checkout Now"}
+                            {isBooking ? 'Checkout...' : 'Checkout Now'}
                           </button>
                         </DialogFooter>
-              </form>
-                      </DialogContent>
-                    </Dialog>
-                  </>
-                )}
+                      </form>
+                    </DialogContent>
+                  </Dialog>
+                </>
+              )}
             </div>
             {/* Quote Block --  Dekstop */}
             <div className="w-full max-w-[280px] mt-20 mx-auto">

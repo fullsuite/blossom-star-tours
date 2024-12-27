@@ -17,7 +17,7 @@ export interface TourPackage {
 // Type for a minimal tour package
 export type MinimalTourPackage = {
   _id: string;
-  slug: Slug;
+  slug: string;
   name: string;
   description: string;
   duration: string;
@@ -27,6 +27,7 @@ export type MinimalTourPackage = {
     pricingType: "perGroup" | "perPerson";
     standardInclusions: string[];
   };
+  packageContents: any;
 };
 
 export interface Itinerary {
@@ -41,6 +42,9 @@ export type DetailedTourPackage = {
   name: string;
   description: string;
   duration: string;
+  pickup: string;
+  minAge: number;
+  maxPeople: number;
   images: ImageAsset; // Array of images with URLs
   groups: Group[];
   itinerary: Itinerary[]; // Array of itinerary items

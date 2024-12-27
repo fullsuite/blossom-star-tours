@@ -30,13 +30,13 @@ const Pricing: React.FC<PricingProps> = ({ pricingList }) => {
               </AccordionTrigger>
               <AccordionContent className="text-md px-8 py-4">
                 <hr className="w-full pb-4"/>
-                <div className="w-1/2 flex flex-col gap-6">
+                <div className="w-2/3 flex flex-col gap-6">
                   {pricing.standardPricing != null &&
                   pricing.standardInclusions != null ? (
                     <div>
                       <span className="flex justify-between text-red-400 font-bold text-base">
                         <p>Standart Package:</p>
-                        <p>${pricing.standardPricing}</p>
+                        <p>${pricing.standardPricing} per {pricing.pricingType.slice(3).toLowerCase()}</p>
                       </span>
                       <ul className="flex flex-col gap-3 ml-16 list-[circle] font-semibold mt-3">
                         {pricing.standardInclusions.map((item, index) => {
@@ -52,7 +52,7 @@ const Pricing: React.FC<PricingProps> = ({ pricingList }) => {
                     <div>
                       <span className="flex justify-between text-red-400 font-bold text-base">
                         <p>Premium Package:</p>
-                        <p>${pricing.premiumPricing}</p>
+                        <p>${pricing.premiumPricing} per {pricing.pricingType.slice(3).toLowerCase()}</p>
                       </span>
                       <ul className="flex flex-col gap-3 ml-16 list-[circle] font-semibold mt-3">
                         {pricing.premiumInclusions.map((item, index) => {

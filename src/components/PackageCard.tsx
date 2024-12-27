@@ -35,7 +35,7 @@ const PackageCard = React.forwardRef<HTMLDivElement, PackageCardProps>(
       if (firstGroup != null) {
         const { standardPricing, pricingType } = firstGroup;
         setFormattedPrice(
-          standardPricing ? `$${standardPricing.toFixed(2)}` : "N/A"
+          standardPricing ? `$${standardPricing.toLocaleString('en-US')}` : "N/A"
         );
         setPricingLabel(
           pricingType === "perPerson" ? "per person" : "per group"

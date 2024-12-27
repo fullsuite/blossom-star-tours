@@ -15,6 +15,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Group, TourPackage } from '@/lib/types';
+import { MinimalTourPackage } from "@/lib/types/tour/package";
 
 // Define the Package type
 // interface Package {
@@ -296,7 +297,7 @@ interface Package {
 //   },
 // ];
 
-const packages: TourPackage | null = await fetchTourPackages(); // Waited for API
+const packages: MinimalTourPackage[] = await fetchTourPackages();
 
 // const packagess = fetchTourPackage
 
@@ -408,7 +409,7 @@ export default function PackagesPage() {
 
           {/* Package Cards */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-10 sm:gap-y-24">
-            {packages.map((pkg, index) => (
+            {packages?.map((pkg, index) => (
               <div className="flex flex-col flex-1" key={index}>
                 <PackageCard
                   ref={(el) => {
