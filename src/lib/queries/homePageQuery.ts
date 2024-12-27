@@ -21,15 +21,11 @@ export const homePageQuery = `
         description,
         duration,
         images,
-        groups[] {
-          name,
-          minGroupSize,
-          maxGroupSize,
-          pricingType,
+        slug,
+        "firstGroup": groups[0] {
           standardPricing,
-          standardInclusions,
-          premiumPricing,
-          premiumInclusions
+          pricingType,
+          standardInclusions
         }
       }
     },
