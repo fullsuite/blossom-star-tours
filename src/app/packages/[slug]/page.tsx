@@ -1,7 +1,8 @@
 // Server Component
 
-import { fetchPackageDetails } from "@/sanity/lib/client";
-import PackageDetailPage from "./_components/page";
+import { fetchPackageDetails } from '@/sanity/lib/client';
+import PackageDetailPage from './_components/page';
+import { DetailedTourPackage } from '@/lib/types/tour/package';
 
 export default async function PackageDetailServerComponent({
   params,
@@ -10,13 +11,16 @@ export default async function PackageDetailServerComponent({
 }) {
   const { slug } = params; // Extract the slug from the URL
 
-  const packageDetails = await fetchPackageDetails(slug);
+  const packageDetails: DetailedTourPackage | null =
+    await fetchPackageDetails(slug);
 
   // Handle not found
-  if (!packageDetails) {
+  if (!packageDetails || packageDetails === null) {
     return <div>Package not found</div>;
   }
 
   // return <div></div>;
-  return <PackageDetailPage packageDetails={packageDetails} />;
+  return (
+    <PackageDetailPage packageDetails={packageDetails as DetailedTourPackage} />
+  );
 }

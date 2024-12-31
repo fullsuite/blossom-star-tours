@@ -437,7 +437,7 @@ const packages: Package[] = [
 // ];
 
 interface PackageDetailPageClientProps {
-  packageDetails: DetailedTourPackage;
+  packageDetails: DetailedTourPackage | null;
 }
 
 // Package detail page component
@@ -446,6 +446,7 @@ export default function PackageDetailPage({
 }: PackageDetailPageClientProps) {
   // Find the selected package based on the slug
   const selectedPackage = packageDetails; //packages.find((pkg) => pkg.slug === params.id);
+  console.log(selectedPackage, 'selectedPackage');
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [guests, setGuests] = useState<number | 0>(0);
   const [availableDates, setAvailableDates] = useState<Availability[]>([]);
@@ -454,7 +455,7 @@ export default function PackageDetailPage({
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
 
   const [price, setPrice] = useState<number>(
-    selectedPackage.groups[0].standardPricing
+    selectedPackage ? selectedPackage.groups[0].standardPricing : 0
   );
   const [firstName, setFirstName] = useState<string>('');
   const [lastName, setLastName] = useState<string>('');
@@ -769,10 +770,7 @@ export default function PackageDetailPage({
             </div>
 
             <CarouselContent>
-              {[
-                ...images,
-                ...images,
-              ]?.map((image, index) => (
+              {[...images, ...images]?.map((image, index) => (
                 <CarouselItem key={index}>
                   <div className="rounded-lg overflow-hidden w-full h-full">
                     <Image

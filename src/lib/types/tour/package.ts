@@ -1,18 +1,14 @@
-import { ImageAsset } from "@/lib/types";
-import { Group } from "@/lib/types/tour/group";
-import { SanityImageSource } from "@sanity/image-url/lib/types/types";
+import { ImageAsset } from '@/lib/types';
+import { Group } from '@/lib/types/tour/group';
+import { SanityImageSource } from '@sanity/image-url/lib/types/types';
 
 export interface TourPackage {
-    name: string;
-    description: string;
-    duration: string;
-    images: SanityImageSource[];
-    groups: Group[];
-  }
-  
-
-
-
+  name: string;
+  description: string;
+  duration: string;
+  images: SanityImageSource[];
+  groups: Group[];
+}
 
 // Type for a minimal tour package
 export type MinimalTourPackage = {
@@ -21,10 +17,10 @@ export type MinimalTourPackage = {
   name: string;
   description: string;
   duration: string;
-  firstImage: ImageAsset
+  firstImage: ImageAsset;
   firstGroup: {
     standardPricing: number;
-    pricingType: "perGroup" | "perPerson";
+    pricingType: 'perGroup' | 'perPerson';
     standardInclusions: string[];
   };
   packageContents: any;
@@ -42,9 +38,9 @@ export type DetailedTourPackage = {
   name: string;
   description: string;
   duration: string;
-  pickup: string;
-  minAge: number;
-  maxPeople: number;
+  pickup: string | null;
+  minAge: number | null;
+  maxPeople: number | null;
   images: ImageAsset; // Array of images with URLs
   groups: Group[];
   itinerary: Itinerary[]; // Array of itinerary items

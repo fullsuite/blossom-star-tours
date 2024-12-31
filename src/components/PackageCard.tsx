@@ -1,21 +1,21 @@
-"use client";
+'use client';
 
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 import {
   Card,
   CardContent,
   CardHeader,
   CardTitle,
   CardDescription,
-} from "@/components/ui/card";
-import { ClockIcon, MoveRightIcon } from "lucide-react";
-import Image from "next/image";
-import UserStarRating from "@/components/UserStarRating";
-import { MinimalTourPackage, TourPackage } from "@/lib/types/tour/package";
-import { urlFor } from "@/sanity/lib/image";
-import { cn } from "@/lib/utils";
-import { useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
+} from '@/components/ui/card';
+import { ClockIcon, MoveRightIcon } from 'lucide-react';
+import Image from 'next/image';
+import UserStarRating from '@/components/UserStarRating';
+import { MinimalTourPackage, TourPackage } from '@/lib/types/tour/package';
+import { urlFor } from '@/sanity/lib/image';
+import { cn } from '@/lib/utils';
+import { useRouter } from 'next/navigation';
+import React, { useEffect, useState } from 'react';
 
 interface PackageCardProps {
   package: any;
@@ -26,8 +26,8 @@ interface PackageCardProps {
 const PackageCard = React.forwardRef<HTMLDivElement, PackageCardProps>(
   ({ package: pkg, classNames, style }, ref) => {
     const { name, description, duration, firstGroup, firstImage, slug } = pkg;
-    const [formattedPrice, setFormattedPrice] = useState<string>("");
-    const [pricingLabel, setPricingLabel] = useState<string>("");
+    const [formattedPrice, setFormattedPrice] = useState<string>('');
+    const [pricingLabel, setPricingLabel] = useState<string>('');
 
     // Extract pricing details from the first group
 
@@ -35,10 +35,12 @@ const PackageCard = React.forwardRef<HTMLDivElement, PackageCardProps>(
       if (firstGroup != null) {
         const { standardPricing, pricingType } = firstGroup;
         setFormattedPrice(
-          standardPricing ? `$${standardPricing.toLocaleString('en-US')}` : "N/A"
+          standardPricing
+            ? `$${standardPricing.toLocaleString('en-US')}`
+            : 'N/A'
         );
         setPricingLabel(
-          pricingType === "perPerson" ? "per person" : "per group"
+          pricingType === 'perPerson' ? 'per person' : 'per group'
         );
       }
     });
@@ -49,7 +51,7 @@ const PackageCard = React.forwardRef<HTMLDivElement, PackageCardProps>(
       <Card
         ref={ref}
         className={cn(
-          "w-full shadow-lg rounded-2xl overflow-hidden relative flex flex-col",
+          'w-full shadow-lg rounded-2xl overflow-hidden relative flex flex-col',
           classNames
         )}
         style={style}
@@ -65,7 +67,7 @@ const PackageCard = React.forwardRef<HTMLDivElement, PackageCardProps>(
           />
           {/* Badge */}
           <div className="absolute top-4 left-4 bg-white px-3 py-1 rounded-full text-xs font-semibold">
-            {"Full Package"}
+            {'Full Package'}
           </div>
         </div>
 
@@ -81,7 +83,7 @@ const PackageCard = React.forwardRef<HTMLDivElement, PackageCardProps>(
               <span className="block text-xs font-medium text-gray-500">
                 From
               </span>
-              {firstGroup != null ? (
+              {firstGroup ? (
                 <>
                   <span className="text-lg font-bold text-eucalyptus-600">
                     {formattedPrice}
@@ -134,6 +136,6 @@ const PackageCard = React.forwardRef<HTMLDivElement, PackageCardProps>(
   }
 );
 
-PackageCard.displayName = "PackageCard";
+PackageCard.displayName = 'PackageCard';
 
 export default PackageCard;

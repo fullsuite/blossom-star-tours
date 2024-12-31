@@ -1,11 +1,12 @@
-"use client";
+'use client';
 
-import { Button } from "@/components/ui/button";
-import PackageCard from "@/components/PackageCard";
-import { HomePage } from "@/lib/types/page/homePage";
+import { Button } from '@/components/ui/button';
+import PackageCard from '@/components/PackageCard';
+import { HomePage } from '@/lib/types/page/homePage';
+import Link from 'next/link';
 
 interface FeaturedPackagesProps {
-  content: HomePage["featuredPackages"];
+  content: HomePage['featuredPackages'];
 }
 
 export default function FeaturedPackages({ content }: FeaturedPackagesProps) {
@@ -19,22 +20,32 @@ export default function FeaturedPackages({ content }: FeaturedPackagesProps) {
           <h2 className="text-3xl lg:text-5xl font-bold text-primary z-10 w-auto lg:w-max mx-auto">
             {heading}
           </h2>
-          <Button className="absolute right-0 top-0 bottom-0 my-auto bg-primary text-white px-4 py-2 rounded-md shadow hidden xl:block">
+          <Link
+            href={'/packages'}
+            className="absolute right-0 top-0 bottom-0 h-max my-auto bg-primary text-white px-4 py-2 rounded-md shadow hidden xl:block"
+          >
             View all our Packages
-          </Button>
+          </Link>
         </div>
 
         {/* Package Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {packages.map((pkg, index) => (
-            <PackageCard package={pkg} key={index} classNames={`${index === packages.length - 1 ? "sm:col-span-2 lg:col-span-1 sm:mx-auto lg:mx-0 sm:w-[50%] lg:w-full" : ""}`} />
+            <PackageCard
+              package={pkg}
+              key={index}
+              classNames={`${index === packages.length - 1 ? 'sm:col-span-2 lg:col-span-1 sm:mx-auto lg:mx-0 sm:w-[50%] lg:w-full' : ''}`}
+            />
           ))}
         </div>
 
         {/* View All Packages Button */}
-        <Button className="mt-10 bg-primary text-white px-6 py-2 h-auto rounded-md shadow xl:hidden">
+        <Link
+          href={'/packages'}
+          className="mt-10 bg-primary text-white block w-max mx-auto px-6 py-2 h-auto rounded-md shadow xl:hidden"
+        >
           View all our Packages
-        </Button>
+        </Link>
       </div>
     </section>
   );

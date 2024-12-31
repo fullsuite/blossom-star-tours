@@ -5,6 +5,9 @@ export const tourPackageDetailQuery = `
   name,
   description,
   duration,
+  maxPeople,
+  minAge,
+  pickup,
   images[] {
     asset
   },

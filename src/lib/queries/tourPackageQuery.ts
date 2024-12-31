@@ -5,6 +5,7 @@ export const tourPackageQuery = `
   name,
   description,
   duration,
+  packageContents,
   "firstImage": images[0].asset,
   "firstGroup": groups[0] {
     standardPricing,
