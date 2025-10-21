@@ -398,7 +398,6 @@ export default function PackagesPage({ tourPackages }: PackagesPageProps) {
                     if (el) cardRefs.current[index] = el; // Ensure only valid elements are added
                   }}
                   package={pkg}
-                  slug={pkg.slug}
                   style={{
                     height: maxHeight || "auto",
                     minHeight: "max-content",

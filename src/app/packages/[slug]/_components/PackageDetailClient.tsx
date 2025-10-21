@@ -437,7 +437,7 @@ const packages: Package[] = [
 // ];
 
 interface PackageDetailPageClientProps {
-  packageDetails: DetailedTourPackage | null;
+  packageDetails: DetailedTourPackage;
 }
 
 // Package detail page component
@@ -455,7 +455,7 @@ export default function PackageDetailPage({
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
 
   const [price, setPrice] = useState<number>(
-    selectedPackage ? selectedPackage.groups[0].standardPricing : 0
+    selectedPackage.groups[0].standardPricing
   );
   const [firstName, setFirstName] = useState<string>('');
   const [lastName, setLastName] = useState<string>('');
@@ -468,11 +468,6 @@ export default function PackageDetailPage({
   const [displaySelect, setDisplaySelect] = useState(false);
 
   const router = useRouter();
-
-  // Handle case where the package is not found
-  if (!selectedPackage) {
-    return notFound();
-  }
 
   // Function to check if a date is unavailable (based on state or unavailableDates)
   // const isDateUnavailable = (date: Date) => {
@@ -630,6 +625,7 @@ export default function PackageDetailPage({
   useEffect(() => {
     console.log(selectedPackage, 'asds');
     setPrice(getPriceBasedOnGroups() as number);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedPlan]);
 
   // Function to check if the date is disabled based on availability

@@ -1,7 +1,7 @@
 // Server Component
 
 import { fetchPackageDetails } from '@/sanity/lib/client';
-import PackageDetailPage from './_components/page';
+import PackageDetailPage from './_components/PackageDetailClient';
 import { DetailedTourPackage } from '@/lib/types/tour/package';
 
 export default async function PackageDetailServerComponent({

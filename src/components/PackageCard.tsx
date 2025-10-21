@@ -43,7 +43,7 @@ const PackageCard = React.forwardRef<HTMLDivElement, PackageCardProps>(
           pricingType === 'perPerson' ? 'per person' : 'per group'
         );
       }
-    });
+    }, [firstGroup]);
 
     const router = useRouter();
 

@@ -11,18 +11,20 @@ import { featureWithPercentage } from './featureWithPercentage'
 import { tourGalleryPage } from './tourGalleryPage'
 import { contactUsPage } from './contactUsPage'
 
+export const schemaTypes: SchemaTypeDefinition[] = [
+  tourPackage,
+  homePage,
+  aboutUsPage,
+  tourGalleryPage,
+  contactUsPage,
+  quote,
+  statistics,
+  featureItem,
+  testimonial,
+  pageHeader,
+  featureWithPercentage
+]
+
 export const schema: { types: SchemaTypeDefinition[] } = {
-  types: [
-    tourPackage,
-    homePage,
-    aboutUsPage,
-    tourGalleryPage,
-    contactUsPage,
-    quote,
-    statistics,
-    featureItem,
-    testimonial,
-    pageHeader,
-    featureWithPercentage
-  ],
+  types: schemaTypes,
 }
