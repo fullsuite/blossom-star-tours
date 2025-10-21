@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import thankYouIllustration from '@/assets/thank-you/undraw_Travel_booking.png';
+import thankYouIllustration from '@/assets/thank-you/undraw_travel_booking.png';
 
 export default async function ThankYouPage() {
   const name = 'John Doe';
