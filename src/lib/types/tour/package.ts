@@ -10,6 +10,12 @@ export interface TourPackage {
   groups: Group[];
 }
 
+// Duration category type
+export type DurationCategory = 'half-day' | 'full-day' | 'multi-day';
+
+// Tour category type
+export type TourCategory = 'spiritual' | 'historical' | 'adventure' | 'relaxing' | 'cultural' | 'nature' | 'family';
+
 // Type for a minimal tour package
 export type MinimalTourPackage = {
   _id: string;
@@ -18,6 +24,8 @@ export type MinimalTourPackage = {
   name: string;
   description: string;
   duration: string;
+  durationCategory?: DurationCategory;
+  categories?: TourCategory[];
   firstImage: ImageAsset;
   firstGroup: {
     standardPricing: number;
@@ -26,6 +34,8 @@ export type MinimalTourPackage = {
   };
   packageContents: any;
   price?: number;
+  minGroupSize?: number;
+  maxGroupSize?: number;
 };
 
 export interface Itinerary {

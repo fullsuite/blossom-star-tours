@@ -22,8 +22,40 @@ export const tourPackage = defineType({
       name: 'duration',
       title: 'Duration',
       type: 'string',
-      description: 'The total duration of the tour.',
+      description: 'The total duration of the tour (e.g. "4 hours", "Full Day", "3 Days").',
       validation: Rule => Rule.required(),
+    }),
+    defineField({
+      name: 'durationCategory',
+      title: 'Duration Category',
+      type: 'string',
+      description: 'Category for filtering by duration.',
+      options: {
+        list: [
+          { title: 'Half Day (up to 4 hours)', value: 'half-day' },
+          { title: 'Full Day (4-8 hours)', value: 'full-day' },
+          { title: 'Multi-Day (1+ days)', value: 'multi-day' },
+        ],
+        layout: 'radio',
+      },
+    }),
+    defineField({
+      name: 'categories',
+      title: 'Tour Categories',
+      type: 'array',
+      of: [{ type: 'string' }],
+      description: 'Select all categories that apply to this tour.',
+      options: {
+        list: [
+          { title: 'Spiritual', value: 'spiritual' },
+          { title: 'Historical', value: 'historical' },
+          { title: 'Adventure', value: 'adventure' },
+          { title: 'Relaxing', value: 'relaxing' },
+          { title: 'Cultural', value: 'cultural' },
+          { title: 'Nature', value: 'nature' },
+          { title: 'Family-Friendly', value: 'family' },
+        ],
+      },
     }),
     defineField({
       name: 'images',

@@ -1,11 +1,12 @@
 "use client";
 
 import { useEffect, useState, useRef, useMemo } from 'react';
+import { useSearchParams, useRouter } from 'next/navigation';
 import Image from 'next/image';
 import PageHeader from '@/components/PageHeader';
 import { Button } from '@/components/ui/button';
 import PackageCard from '@/components/PackageCard';
-import { ChevronDown } from 'lucide-react';
+import { ChevronDown, X, Clock, Sparkles, UsersRound } from 'lucide-react';
 import { PortableText } from '@portabletext/react';
 import { urlFor } from '@/sanity/lib/image';
 
@@ -27,34 +28,109 @@ const sortLabels: Record<SortOption, string> = {
   'price-high': 'Price: High to Low',
 };
 
+const DURATION_LABELS: Record<string, string> = {
+  'half-day': 'Half Day',
+  'full-day': 'Full Day',
+  'multi-day': 'Multi-Day',
+};
+
+const CATEGORY_LABELS: Record<string, string> = {
+  'spiritual': 'Spiritual',
+  'historical': 'Historical',
+  'adventure': 'Adventure',
+  'relaxing': 'Relaxing',
+  'cultural': 'Cultural',
+  'nature': 'Nature',
+  'family': 'Family-Friendly',
+};
+
 interface PackagesPageClientProps {
   packages: MinimalTourPackage[];
   pageData: PackagesPage | null;
 }
 
+// Helper function to parse guest range
+function parseGuestRange(guests: string): { min: number; max: number } | null {
+  if (!guests || guests === 'any') return null;
+
+  if (guests === '11+') {
+    return { min: 11, max: Infinity };
+  }
+
+  const [min, max] = guests.split('-').map(Number);
+  return { min, max };
+}
+
 export default function PackagesPageClient({ packages, pageData }: PackagesPageClientProps) {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
   const [maxHeight, setMaxHeight] = useState<string | number>(0);
   const [sortBy, setSortBy] = useState<SortOption>('newest');
   const cardRefs = useRef<HTMLDivElement[]>([]);
 
-  // Sort packages based on selected option
-  const sortedPackages = useMemo(() => {
+  // Get filter values from URL
+  const durationParam = searchParams.get('duration') || '';
+  const categoriesParam = searchParams.get('categories') || '';
+  const guestsParam = searchParams.get('guests') || '';
+
+  // Parse categories from comma-separated string
+  const selectedCategories = categoriesParam ? categoriesParam.split(',') : [];
+
+  // Check if any filters are active
+  const hasActiveFilters =
+    (durationParam && durationParam !== 'any') ||
+    selectedCategories.length > 0 ||
+    (guestsParam && guestsParam !== 'any');
+
+  // Clear all filters
+  const clearFilters = () => {
+    router.push('/packages');
+  };
+
+  // Filter and sort packages
+  const filteredAndSortedPackages = useMemo(() => {
     if (!packages) return [];
 
-    const sorted = [...packages];
+    let filtered = [...packages];
+
+    // Filter by duration category
+    if (durationParam && durationParam !== 'any') {
+      filtered = filtered.filter(pkg => pkg.durationCategory === durationParam);
+    }
+
+    // Filter by categories (package must have at least one of the selected categories)
+    if (selectedCategories.length > 0) {
+      filtered = filtered.filter(pkg => {
+        if (!pkg.categories || pkg.categories.length === 0) return false;
+        return selectedCategories.some(cat => pkg.categories?.includes(cat as any));
+      });
+    }
+
+    // Filter by guest count
+    const guestRange = parseGuestRange(guestsParam);
+    if (guestRange) {
+      filtered = filtered.filter(pkg => {
+        const maxGroup = pkg.maxGroupSize || 10; // Default max if not set
+        // Package should accommodate the guest range
+        return maxGroup >= guestRange.min;
+      });
+    }
+
+    // Sort
     switch (sortBy) {
       case 'newest':
-        return sorted.sort((a, b) => new Date(b._createdAt || 0).getTime() - new Date(a._createdAt || 0).getTime());
+        return filtered.sort((a, b) => new Date(b._createdAt || 0).getTime() - new Date(a._createdAt || 0).getTime());
       case 'oldest':
-        return sorted.sort((a, b) => new Date(a._createdAt || 0).getTime() - new Date(b._createdAt || 0).getTime());
+        return filtered.sort((a, b) => new Date(a._createdAt || 0).getTime() - new Date(b._createdAt || 0).getTime());
       case 'price-low':
-        return sorted.sort((a, b) => (a.price || 0) - (b.price || 0));
+        return filtered.sort((a, b) => (a.price || 0) - (b.price || 0));
       case 'price-high':
-        return sorted.sort((a, b) => (b.price || 0) - (a.price || 0));
+        return filtered.sort((a, b) => (b.price || 0) - (a.price || 0));
       default:
-        return sorted;
+        return filtered;
     }
-  }, [packages, sortBy]);
+  }, [packages, sortBy, durationParam, selectedCategories, guestsParam]);
 
   // Debounce function to limit the number of times the resize function runs
   function debounce<T extends (...args: unknown[]) => void>(func: T, wait: number) {
@@ -107,13 +183,30 @@ export default function PackagesPageClient({ packages, pageData }: PackagesPageC
     },
   };
 
+  // Get readable filter description
+  const getFilterDescription = () => {
+    const parts: string[] = [];
+    if (durationParam && durationParam !== 'any') {
+      parts.push(DURATION_LABELS[durationParam] || durationParam);
+    }
+    if (selectedCategories.length > 0) {
+      const categoryNames = selectedCategories.map(c => CATEGORY_LABELS[c] || c);
+      parts.push(categoryNames.join(', '));
+    }
+    if (guestsParam && guestsParam !== 'any') {
+      const label = guestsParam === '11+' ? '11+ guests' : `${guestsParam} guests`;
+      parts.push(label);
+    }
+    return parts.join(' • ');
+  };
+
   return (
     <>
       <PageHeader title={pageData?.pageHeader?.title || "Our Tour Packages"} />
       <section className="py-10 lg:py-20 bg-white">
         <div className="container mx-auto text-center">
           {/* Section Heading */}
-          <div className="flex justify-between gap-4 items-end mb-16 flex-col sm:flex-row">
+          <div className="flex justify-between gap-4 items-end mb-8 flex-col sm:flex-row">
             <div className="w-28 hidden lg:inline "></div>
             <div className="max-w-2xl text-start lg:text-center">
               <h2 className="text-3xl lg:text-4xl font-bold text-green-800 mb-6">
@@ -159,22 +252,77 @@ export default function PackagesPageClient({ packages, pageData }: PackagesPageC
             </DropdownMenu>
           </div>
 
-          {/* Package Cards */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-10 sm:gap-y-24">
-            {sortedPackages?.map((pkg, index) => (
-              <PackageCard
-                key={pkg.slug || index}
-                ref={(el) => {
-                  if (el) cardRefs.current[index] = el;
-                }}
-                package={pkg}
-                style={{
-                  height: maxHeight || 'auto',
-                  minHeight: 'max-content',
-                }}
-              />
-            ))}
+          {/* Active Filters Bar */}
+          {hasActiveFilters && (
+            <div className="flex flex-wrap items-center gap-3 mb-8 p-4 bg-gray-50 rounded-lg">
+              <span className="text-sm text-gray-600 font-medium">Filters:</span>
+
+              {durationParam && durationParam !== 'any' && (
+                <span className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white border border-gray-200 rounded-full text-sm">
+                  <Clock className="w-3.5 h-3.5 text-gray-500" />
+                  {DURATION_LABELS[durationParam] || durationParam}
+                </span>
+              )}
+
+              {selectedCategories.map((cat) => (
+                <span key={cat} className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white border border-gray-200 rounded-full text-sm">
+                  <Sparkles className="w-3.5 h-3.5 text-gray-500" />
+                  {CATEGORY_LABELS[cat] || cat}
+                </span>
+              ))}
+
+              {guestsParam && guestsParam !== 'any' && (
+                <span className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white border border-gray-200 rounded-full text-sm">
+                  <UsersRound className="w-3.5 h-3.5 text-gray-500" />
+                  {guestsParam === '11+' ? '11+ guests' : `${guestsParam} guests`}
+                </span>
+              )}
+
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={clearFilters}
+                className="ml-auto text-gray-600 hover:text-gray-900"
+              >
+                <X className="w-4 h-4 mr-1" />
+                Clear all
+              </Button>
+            </div>
+          )}
+
+          {/* Results count */}
+          <div className="text-left mb-8">
+            <p className="text-gray-600">
+              {filteredAndSortedPackages.length} {filteredAndSortedPackages.length === 1 ? 'package' : 'packages'} found
+              {hasActiveFilters && <span className="text-gray-400"> • {getFilterDescription()}</span>}
+            </p>
           </div>
+
+          {/* Package Cards */}
+          {filteredAndSortedPackages.length > 0 ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-10 sm:gap-y-24">
+              {filteredAndSortedPackages.map((pkg, index) => (
+                <PackageCard
+                  key={pkg.slug || index}
+                  ref={(el) => {
+                    if (el) cardRefs.current[index] = el;
+                  }}
+                  package={pkg}
+                  style={{
+                    height: maxHeight || 'auto',
+                    minHeight: 'max-content',
+                  }}
+                />
+              ))}
+            </div>
+          ) : (
+            <div className="py-16 text-center">
+              <p className="text-xl text-gray-600 mb-4">No packages found matching your criteria</p>
+              <Button onClick={clearFilters} variant="outline">
+                Clear filters and show all packages
+              </Button>
+            </div>
+          )}
         </div>
       </section>
 
