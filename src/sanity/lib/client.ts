@@ -12,6 +12,8 @@ import { contactUsPageQuery } from '@/lib/queries/contactUsPageQuery';
 import { DetailedTourPackage, MinimalTourPackage } from '@/lib/types/tour/package';
 import { tourPackageDetailQuery } from '@/lib/queries/tourPackageDetailQuery';
 import { tourPackageQuery } from '@/lib/queries/tourPackageQuery';
+import { PackagesPage } from '@/lib/types/page/packagesPage';
+import { packagesPageQuery } from '@/lib/queries/packagesPageQuery';
 
 export const client = createClient({
   projectId,
@@ -84,4 +86,11 @@ export async function fetchTourPackages(): Promise<MinimalTourPackage[]> {
 export async function fetchPackageDetails(slug: string): Promise<DetailedTourPackage | null> {
   const result = await client.fetch(tourPackageDetailQuery, { slug });
   return result as DetailedTourPackage | null;
+}
+
+export async function fetchPackagesPageData(): Promise<PackagesPage | null> {
+  const data = await sanityFetch({
+    query: packagesPageQuery,
+  });
+  return data || null;
 }

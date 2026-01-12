@@ -9,6 +9,7 @@ export default defineConfig({
 
   projectId: 'pfv74ihr',
   dataset: 'production',
+  basePath: '/studio',
 
   plugins: [structureTool(), visionTool()],
 

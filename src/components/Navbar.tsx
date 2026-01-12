@@ -92,17 +92,19 @@ export default function ResponsiveNavBar() {
                   <MenuItems />
                 </NavigationMenuList>
                 <div className="flex flex-col space-x-0 space-y-4 w-full mt-auto pt-10 justify-center items-stretch xs:space-x-4 xs:flex-row xs:space-y-0 xs:items-center xs:center">
-                  <Button className="rounded bg-primary text-base text-white py-2.5 px-5">Login</Button>
-                  <Button className="rounded bg-primary text-base text-white py-2.5 px-5">Book your Tour</Button>
+                  <Link href="/packages">
+                    <Button className="rounded bg-primary text-base text-white py-2.5 px-5 w-full">Book your Tour</Button>
+                  </Link>
                 </div>
               </NavigationMenu>
             </SheetContent>
           </Sheet>
 
-          {/* CTA buttons on the right */}
-          <div className="hidden lg:flex items-center gap-x-2 xl:gap-x-4">
-            <Button className="rounded bg-primary text-base text-white py-2.5 px-5">Book your Tour</Button>
-            <Button className="rounded bg-primary text-base text-white py-2.5 px-5">Login</Button>
+          {/* CTA button on the right */}
+          <div className="hidden lg:flex items-center">
+            <Link href="/packages">
+              <Button className="rounded bg-primary text-base text-white py-2.5 px-5">Book your Tour</Button>
+            </Link>
           </div>
         </nav>
       </div>

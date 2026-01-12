@@ -13,6 +13,7 @@ export interface TourPackage {
 // Type for a minimal tour package
 export type MinimalTourPackage = {
   _id: string;
+  _createdAt?: string;
   slug: string;
   name: string;
   description: string;
@@ -24,6 +25,7 @@ export type MinimalTourPackage = {
     standardInclusions: string[];
   };
   packageContents: any;
+  price?: number;
 };
 
 export interface Itinerary {

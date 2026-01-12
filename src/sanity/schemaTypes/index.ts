@@ -10,6 +10,7 @@ import { quote } from './quote'
 import { featureWithPercentage } from './featureWithPercentage'
 import { tourGalleryPage } from './tourGalleryPage'
 import { contactUsPage } from './contactUsPage'
+import { packagesPage } from './packagesPage'
 
 export const schemaTypes: SchemaTypeDefinition[] = [
   tourPackage,
@@ -17,6 +18,7 @@ export const schemaTypes: SchemaTypeDefinition[] = [
   aboutUsPage,
   tourGalleryPage,
   contactUsPage,
+  packagesPage,
   quote,
   statistics,
   featureItem,

@@ -1,6 +1,7 @@
 export const tourPackageQuery = `
 *[_type == "tourPackage"] {
   _id,
+  _createdAt,
   slug,
   name,
   description,
@@ -11,6 +12,7 @@ export const tourPackageQuery = `
     standardPricing,
     pricingType,
     standardInclusions
-  }
+  },
+  "price": groups[0].standardPricing
 }
 `;
