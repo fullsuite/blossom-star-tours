@@ -228,7 +228,11 @@ export async function POST(request: NextRequest) {
     // Load and send admin email
     const adminEmailHtml = await loadEmailTemplate('admin-enquiry', templateVariables);
     await sendEmail(
-      [{ email: 'mazen@fullsuite.agency', name: 'Mazen Kourouche' }],
+      [
+        { email: 'info@blossom-star.com', name: 'Blossom Star' },
+        { email: 'hady@acacia.design', name: 'Hady' },
+        { email: 'mazen@fullsuite.agency', name: 'Mazen Kourouche' },
+      ],
       `New Package Enquiry: ${data.packageName} - ${data.name}`,
       adminEmailHtml,
       { email: data.email, name: data.name }

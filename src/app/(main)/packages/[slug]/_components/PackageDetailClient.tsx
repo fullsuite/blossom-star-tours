@@ -551,6 +551,7 @@ export default function PackageDetailPage({
         <div className="container relative mx-auto">
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 2lg:grid-cols-2 xl:grid-cols-4 justify-start items-start 2xl:flex 2xl:flex-row 2xl:justify-between 2xl:items-center gap-6 lg:gap-8 xl:gap-2 2xl:gap-16 max-w-none 2lg:max-w-xl xl:max-w-2xl 2xl:max-w-3xl mt-10 lg:mt-16">
             {/* Tour Packages Details -- Features Item */}
+            {selectedPackage.duration && (
             <div className="flex flex-row gap-4 items-center 2xl:justify-center">
               <CalendarDays
                 strokeWidth={1.5}
@@ -565,6 +566,7 @@ export default function PackageDetailPage({
                 </p>
               </div>
             </div>
+            )}
             {/* Tour Packages Details -- Features Item */}
             <div className="flex flex-row gap-4 items-center 2xl:justify-center">
               <Users strokeWidth={1.5} className="h-8 w-8 text-accent-pink" />
@@ -665,15 +667,21 @@ export default function PackageDetailPage({
               <p className="text-xl lg:text-2xl font-bold text-primary">
                 Tour Plan
               </p>
-              <div className="flex flex-col items-stretch gap-4">
-                {(selectedPackage.itinerary || [])?.map((item, index) => (
-                  <DayInfo
-                    key={index}
-                    day={item.time}
-                    description={item.description}
-                  />
-                ))}
-              </div>
+              {selectedPackage.itinerary && selectedPackage.itinerary.length > 0 ? (
+                <div className="flex flex-col items-stretch gap-4">
+                  {selectedPackage.itinerary.map((item, index) => (
+                    <DayInfo
+                      key={index}
+                      day={item.time}
+                      description={item.description}
+                    />
+                  ))}
+                </div>
+              ) : (
+                <p className="text-body-secondary text-sm">
+                  The detailed tour plan will be shared upon enquiry. Please get in touch with us for the full itinerary.
+                </p>
+              )}
             </div>
           </div>
           {/* Tour Packages Details -- Enquiry Card -- Desktop */}

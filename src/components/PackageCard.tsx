@@ -116,10 +116,14 @@ const PackageCard = React.forwardRef<HTMLDivElement, PackageCardProps>(
 
             {/* Duration and Explore Button - pushed to bottom */}
             <div className="flex justify-between items-center mt-auto py-2 px-4 bg-wild-sand-50 rounded-xl">
-              <div className="text-sm flex items-center space-x-1 font">
-                <ClockIcon className="w-4 aspect-square text-accent-pink" />
-                <span>{duration}</span>
-              </div>
+              {duration ? (
+                <div className="text-sm flex items-center space-x-1 font">
+                  <ClockIcon className="w-4 aspect-square text-accent-pink" />
+                  <span>{duration}</span>
+                </div>
+              ) : (
+                <div />
+              )}
               <div className="flex items-center text-sm text-accent-pink">
                 <span className="font-bold">Explore</span>
                 <MoveRightIcon className="w-4 aspect-square text-accent-pink ml-2" />

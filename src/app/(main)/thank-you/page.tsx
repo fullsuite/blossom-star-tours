@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import thankYouIllustration from '@/assets/thank-you/undraw_travel_booking.png';
+import thankYouIllustration from '@/assets/thank-you/blossom-tours-thank-you-illustration.svg';
 
 interface ThankYouPageProps {
   searchParams: { type?: string };
@@ -17,7 +17,7 @@ export default async function ThankYouPage({ searchParams }: ThankYouPageProps) 
           alt="Thank You Illustration"
           className="object-cover w-full max-w-xl h-full"
         />
-        <h1 className="text-4xl sm:text-5xl 2xl:text-6xl font-bold text-primary leading-tight mt-2 mb-6">
+        <h1 className="text-4xl sm:text-5xl 2xl:text-6xl font-bold text-primary leading-tight mt-8 mb-6">
           {isEnquiry ? 'Enquiry Submitted!' : 'Thank You.'}
         </h1>
         <p className="text-base sm:text-lg text-gray-600 mb-8 w-full font-medium max-w-full xs:max-w-xl">

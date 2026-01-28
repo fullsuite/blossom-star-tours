@@ -191,10 +191,12 @@ export default function EnquiryFormClient({ packageDetails }: EnquiryFormClientP
 
                 {/* Package Features */}
                 <div className="flex flex-wrap gap-4 md:gap-6">
+                  {packageDetails.duration && (
                   <div className="flex items-center gap-2">
                     <CalendarDays strokeWidth={1.5} className="h-5 w-5 text-accent-pink" />
                     <span className="text-sm text-body-secondary">{packageDetails.duration}</span>
                   </div>
+                  )}
                   {packageDetails.maxPeople && (
                     <div className="flex items-center gap-2">
                       <Users strokeWidth={1.5} className="h-5 w-5 text-accent-pink" />

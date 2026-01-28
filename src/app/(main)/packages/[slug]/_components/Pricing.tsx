@@ -35,7 +35,7 @@ const Pricing: React.FC<PricingProps> = ({ pricingList }) => {
                   pricing.standardInclusions != null ? (
                     <div>
                       <span className="flex justify-between text-red-400 font-bold text-base">
-                        <p>Standart Package:</p>
+                        <p>Standard Package:</p>
                         <p>${pricing.standardPricing} per {pricing.pricingType.slice(3).toLowerCase()}</p>
                       </span>
                       <ul className="flex flex-col gap-3 ml-16 list-[circle] font-semibold mt-3">
