@@ -16,6 +16,7 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import quoteBackground from '@/assets/Home/Subscribe_BG.jpg';
 import { MinimalTourPackage } from "@/lib/types/tour/package";
 import { PackagesPage } from "@/lib/types/page/packagesPage";
 
@@ -329,22 +330,20 @@ export default function PackagesPageClient({ packages, pageData }: PackagesPageC
       {/* Quote Section */}
       <section className="w-full pt-10">
         <div className="container mx-auto">
-          <div className="relative flex flex-col w-full justify-center mx-auto text-center items-center px-10 sm:p-16 pt-32 pb-24 text-white overflow-hidden">
+          <div className="relative flex flex-col w-full justify-center mx-auto text-center items-center px-10 sm:p-16 pt-32 pb-24 text-white overflow-hidden rounded-2xl">
             {/* Background Image */}
-            {pageData?.quoteSection?.backgroundImage ? (
-              <>
-                <Image
-                  src={urlFor(pageData.quoteSection.backgroundImage).auto('format').quality(80).url()}
-                  alt="Quote background"
-                  fill
-                  sizes="100vw"
-                  className="object-cover"
-                />
-                <div className="absolute inset-0 bg-eucalyptus-700/80" />
-              </>
-            ) : (
-              <div className="absolute inset-0 bg-eucalyptus-700" />
-            )}
+            <div className="absolute inset-0">
+              <Image
+                src={pageData?.quoteSection?.backgroundImage
+                  ? urlFor(pageData.quoteSection.backgroundImage).auto('format').quality(80).url()
+                  : quoteBackground}
+                alt="Quote background"
+                fill
+                sizes="100vw"
+                className="object-cover"
+              />
+            </div>
+            <div className="absolute inset-0 bg-eucalyptus-700/80" />
 
             {/* Quote Content */}
             <div className="relative z-10">
