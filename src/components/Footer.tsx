@@ -101,12 +101,12 @@ const navigation = {
   social: [
     {
       name: 'Facebook',
-      href: '#',
+      href: 'https://www.facebook.com/profile.php?id=61585605383960',
       icon: <FacebookIcon className="h-5 w-5 text-current" />,
     },
     {
       name: 'Instagram',
-      href: '#',
+      href: 'https://www.instagram.com/blossomstartours/',
       icon: <InstagramIcon className="h-5 w-5 text-current" />,
     },
   ],
