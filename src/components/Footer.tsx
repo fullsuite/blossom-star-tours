@@ -83,11 +83,6 @@ const navigation = {
       icon: <MapPinIcon className="h-4 w-4 text-eucalyptus-500 shrink-0" />,
     },
     {
-      name: '0444 555 666',
-      type: 'tel',
-      icon: <PhoneIcon className="h-4 w-4 text-eucalyptus-500 shrink-0" />,
-    },
-    {
       name: '0423 578 889',
       type: 'tel',
       icon: <PhoneIcon className="h-4 w-4 text-eucalyptus-500 shrink-0" />,

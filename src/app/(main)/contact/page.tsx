@@ -20,9 +20,6 @@ export default async function ContactPage() {
     email: "tours@blossomstar.com",
     contacts: [
       {
-        value: "0444 555 666"
-      },
-      {
         value: "0423 578 889"
       },
     ],
